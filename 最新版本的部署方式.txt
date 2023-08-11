@@ -20,6 +20,10 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
 1. 用一台ecs来部署(安装特定版本的的gcloud和terraform)
     https://cloud.google.com/sdk/docs/install#linux
     https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+    https://cloud.google.com/filestore/docs/mounting-fileshares?hl=zh-cn&_ga=2.186721135.-692251318.1691725083&_gac=1.58519896.1691725120.Cj0KCQjwldKmBhCCARIsAP-0rfwrt3hTG34UMpZ4dqKZeiL6ih-O0Aqv3hw3lIyqM7gWzXtFzQlTwHoaAhaEEALw_wcB#linux:-mount   将nfs挂载到ecs上
+    -----
+    sudo mount -o rw,intr 10.106.129.210:/vol1  /mnt
+    -----
     ecs的ssh可以进入控制台，复制gcloud的命令进行ssh即可(输入谷歌账号的密码即可)：
     gcloud compute ssh --zone "us-central1-c" "sd-terraform-manage" --project "happyaigc"
     gcloud config set project happyaigc (输入谷歌账号的密码即可)
@@ -54,7 +58,15 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    ####
 
 
-后期清理： 一台ecs和静态ip， gke用destroy resource来清理即可, filestore的清理， artifacts的清理
+6. 调试 
+   参考/Users/yuanxiao/workspace/0yxgithub/Stable-Diffusion-on-GCP/yx部署过程记录.txt 的【结束语】部分 
+
+
+7. 后期清理： 一台ecs和静态ip， gke用destroy resource来清理即可, filestore的清理， artifacts的清理
+
+
+
+
 
 
 
