@@ -105,7 +105,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
 其他----------------------------------------------------
 
 agones安装完成后--------------------------------------------------------------------------------------------------------
-
+https://agones.dev/site/docs/getting-started/create-gameserver/  入门, 客户端连接那一步可以在上面的调试ubuntu里面进行
 ################################################################################################
 安装完成后，命名空间下有以下资源：
 kubectl get deploy -n agones-system
@@ -131,10 +131,12 @@ agones-controller-service          ClusterIP      172.16.150.98    <none>       
 agones-ping-http-service           LoadBalancer   172.16.253.193   118.190.206.167   80:30770/TCP       3d
 agones-ping-udp-service            LoadBalancer   172.16.10.63     47.104.240.179    50000:32691/UDP    3d
 
-kubectl get gs # 获取agones游戏服务器
+kubectl get gs # 获取agones游戏服务器-和kubectl get gameservers一样的效果
 NAME                          STATE   ADDRESS      PORT   NODE                                                  AGE
 sd-agones-fleet-klxgw-zj8f4   Ready   10.10.0.70   7961   gke-tf-gen-gke-2b6ba-nvidia-tesla-t4--acd027da-bvj0   14m
 sd-agones-fleet-lxpsk-2xncq   Ready   10.10.0.60   7990   gke-tf-gen-gke-2b6ba-nvidia-tesla-t4--2fb69d9c-5p4x   29m
+
+kubectl describe gameserver  # 看gameserver的状态
 ################################################################################################
 
 
