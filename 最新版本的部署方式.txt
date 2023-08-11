@@ -80,13 +80,15 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    Stable-Diffusion-UI-Agones/agones-sidecar  yaml的第一个镜像就是这里build的
    Stable-Diffusion-UI-Agones/sd-webui/  yaml的第二个镜像是这里build的
    ####
+   --------获取podyaml----
+   kubectl get pod  sd-agones-fleet-klxgw-fj2lz -o yaml > haha.yaml
 
 
 6. 调试 
    参考/Users/yuanxiao/workspace/0yxgithub/Stable-Diffusion-on-GCP/yx部署过程记录.txt 的【结束语】部分 
    ----进入ubuntu---
    kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep ubuntu |awk '{print $1}' |awk NR==1)   /bin/bash
-
+   
 
 7. 后期清理： 一台ecs和静态ip， gke用destroy resource来清理即可, filestore的清理， artifacts的清理
 
@@ -101,29 +103,11 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
 其他----------------------------------------------------
 
 
-kubectl get fleet -o yaml
 
-chatgpt
-
-这段YAML文件描述了一个Kubernetes资源清单，其中包含一个名为"sd-agones-fleet"的Fleet对象。Fleet是Agones项目的一个概念，用于管理游戏服务器实例。
-
-在这个Fleet对象的spec部分中，有一个replicas字段指定了实例数量为3。这意味着该Fleet将创建3个游戏服务器实例。scheduling字段设置为"Packed"，表示这些实例将尽可能地被打包在一起。
-
-Fleet对象的template部分描述了每个游戏服务器实例的模板。这个模板包含两个容器：simple-game-server和stable-diffusion-webui。
-
-simple-game-server容器使用了名为"us-central1-docker.pkg.dev/happyaigc/sd-repository-2b6bae98/game-server:tf"的镜像。
-
-stable-diffusion-webui容器使用了名为"us-central1-docker.pkg.dev/happyaigc/sd-repository-2b6bae98/sd-webui:tf"的镜像。此容器还指定了一个名为"stable-diffusion-storage"的持久化卷，并将其挂载到"/stable-diffusion-webui/models"和"/result"路径下。
-
-这个清单还包含了一些其他的元数据信息和状态信息，但是给出的部分不足以完整理解整个资源的状态和属性。
-
-
-其他----------------------------------------------------
-
-kubectl get fleet -o yaml  
+kubectl get fleet -o yaml 的含义----------------------------------------------------
 
 gpt4
-
+################################################################################################
 这段YAML文件是Kubernetes的资源配置文件，用于描述一个名为sd-agones-fleet的Fleet资源。Fleet是Agones项目中的一个资源类型，用于管理游戏服务器的集群。
 
 在这个配置文件中，有两个image字段，它们分别对应两个不同的容器：
@@ -137,4 +121,55 @@ stable-diffusion-webui：这个容器的镜像是us-central1-docker.pkg.dev/happ
 在这个配置中，simple-game-server容器监听7654端口，stable-diffusion-webui容器监听7860端口。stable-diffusion-webui容器还挂载了一个名为stable-diffusion-storage的持久卷，用于存储模型和结果数据。
 
 Fleet资源的spec.replicas字段设置为3，表示这个Fleet会管理3个这样的Pod。spec.scheduling字段设置为Packed，表示Agones会尽量将游戏服务器集中在尽可能少的节点上。spec.strategy字段设置为RollingUpdate，表示更新游戏服务器时会使用滚动更新策略，每次最多增加25%的Pod，最多停止25%的Pod。
+################################################################################################
 
+kubectl get pod  sd-agones-fleet-klxgw-fj2lz -o yaml 的含义----------------------------------------------------
+
+gpt4-32k
+
+################################################################################################
+这个YAML清单定义了一个Kubernetes Pod，它是用于运行一个游戏服务器的Agones框架的一部分。Agones是由Google和Ubisoft联合开发的一个开源项目，用于在Kubernetes上运行、扩展和管理多人在线游戏。
+
+这个Pod包含三个容器：
+
+agones-gameserver-sidecar：这个容器是Agones SDK的一部分，它用于与Agones游戏服务器控制器进行通信和管理游戏生命周期。环境变量包含了游戏服务器的名称和Pod的命名空间。此外，还定义了一些特性开关（FEATURE_GATES）。
+
+simple-game-server：这个容器运行实际的游戏服务器。它监听UDP端口7654，而此端口映射到主机端口7235。这个容器有一个健康检查端点/gshealthz在HTTP端口8080上。
+
+stable-diffusion-webui：这个容器运行一个web界面，可能用于游戏的管理或监控。它监听TCP端口7860，而此端口映射到主机端口7541。这个容器需要一个NVIDIA GPU资源。
+
+这个Pod被配置为优先调度到运行游戏服务器的节点上（根据标签agones.dev/role: gameserver）。这是通过Pod亲和性（podAffinity）来实现的。
+
+这个Pod还具有一些特殊的配置，例如：
+
+serviceAccount: agones-sdk：Pod使用的服务账户，可能用于与Kubernetes API的交互。
+tolerations：允许Pod被调度到具有特定污点（taints）的节点上，例如具有GPU的节点。
+volumes：Pod使用的存储卷，包括一个持久卷（用于存储模型和结果）和一个空的临时卷。
+在status部分，你可以看到Pod的运行状态，包括每个容器的状态、IP地址、启动时间，以及Pod是否已准备好接受流量。
+################################################################################################
+
+
+
+
+kubectl get fleet -o yaml > fleet.yaml 
+fleet.yaml 会生成两个pod类似下面的sd-agones-fleet-*-*
+获取pod的yaml文件
+kubectl get pod  sd-agones-fleet-klxgw-fj2lz > fleet_pod.yaml
+
+我的问题有两个:
+1. 为什么fleet.yaml会默认产生两个类似 sd-agones-fleet-*-*的pod 
+2. 为什么fleet.yaml里面只有两个容器， 生成的fleet_pod.yaml里面有三个容器
+
+############################################
+当您在Kubernetes中创建一个Fleet对象时，它代表了一组Pod的控制器，该组Pod按照指定的副本数和模板创建和管理。您提供的Fleet YAML文件描述了一个Fleet对象，但似乎有一些配置导致了您观察到的现象。让我逐个回答您的问题：
+
+    为什么会产生两个Pod？：在提供的Fleet YAML中，replicas: 1表示Fleet期望维持一个Pod副本。然而，实际产生了两个Pod的原因可能有很多，包括：
+        容错机制：Kubernetes控制器，包括Fleet控制器，通常会使用容错机制，确保维持所需数量的Pod副本。如果一个Pod终止或启动失败，控制器可能会创建一个新的Pod，以满足所需状态。这可能解释了为什么您看到了两个Pod，尽管所需状态是一个。
+        控制器更新：如果Fleet规范在初始创建后已经更新，Fleet控制器可能会检测到此更新，并根据更新的规范创建新的Pod。检查一下Fleet的副本数或其他相关字段是否有更新。
+        手动干预：也有可能手动干预或与系统中其他组件的交互导致了额外的Pod创建。
+    要进一步调查，您可能需要查看任何事件、日志或可能触发Fleet创建多个Pod的更新。
+
+    当您创建 Fleet 对象时，生成的 fleet.yaml 文件中只定义了两个容器：simple-game-server 和 stable-diffusion-webui。然而，在生成的 fleet_pod.yaml 文件中出现了三个容器：agones-gameserver-sidecar、simple-game-server 和 stable-diffusion-webui。
+
+这可能是由于 Agones 游戏服务器 SDK 引入的影响。Agones 可能会自动添加一个辅助容器 agones-gameserver-sidecar 来管理游戏服务器实例的生命周期，从而导致生成的 Pod 定义中多出了一个容器。为了准确理解这个差异，您可以查阅 Agones 和 Fleet 控制器的文档，以及相关的注解和标签，以了解它们对 Pod 创建和管理的影响。
+############################################
