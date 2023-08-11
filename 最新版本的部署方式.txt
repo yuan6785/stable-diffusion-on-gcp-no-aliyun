@@ -74,6 +74,8 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
 4. 完成后通过https://console.cloud.google.com/security/iap?referrer=search&hl=zh-cn&project=happyaigc  添加用户
 
 5. gcloud config set project happyaigc  (输入谷歌账号的密码即可)
+   kubectl get all   # 获取所有资源概览
+   ---
    kubectl get fleet
    kubectl get fleet -o yaml # 修改这个yaml，然后apply -f即可修改sd的镜像挂载等配置
    #####---参考terraform-provision-infra/modules/agones/cloud-build/variables.tf-----
