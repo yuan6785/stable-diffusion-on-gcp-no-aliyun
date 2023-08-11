@@ -28,6 +28,30 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     gcloud compute ssh --zone "us-central1-c" "sd-terraform-manage" --project "happyaigc"
     gcloud config set project happyaigc (输入谷歌账号的密码即可)
 
+1.1 本地连接调试（不用esc的方式）----参考/Users/yuanxiao/workspace/0yxgithub/Stable-Diffusion-on-GCP/yx部署过程记录.txt 第四步
+    
+    获取gke集群的凭证
+    source  ~/.zshrc_google_cloud  即可用gcloud命令
+    ------------------------------------
+    GKE_CLUSTER_NAME=tf-gen-gke-2b6bae98
+    REGION=us-central1
+    gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${REGION}
+    ------------------------------------
+    f*b**1**
+    ------------------------------------
+    检测凭证生命周期
+    ------------------------------------
+    GKE_CLUSTER_NAME=tf-gen-gke-2b6bae98
+    REGION=us-central1
+    gcloud container clusters describe ${GKE_CLUSTER_NAME} \
+        --region ${REGION} \
+        --format "value(masterAuth.clusterCaCertificate)" \
+        | base64 --decode \
+        | openssl x509 -noout -dates
+    ------------------------------------
+    kubectl get fleet  # 校验
+
+
 2. 用terraform-provision-infra/README_zh.md 的Agones 版本进行部署 （其实一步步来的话这里也有 Stable-Diffusion-UI-Agones/README_cn.md）
 
 3. 准备域名sd.agones.playdayy.cn，覆盖上面terraform-provision-infra/main.tf的配置
