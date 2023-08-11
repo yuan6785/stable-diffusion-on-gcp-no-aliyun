@@ -104,6 +104,39 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
 
 其他----------------------------------------------------
 
+agones安装完成后--------------------------------------------------------------------------------------------------------
+
+################################################################################################
+安装完成后，命名空间下有以下资源：
+kubectl get deploy -n agones-system
+NAME                READY   UP-TO-DATE   AVAILABLE   AGE
+agones-allocator    3/3     3            3           3d
+agones-controller   1/1     1            1           3d
+agones-ping         2/2     2            2           3d
+
+kubectl get po -n agones-system
+NAME                                 READY   STATUS    RESTARTS   AGE
+agones-allocator-554c79cffc-6dpzp    1/1     Running   0          3d
+agones-allocator-554c79cffc-jlp5t    1/1     Running   0          3d
+agones-allocator-554c79cffc-kbn5w    1/1     Running   0          3d
+agones-controller-864dd7dbc4-2ghs8   1/1     Running   0          3d
+agones-ping-77b7dc578c-9dfk7         1/1     Running   0          3d
+agones-ping-77b7dc578c-hhvff         1/1     Running   0          3d
+
+kubectl get svc -n agones-system
+NAME                               TYPE           CLUSTER-IP       EXTERNAL-IP       PORT(S)            AGE
+agones-allocator                   LoadBalancer   172.16.157.137   47.105.53.1       443:30302/TCP      3d
+agones-allocator-metrics-service   ClusterIP      172.16.238.137   <none>            8080/TCP           3d
+agones-controller-service          ClusterIP      172.16.150.98    <none>            443/TCP,8080/TCP   3d
+agones-ping-http-service           LoadBalancer   172.16.253.193   118.190.206.167   80:30770/TCP       3d
+agones-ping-udp-service            LoadBalancer   172.16.10.63     47.104.240.179    50000:32691/UDP    3d
+
+kubectl get gs # 获取agones游戏服务器
+NAME                          STATE   ADDRESS      PORT   NODE                                                  AGE
+sd-agones-fleet-klxgw-zj8f4   Ready   10.10.0.70   7961   gke-tf-gen-gke-2b6ba-nvidia-tesla-t4--acd027da-bvj0   14m
+sd-agones-fleet-lxpsk-2xncq   Ready   10.10.0.60   7990   gke-tf-gen-gke-2b6ba-nvidia-tesla-t4--2fb69d9c-5p4x   29m
+################################################################################################
+
 
 
 kubectl get fleet -o yaml 的含义----------------------------------------------------
