@@ -171,5 +171,7 @@ kubectl get pod  sd-agones-fleet-klxgw-fj2lz > fleet_pod.yaml
 
     当您创建 Fleet 对象时，生成的 fleet.yaml 文件中只定义了两个容器：simple-game-server 和 stable-diffusion-webui。然而，在生成的 fleet_pod.yaml 文件中出现了三个容器：agones-gameserver-sidecar、simple-game-server 和 stable-diffusion-webui。
 
+agones-gameserver-sidecar是agones塞进去的，那个game server里没有跑进程---谷歌人员解答----
+--
 这可能是由于 Agones 游戏服务器 SDK 引入的影响。Agones 可能会自动添加一个辅助容器 agones-gameserver-sidecar 来管理游戏服务器实例的生命周期，从而导致生成的 Pod 定义中多出了一个容器。为了准确理解这个差异，您可以查阅 Agones 和 Fleet 控制器的文档，以及相关的注解和标签，以了解它们对 Pod 创建和管理的影响。
 ############################################
