@@ -84,6 +84,8 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
 
 6. 调试 
    参考/Users/yuanxiao/workspace/0yxgithub/Stable-Diffusion-on-GCP/yx部署过程记录.txt 的【结束语】部分 
+   ----进入ubuntu---
+   kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep ubuntu |awk '{print $1}' |awk NR==1)   /bin/bash
 
 
 7. 后期清理： 一台ecs和静态ip， gke用destroy resource来清理即可, filestore的清理， artifacts的清理
