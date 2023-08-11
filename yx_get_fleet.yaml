@@ -1,0 +1,116 @@
+apiVersion: v1
+items:
+- apiVersion: agones.dev/v1
+  kind: Fleet
+  metadata:
+    annotations:
+      agones.dev/sdk-version: 1.30.0
+    creationTimestamp: "2023-08-09T09:14:05Z"
+    generation: 8
+    managedFields:
+    - apiVersion: agones.dev/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec:
+          f:template:
+            f:spec:
+              f:container: {}
+              f:ports: {}
+              f:template:
+                f:spec:
+                  f:containers: {}
+                  f:volumes: {}
+      manager: Terraform
+      operation: Apply
+      time: "2023-08-09T09:14:05Z"
+    - apiVersion: agones.dev/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec:
+          f:replicas: {}
+      manager: controller
+      operation: Update
+      time: "2023-08-11T04:03:01Z"
+    - apiVersion: agones.dev/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:allocatedReplicas: {}
+          f:readyReplicas: {}
+          f:replicas: {}
+          f:reservedReplicas: {}
+      manager: controller
+      operation: Update
+      subresource: status
+      time: "2023-08-11T04:08:47Z"
+    name: sd-agones-fleet
+    namespace: default
+    resourceVersion: "1558765"
+    uid: b0f2895b-29a2-4b4f-98ff-01fde3fa644a
+  spec:
+    replicas: 1
+    scheduling: Packed
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+      spec:
+        container: simple-game-server
+        health: {}
+        immutableReplicas: 1
+        ports:
+        - container: simple-game-server
+          containerPort: 7654
+          name: default
+        - container: stable-diffusion-webui
+          containerPort: 7860
+          name: sd
+          protocol: TCP
+        sdkServer: {}
+        template:
+          metadata:
+            creationTimestamp: null
+          spec:
+            containers:
+            - image: us-central1-docker.pkg.dev/happyaigc/sd-repository-2b6bae98/game-server:tf
+              name: simple-game-server
+              resources:
+                limits:
+                  cpu: 20m
+                  memory: 64Mi
+                requests:
+                  cpu: 20m
+                  memory: 64Mi
+            - command:
+              - /bin/sh
+              - start.sh
+              image: us-central1-docker.pkg.dev/happyaigc/sd-repository-2b6bae98/sd-webui:tf
+              name: stable-diffusion-webui
+              resources:
+                limits:
+                  nvidia.com/gpu: "1"
+              volumeMounts:
+              - mountPath: /stable-diffusion-webui/models
+                name: stable-diffusion-storage
+                subPath: models
+              - mountPath: /result
+                name: stable-diffusion-storage
+                subPath: result
+            volumes:
+            - name: stable-diffusion-storage
+              persistentVolumeClaim:
+                claimName: vol1
+  status:
+    allocatedReplicas: 0
+    readyReplicas: 2
+    replicas: 2
+    reservedReplicas: 0
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
