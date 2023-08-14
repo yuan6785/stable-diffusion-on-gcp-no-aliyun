@@ -91,10 +91,12 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    ----进入ubuntu---
    kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep ubuntu |awk '{print $1}' |awk NR==1)   /bin/bash
    -----例如进入ubuntu清空redis，可以强制重启sd---------
-   redis-cli -h 10.250.244.227 -p 6379 ; 
-   select 0;
-   keys *;
-   FLUSHDB  
+   redis-cli -h 10.250.244.227 -p 6379 
+   select 0
+   keys *
+   hgetall accounts.google.com:yuanxiao6786@gmail.com
+   del accounts.google.com:yuanxiao6786@gmail.com # 删除key
+   FLUSHDB # 清空 
    ----进入fleet的agones的其中一个pod的gameserver的容器(pod描述命令: kubectl describe pod/sd-agones-fleet-lxpsk-9w2hm -n default)----
    kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c agones-gameserver-sidecar   /bin/sh  # 这个gameserver好像没有用，只是agones自己启动的, 没有AGONES_SDK_GRPC_PORT环境变量
    kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c simple-game-server   /bin/sh   # 这里是agones真正的gameserver, 有AGONES_SDK_GRPC_PORT环境变量
