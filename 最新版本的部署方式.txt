@@ -99,6 +99,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    https://agones.dev/site/docs/guides/client-sdks/
    用于agones发现gameserver的grpc端口, 用于agones的sdk和agones的gameserver进行通信的, 有这个才能判断pod是否是agones的gameserver
    ---
+   ---
    重要理解(Stable-Diffusion-UI-Agones/nginx/sd.lua和agones的simple-game-serverde main.go部分做的事情):
         1. sd.lua中： http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation 这个api是agones的api，用来分配gameserver的，没有会自动创建gameserver这组pod的,并返回这组gameserver的pod各种信息，包括各个容器开放的端口-------这个是最关键的-------;
         2. 就算一个pod有多个容器，多个容器其实共享一个pod的ip地址，只是端口不一样, 所以 sd.lua 脚本中，只解析host，port不一样则可以区分访问的是fleet中的agones的两个容器的哪一个真正的的gameserver即可，这里stable-diffusion-webui和simple-game-server都算agones的容器， 但是开放端口不一样，agones只会检测固定pod的端口，所以可以根据固定端口检查出simple-game-server是真正的agones的入口gameserver，其他的容器只是其他的逻辑服，但是这些容器之间是平行的，没有上下级关系，只是通过不同的pod端口进行访问的区别而已。-------这个理解也是相当关键的-------;
