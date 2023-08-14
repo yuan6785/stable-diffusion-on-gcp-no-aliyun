@@ -33,4 +33,4 @@ spec:
         ports:
           - containerPort: 8080
       nodeSelector:
-        cloud.google.com/gke-nodepool: default-pool
+        cloud.google.com/gke-nodepool: nvidia-tesla-t4-nodepool
