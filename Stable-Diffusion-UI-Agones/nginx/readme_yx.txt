@@ -21,3 +21,4 @@ kubectl apply -f deployment_yx.yaml
 # 报错的话，还原到最初的版本
 kubectl apply -f deployment_yx_old.yaml
 
+例如进入ubuntu清空redis 可以强制重启sd
