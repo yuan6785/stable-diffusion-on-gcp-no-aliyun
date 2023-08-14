@@ -18,3 +18,6 @@ gcloud builds submit --region=${REGION} . --config=cloudbuild.yaml
 # 重新部署(修改deployment_yx.yaml里面的镜像tag)
 kubectl apply -f deployment_yx.yaml
 
+# 报错的话，还原到最初的版本
+kubectl apply -f deployment_yx_old.yaml
+
