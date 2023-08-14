@@ -1,5 +1,7 @@
 #yx记录的打包步骤---参考/Users/yuanxiao/workspace/0yxgithub/Stable-Diffusion-on-GCP/yx部署过程记录.txt第七步
 
+gcloud config set project happyaigc # 认证
+
 REGION=us-central1
 PROJECT_ID=happyaigc
 BUILD_REGIST=sd-repository-2b6bae98
