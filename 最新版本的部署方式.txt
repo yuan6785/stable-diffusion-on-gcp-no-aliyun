@@ -90,10 +90,10 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    参考/Users/yuanxiao/workspace/0yxgithub/Stable-Diffusion-on-GCP/yx部署过程记录.txt 的【结束语】部分 
    ----进入ubuntu---
    kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep ubuntu |awk '{print $1}' |awk NR==1)   /bin/bash
-   ----进入fleet的agones的gameserver的容器----
-   kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c agones-gameserver-sidecar   /bin/sh
-   kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c simple-game-server   /bin/sh
-   kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c stable-diffusion-webui   /bin/sh
+   ----进入fleet的agones的其中一个pod的gameserver的容器(pod描述命令: kubectl describe pod/sd-agones-fleet-lxpsk-9w2hm -n default)----
+   kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c agones-gameserver-sidecar   /bin/sh  # 这个gameserver好像没有用，只是agones自己启动的
+   kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c simple-game-server   /bin/sh   # 这里是agones真正的gameserver, 有AGONES_SDK_GRPC_PORT环境变量
+   kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c stable-diffusion-webui   /bin/sh   # 真正的sdwebui服务器
    
 
 7. 后期清理： 一台ecs和静态ip， gke用destroy resource来清理即可, filestore的清理， artifacts的清理
