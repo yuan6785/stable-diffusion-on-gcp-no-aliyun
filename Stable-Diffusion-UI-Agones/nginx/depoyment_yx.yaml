@@ -11,13 +11,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-FROM openresty/openresty:1.21.4.1-0-focal
-
-RUN opm get ledgetech/lua-resty-http
-RUN opm get openresty/lua-resty-redis
-RUN opm get openresty/lua-resty-dns
-
-COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
-COPY default.conf /etc/nginx/conf.d/default.conf
-COPY sd.lua /usr/local/openresty/nginx/sd.lua
-COPY coffee-clock.jpg  /usr/local/openresty/nginx/html/images/coffee-clock.jpg
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stable-diffusion-nginx-deployment
+  labels:
+    app: stable-diffusion-nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stable-diffusion-nginx
+  template:
+    metadata:
+      labels:
+        app: stable-diffusion-nginx
+    spec:
+      containers:
+      - name: stable-diffusion-nginx
+        image: us-central1-docker.pkg.dev/happyaigc/sd-repository-2b6bae98/sd-nginx-yx:0.2
+        ports:
+          - containerPort: 8080
+      nodeSelector:
+        cloud.google.com/gke-nodepool: default-pool
