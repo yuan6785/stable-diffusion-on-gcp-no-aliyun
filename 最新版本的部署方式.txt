@@ -91,9 +91,12 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    ----进入ubuntu---
    kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep ubuntu |awk '{print $1}' |awk NR==1)   /bin/bash
    ----进入fleet的agones的其中一个pod的gameserver的容器(pod描述命令: kubectl describe pod/sd-agones-fleet-lxpsk-9w2hm -n default)----
-   kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c agones-gameserver-sidecar   /bin/sh  # 这个gameserver好像没有用，只是agones自己启动的
+   kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c agones-gameserver-sidecar   /bin/sh  # 这个gameserver好像没有用，只是agones自己启动的, 没有AGONES_SDK_GRPC_PORT环境变量
    kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c simple-game-server   /bin/sh   # 这里是agones真正的gameserver, 有AGONES_SDK_GRPC_PORT环境变量
    kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c stable-diffusion-webui   /bin/sh   # 真正的sdwebui服务器
+   --------
+   AGONES_SDK_GRPC_PORT环境变量的作用参考：
+   https://agones.dev/site/docs/guides/client-sdks/
    ---
    重要理解(Stable-Diffusion-UI-Agones/nginx/sd.lua和agones的simple-game-serverde main.go部分做的事情):
         1. sd.lua中： http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation 这个api是agones的api，用来分配gameserver的，没有会自动创建gameserver这组pod的,并返回这组gameserver的pod各种信息，包括各个容器开放的端口-------这个是最关键的-------;
@@ -223,7 +226,7 @@ kubectl get pod  sd-agones-fleet-klxgw-fj2lz > fleet_pod.yaml
 
     当您创建 Fleet 对象时，生成的 fleet.yaml 文件中只定义了两个容器：simple-game-server 和 stable-diffusion-webui。然而，在生成的 fleet_pod.yaml 文件中出现了三个容器：agones-gameserver-sidecar、simple-game-server 和 stable-diffusion-webui。
 
-agones-gameserver-sidecar是agones塞进去的，那个game server里没有跑进程---谷歌人员解答----
+agones-gameserver-sidecar是agones塞进去的，那个game server里没有跑进程（我看也没有AGONES_SDK_GRPC_PORT环境变量，所以没有用）--------谷歌人员解答--------
 --
 这可能是由于 Agones 游戏服务器 SDK 引入的影响。Agones 可能会自动添加一个辅助容器 agones-gameserver-sidecar 来管理游戏服务器实例的生命周期，从而导致生成的 Pod 定义中多出了一个容器。为了准确理解这个差异，您可以查阅 Agones 和 Fleet 控制器的文档，以及相关的注解和标签，以了解它们对 Pod 创建和管理的影响。
 ############################################
