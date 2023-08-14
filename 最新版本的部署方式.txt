@@ -109,6 +109,8 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
         6. 将获取到的目标地址和端口信息存储到 Redis 中，以便下次查询， 设置 Nginx 变量 ngx.var.target 为获取的pod目标地址和sd端口，
         以便后续请求转发。
         7. pod内的多容器相互通信, 直接用[127.0.0.1:容器端口]通信即可, 所以在simple-game-server的main.go里面可以用http.Get("http://127.0.0.1:7860")来访问stable-diffusion-webui容器的7860端口 ------------ 这个也是相当关键的---------;
+         
+    思考: 后面可以多建一个service和ingress绑定stable-diffusion-nginx, 修改sd.lua读取headers，如果没有认证，则跳转到我自己的fastapi认证服务器即可，认证服务器设置header后，再跳转回来即可，这样就可以实现自己的认证, 这样就可以不走谷歌的iap那一套认证
         
    
 
