@@ -94,6 +94,10 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c agones-gameserver-sidecar   /bin/sh  # 这个gameserver好像没有用，只是agones自己启动的
    kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c simple-game-server   /bin/sh   # 这里是agones真正的gameserver, 有AGONES_SDK_GRPC_PORT环境变量
    kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c stable-diffusion-webui   /bin/sh   # 真正的sdwebui服务器
+   ---
+   重要理解:
+        就算一个pod有多个容器，多个容器其实共享一个pod的ip地址，只是端口不一样, 所以 Stable-Diffusion-UI-Agones/nginx/sd.lua 脚本中，只解析host，port不一样则可以区分访问的是fleet中的agones的两个容器的哪一个gameserver即可，这里stable-diffusion-webui和simple-game-server都算agones的gameserver， 平级关系而已，
+        lua中的sd_port 是从 Agones Allocator 获取到的 stable-diffusion-webui 容器的端口，而 gs_port 是获取到的 simple-game-server 容器的端口
    
 
 7. 后期清理： 一台ecs和静态ip， gke用destroy resource来清理即可, filestore的清理， artifacts的清理
