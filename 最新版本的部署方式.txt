@@ -96,8 +96,9 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c stable-diffusion-webui   /bin/sh   # 真正的sdwebui服务器
    ---
    重要理解(Stable-Diffusion-UI-Agones/nginx/sd.lua):
-        sd.lua中： http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation 这个api是agones的api，用来分配gameserver的，没有会自动创建gameserver这组pod的, 这个是最关键的;
-        就算一个pod有多个容器，多个容器其实共享一个pod的ip地址，只是端口不一样, 所以 sd.lua 脚本中，只解析host，port不一样则可以区分访问的是fleet中的agones的两个容器的哪一个真正的的gameserver即可，这里stable-diffusion-webui和simple-game-server都算agones的容器， 但是开放端口不一样，agones只会检测固定pod的端口，所以可以根据固定端口检查出simple-game-server是真正的agones的入口gameserver，其他的容器只是其他的逻辑服，但是这些容器之间是平行的，没有上下级关系，只是通过不同的pod端口进行访问的区别而已。
+        sd.lua中： http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation 这个api是agones的api，用来分配gameserver的，没有会自动创建gameserver这组pod的-------这个是最关键的;
+        就算一个pod有多个容器，多个容器其实共享一个pod的ip地址，只是端口不一样, 所以 sd.lua 脚本中，只解析host，port不一样则可以区分访问的是fleet中的agones的两个容器的哪一个真正的的gameserver即可，这里stable-diffusion-webui和simple-game-server都算agones的容器， 但是开放端口不一样，agones只会检测固定pod的端口，所以可以根据固定端口检查出simple-game-server是真正的agones的入口gameserver，其他的容器只是其他的逻辑服，但是这些容器之间是平行的，没有上下级关系，只是通过不同的pod端口进行访问的区别而已。-------这个理解也是相当关键的;
+        main.go中也就是simple-game-server中，判断7860是否能访问了，能访问就让simple-game-server处于ready状态，在gameserverallocation接口中，才会返回分配的服务器信息，这样访问sd也不会报错502了。------------ 这个也是相当关键的;
         sd.lua 中的sd_port 是从 Agones Allocator 获取到的 stable-diffusion-webui 容器的端口，而 gs_port 是获取到的 simple-game-server 容器的端口，
         sd.lua的作用是，根据游戏服务器地址是否为 "internal"，决定是否进行 DNS 查询，以获取内部地址的实际 IP 地址。
         将获取到的目标地址和端口信息存储到 Redis 中，以便下次查询， 设置 Nginx 变量 ngx.var.target 为获取的pod目标地址和sd端口，
