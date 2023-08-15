@@ -78,7 +78,10 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    ---
    kubectl get fleet
    kubectl get fleet -o yaml # 修改这个yaml，然后apply -f即可修改sd的镜像挂载等配置
-   kubectl edit fleet # 这个命令可以现场修改fleet的配置并生效
+   # kubectl edit fleet # 这个命令可以现场修改fleet的配置并生效---不好用
+   kubectl get fleet -o yaml > haha.yaml # 修改这个yaml，然后apply -f即可修改sd的镜像挂载等配置
+   kubectl apply -f haha.yaml  # 即可更新fleet，记得先用上面的命令get最新的yaml，否则回报yaml版本冲突错误
+   重要步骤---需要删除fleet相关的pod(sd-agones-fleet-*)，否则pod还是原来的镜像，不会更新的
    #####---参考terraform-provision-infra/modules/agones/cloud-build/variables.tf-----
    Stable-Diffusion-UI-Agones/agones-sidecar  yaml的第一个镜像就是这里build的
    Stable-Diffusion-UI-Agones/sd-webui/  yaml的第二个镜像是这里build的
