@@ -31,7 +31,7 @@ spec:
       # The FleetAutoscaler will scale the fleet up and down trying to maintain this buffer, 
       # as instances are being allocated or terminated
       # it can be specified either in absolute (i.e. 5) or percentage format (i.e. 5%)
-      bufferSize: 1
+      bufferSize: 0  # 原来是1， 被yx改为了0， 否则每个用户使用sd会产生两个pod
       # minimum fleet size to be set by this FleetAutoscaler. 
       # if not specified, the actual minimum fleet size will be bufferSize
       minReplicas: 1
