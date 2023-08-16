@@ -123,6 +123,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
         以便后续请求转发。
         7. pod内的多容器相互通信, 直接用[127.0.0.1:容器端口]通信即可, 所以在simple-game-server的main.go里面可以用http.Get("http://127.0.0.1:7860")来访问stable-diffusion-webui容器的7860端口 ------------ 这个也是相当关键的---------;
         8. 为什么fleet.yaml会默认产生两个类似 sd-agones-fleet-*-*的pod  （后面我找到原因了: 将Stable-Diffusion-UI-Agones/agones/fleet_autoscale.yaml的bufferSize设置为0即可,如果是terraform方式，需要修改terraform-provision-infra/modules/agones/k8s-res/main.tf的bufferSize为0， 参考知乎https://zhuanlan.zhihu.com/p/537532777解释了buffersize的作用）
+        因为gameserverallocation接口用用户id作为lable去获取gs, 如果cache为1，则agons会将统一lable的gs备用1个，所以每次都开两个
          
     思考: 后面可以多建一个service和ingress绑定stable-diffusion-nginx, 修改sd.lua读取headers，如果没有认证，则跳转到我自己的fastapi认证服务器即可，认证服务器设置header后，再跳转回来即可，这样就可以实现自己的认证, 这样就可以不走谷歌的iap那一套认证
         
