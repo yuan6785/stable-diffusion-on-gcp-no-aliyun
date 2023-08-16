@@ -72,6 +72,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     -----main.tf----
 
 4. 完成后通过https://console.cloud.google.com/security/iap?referrer=search&hl=zh-cn&project=happyaigc  添加用户
+   参考本目录截图[iap添加账号1.jpg, iap添加账号2.jpg]
 
 5. gcloud config set project happyaigc  (输入谷歌账号的密码即可)
    kubectl get all   # 获取所有资源概览
