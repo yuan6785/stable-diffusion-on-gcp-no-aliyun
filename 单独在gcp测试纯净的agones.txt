@@ -35,6 +35,9 @@ helm repo add agones https://agones.dev/chart/stable
 helm repo update
 helm install my-release --namespace agones-system --create-namespace agones/agones
 
+# 卸载
+helm uninstall my-release --namespace agones-system
+kubectl get namespaces
 
-# 清理:
+# 硬核清理:
 gcloud container clusters delete testagones --region=${REGION}
