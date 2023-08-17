@@ -1,6 +1,6 @@
 参考:  https://agones.dev/site/docs/installation/install-agones/helm/
 
-
+# 如果region是us-central1，则会开3*num-nodes的节点，因为us-central1有三个子区
 gcloud container clusters create testagones \
   --region=us-central1-f \
   --release-channel="None" \
@@ -10,7 +10,7 @@ gcloud container clusters create testagones \
   --enable-image-streaming \
   --machine-type=custom-12-49152-ext
 
-# --machine-type=e2-standard-4 # custom-12-49152-ext e2-standard-4
+# --machine-type=e2-standard-4 # custom-12-49152-ext e2-standard-4  # e2-standard-4标准类型(测试通过)， custom-12-49152-ext自定义的类型
 
 helm repo add agones https://agones.dev/chart/stable
 helm repo update
