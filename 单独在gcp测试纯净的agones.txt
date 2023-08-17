@@ -1,8 +1,21 @@
-参考:  https://agones.dev/site/docs/installation/install-agones/helm/
+参考文档:  https://agones.dev/site/docs/installation/install-agones/helm/
 
+
+# 变量设置
 # 如果region是us-central1，则会开3*num-nodes的节点，因为us-central1有三个子区
-gcloud container clusters create testagones \
-  --region=us-central1-f \
+PROJECT_ID=happyaigc
+REGION=us-central1-f
+CLUSTER_NAME=testagones
+
+
+#登录
+gcloud config set project ${PROJECT_ID}  
+#(输入谷歌账号的密码即可)
+
+
+# 创建k8s集群
+gcloud container clusters create ${CLUSTER_NAME} \
+  --region=${REGION} \
   --release-channel="None" \
   --tags=game-server \
   --scopes=gke-default \
@@ -10,12 +23,16 @@ gcloud container clusters create testagones \
   --enable-image-streaming \
   --machine-type=custom-12-49152-ext
 
-# --machine-type=e2-standard-4 # custom-12-49152-ext e2-standard-4  # e2-standard-4标准类型(测试通过)， custom-12-49152-ext自定义的类型
+  # --machine-type=e2-standard-4 # custom-12-49152-ext e2-standard-4  # e2-standard-4标准类型(测试通过)， custom-12-49152-ext自定义的类型
 
+# 证书保存到本地
+gcloud container clusters get-credentials ${CLUSTER_NAME} --region=${REGION}
+
+# 安装agnones
 helm repo add agones https://agones.dev/chart/stable
 helm repo update
 helm install my-release --namespace agones-system --create-namespace agones/agones
 
 
-清理:
-gcloud container clusters delete testagones --region=us-central1
+# 清理:
+gcloud container clusters delete testagones --region=${REGION}
