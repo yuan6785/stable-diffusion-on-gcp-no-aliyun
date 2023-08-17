@@ -1,0 +1,21 @@
+参考:  https://agones.dev/site/docs/installation/install-agones/helm/
+
+
+gcloud container clusters create testagones \
+  --region=us-central1-f \
+  --release-channel="None" \
+  --tags=game-server \
+  --scopes=gke-default \
+  --num-nodes=4 \
+  --enable-image-streaming \
+  --machine-type=custom-12-49152-ext
+
+# --machine-type=e2-standard-4 # custom-12-49152-ext e2-standard-4
+
+helm repo add agones https://agones.dev/chart/stable
+helm repo update
+helm install my-release --namespace agones-system --create-namespace agones/agones
+
+
+清理:
+gcloud container clusters delete testagones --region=us-central1
