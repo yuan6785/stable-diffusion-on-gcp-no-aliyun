@@ -84,6 +84,10 @@ cd Stable-Diffusion-on-GCP/Stable-Diffusion-UI-Agones/sd-webui
 docker build . -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/${BUILD_REGIST}/sd-webui:0.1
 docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/${BUILD_REGIST}/sd-webui:0.1
 
+yx修改-------:
+cd Stable-Diffusion-on-GCP/Stable-Diffusion-UI-Agones/sd-webui
+gcloud auth configure-docker ${REGION}-docker.pkg.dev
+gcloud builds submit --machine-type=e2-highcpu-32 --disk-size=100 --region=${REGION} -t  ${REGION}-docker.pkg.dev/${PROJECT_ID}/${BUILD_REGIST}/sd-webui:0.1
 ```
 
 ### 创建文件存储
@@ -94,6 +98,11 @@ docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/${BUILD_REGIST}/sd-webui:0.1
 FILESTORE_NAME=<替换为文件存储实例名称>
 FILESTORE_ZONE=<替换为文件存储实例区域>
 FILESHARE_NAME=<替换为文件共享名称>
+
+# yx 修改
+FILESTORE_NAME=sdwebui-nfs
+FILESTORE_ZONE=us-central1-f
+FILESHARE_NAME=vol1
 
 
 gcloud filestore instances create ${FILESTORE_NAME} --zone=${FILESTORE_ZONE} --tier=BASIC_HDD --file-share=name=${FILESHARE_NAME},capacity=1TB --network=name=${VPC_NETWORK}
