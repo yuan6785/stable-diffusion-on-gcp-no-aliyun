@@ -3,9 +3,11 @@
 
 # 变量设置
 # 如果region是us-central1，则会开3*num-nodes的节点，因为us-central1有三个子区
+# --machine-type=e2-standard-4 # custom-12-49152-ext e2-standard-4  # e2-standard-4标准类型(测试通过)， custom-12-49152-ext自定义的类型
 PROJECT_ID=happyaigc
 REGION=us-central1-f
 CLUSTER_NAME=testagones
+MACHINE_TYPE=e2-standard-4
 
 
 #登录
@@ -21,9 +23,9 @@ gcloud container clusters create ${CLUSTER_NAME} \
   --scopes=gke-default \
   --num-nodes=4 \
   --enable-image-streaming \
-  --machine-type=custom-12-49152-ext
+  --machine-type=${MACHINE_TYPE}
 
-  # --machine-type=e2-standard-4 # custom-12-49152-ext e2-standard-4  # e2-standard-4标准类型(测试通过)， custom-12-49152-ext自定义的类型
+  
 
 # 证书保存到本地
 gcloud container clusters get-credentials ${CLUSTER_NAME} --region=${REGION}
