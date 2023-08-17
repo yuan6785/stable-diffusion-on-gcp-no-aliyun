@@ -14,10 +14,10 @@
 
 
 locals {
-  project_id          = "happyaigc"
-  oauth_client_id     = "972449351989-7nnen6jqnrd8im4ejcbj1p64fltpsurj.apps.googleusercontent.com"
-  oauth_client_secret = "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"
-  sd_webui_domain     = "sd.agones.playdayy.cn"
+  project_id          = "PROJECT_ID"
+  oauth_client_id     = "OAUTH_CLIENT_ID"
+  oauth_client_secret = "OAUTH_CLIENT_SECRET"
+  sd_webui_domain     = "YOUR_OWNED_CUSTOM_DOMAIN_OR_SUBDOMAIN"
   region              = "us-central1"
   filestore_zone      = "us-central1-f" # Filestore location must be same region or zone with gke
   cluster_location    = "us-central1-f" # GKE Cluster location
