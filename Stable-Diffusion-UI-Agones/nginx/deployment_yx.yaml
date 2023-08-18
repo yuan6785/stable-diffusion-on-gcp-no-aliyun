@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: stable-diffusion-nginx
-        image: us-central1-docker.pkg.dev/happyaigc/sd-repository-fa4db6b4/sd-nginx-yx:0.3
+        image: us-central1-docker.pkg.dev/happyaigc/sd-repository-88d93bc5/sd-nginx-yx:0.1
         ports:
           - containerPort: 8080
       nodeSelector:

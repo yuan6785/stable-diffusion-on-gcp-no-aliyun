@@ -2,10 +2,11 @@
 
 gcloud config set project happyaigc # 认证
 
+# 修改环境变量
 REGION=us-central1
 PROJECT_ID=happyaigc
-BUILD_REGIST=sd-repository-fa4db6b4
-REDIS_IP=$(gcloud redis instances describe sd-agones-cache-fa4db6b4 --region ${REGION} --format=json 2>/dev/null | jq .host)
+BUILD_REGIST=sd-repository-88d93bc5
+REDIS_IP=$(gcloud redis instances describe sd-agones-cache-88d93bc5 --region ${REGION} --format=json 2>/dev/null | jq .host)
 
 sed "s@\"\${REDIS_HOST}\"@${REDIS_IP}@g" sd.lua > _tmp
 mv _tmp sd_new.lua
