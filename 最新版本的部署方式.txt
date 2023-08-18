@@ -33,7 +33,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     获取gke集群的凭证
     source  ~/.zshrc_google_cloud  即可用gcloud命令
     ------------------------------------
-    GKE_CLUSTER_NAME=tf-gen-gke-1786d641
+    GKE_CLUSTER_NAME=tf-gen-gke-88d93bc5
     REGION=us-central1-f
     gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${REGION}
     ------------------------------------
