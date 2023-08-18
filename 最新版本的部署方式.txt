@@ -98,7 +98,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    --------获取podyaml----
    kubectl get pod  sd-agones-fleet-klxgw-fj2lz -o yaml > haha.yaml
    --------获取gameserver的状态(多个Allocated状态代表有多少人在使用sd， 一个ready状态表示buffersize为1, Scheduled表示正在安装sd镜像部署)-----
-   kubectl get gs
+   kubectl get gs   # 重要，不要看pod的状态，这个gs是最重要的
 
 
 6. 调试以及重要理解
@@ -139,6 +139,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
         ------这里的buffersize好像没有办法改为0，所以这个bug只有另外想办法
         9.重启sd的方式
           先清理redis的用户key，然后再把用户对应的gameserver的pod删除即可
+        10. kubectl get gs   # 重要，不要看pod的状态，这个gs是最重要的
          
     思考: 后面可以多建一个service和ingress绑定stable-diffusion-nginx, 修改sd.lua读取headers，如果没有认证，则跳转到我自己的fastapi认证服务器即可，认证服务器设置header后，再跳转回来即可，这样就可以实现自己的认证, 这样就可以不走谷歌的iap那一套认证
         
