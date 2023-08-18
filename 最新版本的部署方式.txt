@@ -103,7 +103,13 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    kubectl get gs   # 重要，不要看pod的状态，这个gs是最重要的
 
 
-6. 调试以及重要理解
+6. 部署完成后替换域名的方法
+   参考: Stable-Diffusion-UI-Agones/ingress-iap/readme_yx.txt
+
+7. 部署完成后修改nginx转发的方法，重新打包nginx镜像
+   参考: Stable-Diffusion-UI-Agones/nginx/readme_yx.txt
+
+8. 调试以及重要理解
    参考/Users/yuanxiao/workspace/0yxgithub/Stable-Diffusion-on-GCP/yx部署过程记录.txt 的【结束语】部分 
    ----进入ubuntu---
    kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep ubuntu |awk '{print $1}' |awk NR==1)   /bin/bash
@@ -148,7 +154,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
         
    
 
-7. 后期清理： 一台ecs和静态ip， gke用destroy resource来清理即可, filestore的清理， artifacts的清理
+9. 后期清理： 一台ecs和静态ip， gke用destroy resource来清理即可, filestore的清理， artifacts的清理
    手动清理请参考：Stable-Diffusion-UI-Agones/README_yx.md 的清空资源部分，可以用chatgpt去解释每一个命令清空了什么，然后到谷歌控制台手动清理
    ---
    ---不用就销毁，销毁前必须先删除自己创建的其他pod，比如ubuntu，如果ubuntu挂载了pvc，会导致销毁命名无法删除pvc
