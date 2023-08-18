@@ -90,6 +90,8 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    ####
    --------获取podyaml----
    kubectl get pod  sd-agones-fleet-klxgw-fj2lz -o yaml > haha.yaml
+   --------获取gameserver的状态(多个Allocated状态代表有多少人在使用sd， 一个ready状态表示buffersize为1, Scheduled表示正在安装sd镜像部署)-----
+   kubectl get gs
 
 
 6. 调试以及重要理解
