@@ -17,7 +17,7 @@ locals {
   project_id          = "happyaigc"
   oauth_client_id     = "972449351989-7nnen6jqnrd8im4ejcbj1p64fltpsurj.apps.googleusercontent.com"
   oauth_client_secret = "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"
-  sd_webui_domain     = "sd.agones.playdayy.cn" # "sd.agones.163py.com" "sd.agones.playdayy.cn"
+  sd_webui_domain     = "sd.agones.163py.com" # "sd.agones.163py.com" "sd.agones.playdayy.cn"
   region              = "us-central1"
   filestore_zone      = "us-central1-f" # Filestore location must be same region or zone with gke
   cluster_location    = "us-central1-f" # GKE Cluster location  # us-central1 us-central1-f
