@@ -33,16 +33,16 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     获取gke集群的凭证
     source  ~/.zshrc_google_cloud  即可用gcloud命令
     ------------------------------------
-    GKE_CLUSTER_NAME=tf-gen-gke-f36a7e98	
-    REGION=us-central1
+    GKE_CLUSTER_NAME=tf-gen-gke-fa4db6b4	
+    REGION=us-central1-f
     gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${REGION}
     ------------------------------------
     f*b**1**
     ------------------------------------
     检测凭证生命周期
     ------------------------------------
-    GKE_CLUSTER_NAME=tf-gen-gke-f36a7e98
-    REGION=us-central1
+    GKE_CLUSTER_NAME=tf-gen-gke-fa4db6b4	
+    REGION=us-central1-f
     gcloud container clusters describe ${GKE_CLUSTER_NAME} \
         --region ${REGION} \
         --format "value(masterAuth.clusterCaCertificate)" \
@@ -97,6 +97,8 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    ----进入ubuntu---
    kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep ubuntu |awk '{print $1}' |awk NR==1)   /bin/bash
    -----例如进入ubuntu清空redis，可以强制重启sd---------
+   apt update
+   apt install redis-tools
    redis-cli -h 10.250.244.227 -p 6379 
    select 0
    keys *
