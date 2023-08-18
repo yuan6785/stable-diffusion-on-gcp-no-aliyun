@@ -206,7 +206,7 @@ resource "kubernetes_manifest" "webui_fleet_autoscaler" {
       policy:
         type: Buffer
         buffer:
-          bufferSize: 0 # 原来是1， 被yx改为了0， 否则每个用户使用sd会产生两个pod
+          bufferSize: 1 # yx修改, 这里本来应该改为0, 否则每个用户使用sd会产生两个pod； 改为0后,部署会报错，所以等部署完成后再改
           minReplicas: 1
           maxReplicas: 20
       sync:
