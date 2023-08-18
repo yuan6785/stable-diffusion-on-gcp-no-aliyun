@@ -36,6 +36,7 @@ helm repo update
 # kubectl create namespace agones-system
 helm install my-release --namespace agones-system --create-namespace agones/agones
 # helm install sd-agones-release --namespace agones-system --version 1.30.0  agones/agones
+# 版本放在values.yaml里面
 # helm install sd-agones-release --namespace agones-system -f ./agones/values.yaml agones/agones
 
 
