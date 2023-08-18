@@ -72,9 +72,9 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     -----main.tf----
     部署:
     参考: /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/terraform-provision-infra/README_zh.md
-    Agones 版本部分， 
+    Agones 版本部分 （必须到terraform-provision-infra目录下执行命令）
       第一步auth2登录验证， gcloud auth application-default login，  gcloud config set project PROJECT_ID
-      第二步最后的部署和销毁命令是最重要的
+      第二步最后的部署和销毁命令是最重要的 ()
 
 4. 完成后通过https://console.cloud.google.com/security/iap?referrer=search&hl=zh-cn&project=happyaigc  添加用户
    参考本目录截图[iap添加账号1.jpg, iap添加账号2.jpg]
