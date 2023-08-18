@@ -77,6 +77,8 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
       第二步 最后的部署命令，最好一句语句执行，就是每一个分号执行一次，执行完成执行下一个分号前的命令；
       第三部 销毁命令---不用就销毁，销毁前必须先删除自己创建的其他pod，比如ubuntu，如果ubuntu挂载了pvc，会导致销毁命名无法删除pvc；
       最好一句语句执行，就是每一个分号执行一次，执行完成执行下一个分号前的命令；
+    部署完成后：如果报错failed to connect to redis!
+      就执行Stable-Diffusion-UI-Agones/nginx/readme_yx.txt 进行docker替换和替换nignx的deplayment即可
 
 4. 完成后通过https://console.cloud.google.com/security/iap?referrer=search&hl=zh-cn&project=happyaigc  添加用户
    参考本目录截图[iap添加账号1.jpg, iap添加账号2.jpg]
@@ -140,6 +142,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
         9.重启sd的方式
           先清理redis的用户key，然后再把用户对应的gameserver的pod删除即可
         10. kubectl get gs   # 重要，不要看pod的状态，这个gs是最重要的
+        
          
     思考: 后面可以多建一个service和ingress绑定stable-diffusion-nginx, 修改sd.lua读取headers，如果没有认证，则跳转到我自己的fastapi认证服务器即可，认证服务器设置header后，再跳转回来即可，这样就可以实现自己的认证, 这样就可以不走谷歌的iap那一套认证
         
