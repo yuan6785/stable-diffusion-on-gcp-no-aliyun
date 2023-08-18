@@ -1,7 +1,7 @@
 # file add by yx
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'us-central1-docker.pkg.dev/happyaigc/sd-repository-fa4db6b4/sd-nginx-yx:0.2', '-f', 'Dockerfile_yx', '.']
+  args: [ 'build', '-t', 'us-central1-docker.pkg.dev/happyaigc/sd-repository-fa4db6b4/sd-nginx-yx:0.3', '-f', 'Dockerfile_yx', '.']
 options:
   machineType: 'E2_HIGHCPU_8'
   diskSizeGb: '200'
