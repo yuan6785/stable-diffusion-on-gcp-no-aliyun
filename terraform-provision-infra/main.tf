@@ -20,7 +20,7 @@ locals {
   sd_webui_domain     = "sd.agones.playdayy.cn" # "sd.agones.163py.com" "sd.agones.playdayy.cn"
   region              = "us-central1"
   filestore_zone      = "us-central1-f" # Filestore location must be same region or zone with gke
-  cluster_location    = "us-central1-f" # GKE Cluster location
+  cluster_location    = "us-central1-f" # GKE Cluster location  # us-central1 us-central1-f
   node_machine_type   = "custom-12-49152-ext"
   accelerator_type    = "nvidia-tesla-t4" # Available accelerator_type from gcloud compute accelerator-types list --format='csv(zone,name)'
   gke_num_nodes       = 5
