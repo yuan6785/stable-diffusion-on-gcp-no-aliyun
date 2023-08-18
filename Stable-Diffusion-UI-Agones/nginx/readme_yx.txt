@@ -10,7 +10,7 @@ REDIS_IP=$(gcloud redis instances describe sd-agones-cache-fa4db6b4 --region ${R
 sed "s@\"\${REDIS_HOST}\"@${REDIS_IP}@g" sd.lua > _tmp
 mv _tmp sd_new.lua
 
-# 修改cloudbuild.yaml的镜像标签
+# 修改cloudbuild.yaml的镜像标签----记得修改cloudbuild.yaml的docker地址和版本---
 gcloud auth configure-docker ${REGION}-docker.pkg.dev
 gcloud builds submit --region=${REGION} . --config=cloudbuild.yaml
 
@@ -18,7 +18,7 @@ gcloud builds submit --region=${REGION} . --config=cloudbuild.yaml
 # 重新部署(修改deployment_yx.yaml里面的镜像tag)
 kubectl apply -f deployment_yx.yaml
 
-# 报错的话，还原到最初的版本
+# 报错的话，还原到最初的版本(修改deployment_yx.yaml里面的镜像tag)
 kubectl apply -f deployment_yx_old.yaml
 
 例如进入ubuntu清空redis 可以强制重启sd
