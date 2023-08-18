@@ -18,7 +18,7 @@ tar -xf google-cloud-cli-429.0.0-linux-arm.tar.gz
 gcloud components install kubectl
 gcloud components install gke-gcloud-auth-plugin
 #设置 gcloud 和 gcloud application-default 认证
-gcloud auth application-default login
+gcloud auth application-default login   # 重要------这一步要执行------
 gcloud auth login
 gcloud config set project PROJECT_ID
 
