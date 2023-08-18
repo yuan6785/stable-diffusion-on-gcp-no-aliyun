@@ -35,9 +35,11 @@ helm repo add agones https://agones.dev/chart/stable
 helm repo update
 # kubectl create namespace agones-system
 helm install my-release --namespace agones-system --create-namespace agones/agones
+# helm install sd-agones-release --namespace agones-system --version 1.30.0  agones/agones
 
 # 只卸载k8s内部的包
 helm uninstall my-release --namespace agones-system
+# helm uninstall sd-agones-release --namespace agones-system
 kubectl get namespaces
 #
 # 硬核清理:
