@@ -2,6 +2,8 @@
 
 gcloud config set project happyaigc # 认证
 
+cd  Stable-Diffusion-UI-Agones/nginx  # 必须是这个目录
+
 # 修改环境变量
 REGION=us-central1
 PROJECT_ID=happyaigc
