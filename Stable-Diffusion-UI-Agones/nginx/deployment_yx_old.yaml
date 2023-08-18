@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: stable-diffusion-nginx
-        image: us-central1-docker.pkg.dev/happyaigc/sd-repository-2b6bae98/nginx:tf
+        image: us-central1-docker.pkg.dev/happyaigc/sd-repository-fa4db6b4/nginx:tf
         ports:
           - containerPort: 8080
       nodeSelector:
