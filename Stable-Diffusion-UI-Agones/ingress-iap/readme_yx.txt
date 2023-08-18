@@ -14,7 +14,7 @@ kubectl apply -f ./ingress-iap/ingress_yx.yaml  # ingress这个最好先删除�
 # 查看证书配置是否完成的命令---
 kubectl describe managedcertificate managed-cert
 
-# 有时候报证书错误需要等60分钟
+# 有时候报【证书类型错误】【ssl_type_xxx】的错误需要等60分钟
 当： Certificate Status:  Active # 就可以了
 Certificate Status:  Provisioning  # 表示正在申请证书 
 
