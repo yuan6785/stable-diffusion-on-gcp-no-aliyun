@@ -33,11 +33,12 @@ gcloud container clusters get-credentials ${CLUSTER_NAME} --region=${REGION}
 # 安装agnones
 helm repo add agones https://agones.dev/chart/stable
 helm repo update
+# kubectl create namespace agones-system
 helm install my-release --namespace agones-system --create-namespace agones/agones
 
-# 卸载
+# 只卸载k8s内部的包
 helm uninstall my-release --namespace agones-system
 kubectl get namespaces
-
+#
 # 硬核清理:
 gcloud container clusters delete testagones --region=${REGION}
