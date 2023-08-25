@@ -7,3 +7,16 @@
    git clone https://github.com/i-jw/gcp-stable-diffusion-build-deploy.git -b agones-beta
 
 3. 其他都看文档了，没有什么记录的
+
+
+------------部署资源关键字(手动删除需要搜索的)-------------------------
+        函数计算：gcp搜索function即可
+        部署的定时任务，gcp搜索job
+        公共目录挂载,Gcp搜索filestore —--比较贵
+        Redis搜索redis
+        Docker搜索artifact
+        Vpc搜索vpc
+        实例搜索ec2 —--比较贵
+        K8s搜索gke —--比较贵
+        绑定证书搜索iap
+        静态ip搜索ip addresses

@@ -204,7 +204,17 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
         f. kubectl apply -f tmp_fleetautoscaler_now.yaml
     
 
-
+------------部署资源关键字(手动删除需要搜索的)-------------------------
+        函数计算：gcp搜索function即可
+        部署的定时任务，gcp搜索job
+        公共目录挂载,Gcp搜索filestore —--比较贵
+        Redis搜索redis
+        Docker搜索artifact
+        Vpc搜索vpc
+        实例搜索ec2 —--比较贵
+        K8s搜索gke —--比较贵
+        绑定证书搜索iap
+        静态ip搜索ip addresses
 
 
 
@@ -318,3 +328,7 @@ agones-gameserver-sidecar是agones塞进去的，那个game server里没有跑�
 --
 这可能是由于 Agones 游戏服务器 SDK 引入的影响。Agones 可能会自动添加一个辅助容器 agones-gameserver-sidecar 来管理游戏服务器实例的生命周期，从而导致生成的 Pod 定义中多出了一个容器。为了准确理解这个差异，您可以查阅 Agones 和 Fleet 控制器的文档，以及相关的注解和标签，以了解它们对 Pod 创建和管理的影响。
 ############################################
+
+
+
+
