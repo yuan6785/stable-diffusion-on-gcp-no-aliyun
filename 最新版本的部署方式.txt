@@ -41,7 +41,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     ------------------------------------
     检测凭证生命周期
     ------------------------------------
-    GKE_CLUSTER_NAME=tf-gen-gke-fa4db6b4	
+    GKE_CLUSTER_NAME=tf-gen-gke-88d93bc5	
     REGION=us-central1-f
     gcloud container clusters describe ${GKE_CLUSTER_NAME} \
         --region ${REGION} \
@@ -116,7 +116,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    -----例如进入ubuntu清空redis，可以强制重启sd---------
    apt update
    apt install redis-tools
-   redis-cli -h 10.4.11.235 -p 6379 
+   redis-cli -h 10.140.160.147 -p 6379 
    select 0
    keys *
    hgetall accounts.google.com:yuanxiao6786@gmail.com

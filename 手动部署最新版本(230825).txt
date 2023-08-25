@@ -1,0 +1,9 @@
+1. 参考文档（yuanxiao6785@gmail.com账号有权限）
+  https://docs.google.com/document/d/1ClV7C67byNcoGWGgBtx1sllTm8rtwmeh0wXXuOm7mW4/edit
+  我已经copy到我的drive
+  https://docs.google.com/document/d/1DfUXXmeOQ1o03ocl7--umrCPlNMstb0Cr0oREK2oSJE/edit?resourcekey=0-Y2n8dYbNBJuVIlz9hApLsg
+
+2. github仓库
+   git clone https://github.com/i-jw/gcp-stable-diffusion-build-deploy.git -b agones-beta
+
+3. 其他都看文档了，没有什么记录的
