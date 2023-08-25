@@ -160,7 +160,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    ---不用就销毁，销毁前必须先删除自己创建的其他pod，比如ubuntu，如果ubuntu挂载了pvc，会导致销毁命名无法删除pvc
 
 
-10. 重大bug解决
+10. 重大bug解决(agones无法安装和fleet失效的问题)----
     agones-controller,agones-extensions起不来的问题，报证书错误，文件夹路径找不到需要重装agones，并且不能和当前版本一样
     # 切换安装非原来的版本---解决(cert找不到的问题)---非必要---
     # agones-controller,agones-extensions起不来的问题，报证书错误，文件夹路径找不到需要重装agones，并且不能和当前版本一样
