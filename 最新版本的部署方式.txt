@@ -160,7 +160,16 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    ---不用就销毁，销毁前必须先删除自己创建的其他pod，比如ubuntu，如果ubuntu挂载了pvc，会导致销毁命名无法删除pvc
 
 
-10. 进入nginx的pod调试扩展agones的方法
+10. 重大bug解决
+    agones-controller,agones-extensions起不来的问题，报证书错误，文件夹路径找不到需要重装agones，并且不能和当前版本一样
+    # 切换安装非原来的版本---解决(cert找不到的问题)---非必要---
+    # agones-controller,agones-extensions起不来的问题，报证书错误，文件夹路径找不到需要重装agones，并且不能和当前版本一样
+    # --version 的版本不要和当前版本一样，当前版本可以用helm list -A查看
+    helm list -A  # 可以1.33.0和1.34.0相互切换
+    helm upgrade sd-agones-release --namespace agones-system -f values.yaml --version 1.33.0 agones/agones
+    ----------另外的问题-------
+    当重装agones后,过一段时间fleet失效，具体现象是页面一直报many Users, kubect get fleet 一直只有一个sd-agones-fleet对象还是DESIRED状态
+    可以进入nginx的pod调试扩展agones的方法（解决: there is no available GameServer to allocate 报这个错的方案）
     kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep nginx |awk '{print $1}' |awk NR==1)   /bin/bash
     #
     # apt update  # 然后安装想要的东西 
@@ -171,11 +180,28 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     "namespace": "default",
     "metadata": {
         "labels": {
-        "user": "123312"
+        "user": "yuanxiao6785"
         }
     }
     }' \
     http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation
+    会报错 there is no available GameServer to allocate，就是上面的状态
+    解决: there is no available GameServer to allocate 报这个错的方案
+    --(需要重新安装fleet)--
+    方法一(测试成功--解决上面无法allocate的问题):
+        a. kubect get fleet -o yaml  > tmp_fleet_now.yaml  # 用tmp_fleet_now.yaml的image部分代替Stable-Diffusion-UI-Agones/agones/fleet_and_autoscale_yx.yaml的image部分，其他部分如果有修改也相应替换即可。
+        b. kubect get fleetautoscaler -o yaml  > tmp_fleetautoscaler_now.yaml   # 仅仅做一个备份, 因为上面的Stable-Diffusion-UI-Agones/agones/fleet_and_autoscale_yx.yaml已经有了fleetautoscaler的配置，所以这里不需要替换
+        c. kubectl delete fleet sd-agones-fleet
+        d. kubectl delete fleetautoscaler fleet-autoscaler-policy 
+        e. kubectl apply -f Stable-Diffusion-UI-Agones/agones/fleet_and_autoscale_yx.yaml
+        
+    方法二:
+        a. kubect get fleet -o yaml  > tmp_fleet_now.yaml  # 删除tmp_fleet_now.yaml的status部分即可，或者用Stable-Diffusion-UI-Agones/agones/fleet-pvc.yaml， 但需要用tmp_fleet_now.yaml替换镜像部分
+        b. kubectl delete fleet sd-agones-fleet  # 后面的名字记得是上面的fleet的名字
+        c. kubect get fleetautoscaler -o yaml  > tmp_fleetautoscaler_now.yaml  # 删除tmp_fleetautoscaler_now.yaml的status部分即可， 或者用Stable-Diffusion-UI-Agones/agones/fleet_autoscale.yaml， 但需要用tmp_fleetautoscaler_now.yaml替换镜像部分
+        d. kubectl delete fleetautoscaler fleet-autoscaler-policy    # 后面的名字记得是上面的fleetautoscaler的名字
+        e. kubectl apply -f tmp_fleet_now.yaml
+        f. kubectl apply -f tmp_fleetautoscaler_now.yaml
     
 
 

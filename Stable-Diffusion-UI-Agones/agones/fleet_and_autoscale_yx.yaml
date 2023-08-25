@@ -1,0 +1,65 @@
+apiVersion: "agones.dev/v1"
+kind: Fleet
+metadata:
+  name: sd-agones-fleet
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    spec:
+      container: simple-game-server
+      ports:
+      - name: default
+        container: simple-game-server
+        containerPort: 7654
+      - name: sd
+        container: stable-diffusion-webui
+        containerPort: 7860
+        protocol: TCP
+      template:
+        spec:
+          containers:
+          - name: simple-game-server
+            image: us-central1-docker.pkg.dev/happyaigc/sd-repository-88d93bc5/game-server:tf
+            resources:
+              requests:
+                memory: "64Mi"
+                cpu: "20m"
+              limits:
+                memory: "64Mi"
+                cpu: "20m"
+          - name: stable-diffusion-webui
+            image: us-central1-docker.pkg.dev/happyaigc/sd-repository-88d93bc5/sd-webui:tf
+            command: ["/bin/sh", "start.sh"]
+            volumeMounts:
+            - mountPath: /stable-diffusion-webui/models
+              name: stable-diffusion-storage
+              subPath: models
+            - mountPath: /result
+              name: stable-diffusion-storage
+              subPath: result
+            resources:
+              limits:
+                nvidia.com/gpu: "1"
+          volumes:
+          - name: stable-diffusion-storage
+            persistentVolumeClaim:
+              claimName: vol1
+---
+apiVersion: "autoscaling.agones.dev/v1"
+kind: FleetAutoscaler
+metadata:
+  name: fleet-autoscaler-policy
+  namespace: default
+spec:
+  fleetName: sd-agones-fleet
+  policy:
+    type: Buffer
+    buffer:
+      bufferSize: 1
+      minReplicas: 1
+      maxReplicas: 20
+  sync:
+    type: FixedInterval
+    fixedInterval:
+      seconds: 30
