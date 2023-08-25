@@ -189,16 +189,16 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     解决: there is no available GameServer to allocate 报这个错的方案
     --(需要重新安装fleet)--
     方法一(测试成功--解决上面无法allocate的问题):
-        a. kubect get fleet -o yaml  > tmp_fleet_now.yaml  # 用tmp_fleet_now.yaml的image部分代替Stable-Diffusion-UI-Agones/agones/fleet_and_autoscale_yx.yaml的image部分，其他部分如果有修改也相应替换即可。
-        b. kubect get fleetautoscaler -o yaml  > tmp_fleetautoscaler_now.yaml   # 仅仅做一个备份, 因为上面的Stable-Diffusion-UI-Agones/agones/fleet_and_autoscale_yx.yaml已经有了fleetautoscaler的配置，所以这里不需要替换
+        a. kubectl get fleet -o yaml  > tmp_fleet_now.yaml  # 用tmp_fleet_now.yaml的image部分代替Stable-Diffusion-UI-Agones/agones/fleet_and_autoscale_yx.yaml的image部分，其他部分如果有修改也相应替换即可。
+        b. kubectl get fleetautoscaler -o yaml  > tmp_fleetautoscaler_now.yaml   # 仅仅做一个备份, 因为上面的Stable-Diffusion-UI-Agones/agones/fleet_and_autoscale_yx.yaml已经有了fleetautoscaler的配置，所以这里不需要替换
         c. kubectl delete fleet sd-agones-fleet
         d. kubectl delete fleetautoscaler fleet-autoscaler-policy 
         e. kubectl apply -f Stable-Diffusion-UI-Agones/agones/fleet_and_autoscale_yx.yaml
         
-    方法二:
-        a. kubect get fleet -o yaml  > tmp_fleet_now.yaml  # 删除tmp_fleet_now.yaml的status部分即可，或者用Stable-Diffusion-UI-Agones/agones/fleet-pvc.yaml， 但需要用tmp_fleet_now.yaml替换镜像部分
+    方法二(未测试):
+        a. kubectl get fleet -o yaml  > tmp_fleet_now.yaml  # 删除tmp_fleet_now.yaml的status部分即可，或者用Stable-Diffusion-UI-Agones/agones/fleet-pvc.yaml， 但需要用tmp_fleet_now.yaml替换镜像部分
         b. kubectl delete fleet sd-agones-fleet  # 后面的名字记得是上面的fleet的名字
-        c. kubect get fleetautoscaler -o yaml  > tmp_fleetautoscaler_now.yaml  # 删除tmp_fleetautoscaler_now.yaml的status部分即可， 或者用Stable-Diffusion-UI-Agones/agones/fleet_autoscale.yaml， 但需要用tmp_fleetautoscaler_now.yaml替换镜像部分
+        c. kubectl get fleetautoscaler -o yaml  > tmp_fleetautoscaler_now.yaml  # 删除tmp_fleetautoscaler_now.yaml的status部分即可， 或者用Stable-Diffusion-UI-Agones/agones/fleet_autoscale.yaml， 但需要用tmp_fleetautoscaler_now.yaml替换镜像部分
         d. kubectl delete fleetautoscaler fleet-autoscaler-policy    # 后面的名字记得是上面的fleetautoscaler的名字
         e. kubectl apply -f tmp_fleet_now.yaml
         f. kubectl apply -f tmp_fleetautoscaler_now.yaml
