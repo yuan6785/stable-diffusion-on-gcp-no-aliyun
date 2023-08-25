@@ -163,6 +163,8 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
 10. 进入nginx的pod调试扩展agones的方法
     kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep nginx |awk '{print $1}' |awk NR==1)   /bin/bash
     #
+    # apt update  # 然后安装想要的东西 
+    # 
     curl -X POST \
     -H "Content-Type: application/json" \
     -d '{
