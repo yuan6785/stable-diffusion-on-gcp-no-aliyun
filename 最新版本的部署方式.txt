@@ -160,7 +160,21 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    ---不用就销毁，销毁前必须先删除自己创建的其他pod，比如ubuntu，如果ubuntu挂载了pvc，会导致销毁命名无法删除pvc
 
 
-
+10. 进入nginx的pod调试扩展agones的方法
+    kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep nginx |awk '{print $1}' |awk NR==1)   /bin/bash
+    #
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "namespace": "default",
+    "metadata": {
+        "labels": {
+        "user": "123312"
+        }
+    }
+    }' \
+    http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation
+    
 
 
 
