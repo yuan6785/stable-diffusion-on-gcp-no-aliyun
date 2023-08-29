@@ -175,7 +175,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     sd-agones-fleet   Packed       1         0         0           0       3d17h
     ####
     可能原因: 我看到kubectl get nodes的节点的age是22h，但是agones和fleet是3天前部署的，可能是最有一个节点被删除，又重新创建的，导致fleet失效
-    因为gke用的突发性实例
+    因为gke用的突发性实例节点,突发性实例在没有使用情况或者使用的很少的情况下下，会被回收
     ####
     当重装agones后,过一段时间fleet失效，具体现象是页面一直报many Users, kubect get fleet 一直只有一个sd-agones-fleet对象还是DESIRED状态
     可以进入nginx的pod调试扩展agones的方法（解决: there is no available GameServer to allocate 报这个错的方案）
