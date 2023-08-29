@@ -176,7 +176,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     ####
     可能原因: 我看到kubectl get nodes的节点的age是22h，但是agones和fleet是3天前部署的，可能是最有一个节点被删除，又重新创建的，导致fleet失效
     因为gke用的突发性实例节点,突发性实例在没有使用情况或者使用的很少的情况下下，会被回收
-    >>>>>解决方法一(未验证):重装agones更新values的值 helm upgrade agones agones/agones --reuse-values --set "agones.allocator.pdb.minAvailable=0" --namespace agones-system
+    >>>>>解决方法一(未验证):先执行helm list -A看看agones的版本, 重装agones更新values的值 helm upgrade agones agones/agones --reuse-values --set "agones.allocator.pdb.minAvailable=0" --namespace agones-system
     >>>>>解决方法二(未验证): 再加一个standard节点池, 其他配置和spot的相同; 
     修改 ./Stable-Diffusion-UI-Agones/agones/fleet_and_autoscale_yx.yaml的nodeSelector为standard 节点池即可;
     (这个不知道需不需要改)修改./Stable-Diffusion-UI-Agones/agones/values.yaml的allocator->nodeSelector->cloud.google.com/gke-nodepool: default-pool 为standard 节点池即可; 别改成controller了
