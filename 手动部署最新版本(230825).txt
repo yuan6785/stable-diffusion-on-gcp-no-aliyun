@@ -9,7 +9,7 @@
    git clone https://github.com/i-jw/gcp-stable-diffusion-build-deploy.git -b agones-beta
    我已经fork到我的仓库分支
    https://github.com/yuan6785/Stable-Diffusion-on-GCP/tree/fork_ma_agones-beta
-   
+
 
 
 3. 其他都看文档了，没有什么记录的
@@ -26,6 +26,26 @@
         K8s搜索gke —--比较贵
         绑定证书搜索iap
         静态ip搜索ip addresses
+
+4. 重要知识点（yx添加）：
+  1.  为什么agones的values.yaml的allocator->nodeSelector: default-pool
+  但是创建出来的sdwebui的pod确是在gpu-spot-pool的节点上？
+  答案： 因为sdwebui的pod不是通过fleet的allocate创建的，也不是通过agones的allocate创建的，仔细观察sdwebui的pod都是ready状态，不是allocated状态；
+  他们是通过Stable-Diffusion-UI-Agones/cloud-function-gs-controller/main.py
+  这里的代码，用k8s的sdk创建的gamesever，参考下面代码
+  response = crdclient.create_namespaced_custom_object(group, version, namespace, plural, body=gameserver_obj)
+  那么为什么，这段代码不会在default-pool创建，
+  猜想
+  第一是因为default-pool并没有伸缩配置，资源只够安装agones，这段代码就只能创建gameserver在gpu-spot-pool上， gpu-spot-pool有伸缩配置；
+  第二是因为default-pool没有gpu实例，而上面的gameserver的yaml明确指定需要gpu实例，所以只能创建在gpu-spot-pool上；
+
+  2. 这里的agones为什么创建在default-pool上,怎么创建在default-pool上的？
+  values.yaml里面指定各个模块都在default-pool即可。
+  因为default-pool的节点不是gpu，比较节省资源；最重要的是default-pool的实例类型不是突发类型，不会被回收回去，不然agones会出各种问题
+    
+  3. 如果通过fleet来管理gameserver，用allocate创建，那么需要修改
+  agones的values.yaml的allocator->nodeSelector: gpu-spot-pool即可
+
 
 4. 连接k8s集群
 
