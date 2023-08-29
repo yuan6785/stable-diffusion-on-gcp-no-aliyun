@@ -180,6 +180,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     >>>>>解决方法一(未验证):先执行helm list -A看看agones的版本确定当前版本，后面的参数--version用这个版本, 重装agones更新values的值 
     helm upgrade agones agones/agones --reuse-values --set "agones.allocator.pdb.minAvailable=0" --namespace agones-system  --version 1.34.0  --skip-crds
     >>>>>解决方法二(未验证): 再加一个standard节点池, 其他配置和spot的相同; 
+    参考： https://docs.google.com/document/d/1DfUXXmeOQ1o03ocl7--umrCPlNMstb0Cr0oREK2oSJE/edit?resourcekey=0-Y2n8dYbNBJuVIlz9hApLsg  这里面有如何安装agones在standard节点池的方法；
     修改 ./Stable-Diffusion-UI-Agones/agones/fleet_and_autoscale_yx.yaml的nodeSelector为standard 节点池即可;
     (这个不知道需不需要改)修改./Stable-Diffusion-UI-Agones/agones/values.yaml的allocator->nodeSelector->cloud.google.com/gke-nodepool: default-pool 为standard 节点池即可; 别改成controller了
     ####
