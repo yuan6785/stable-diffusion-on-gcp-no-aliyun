@@ -20,3 +20,12 @@
         K8s搜索gke —--比较贵
         绑定证书搜索iap
         静态ip搜索ip addresses
+
+4. 连接k8s集群
+
+source  ~/.zshrc_google_cloud
+
+GKE_CLUSTER_NAME=sd-on-gke-agones-230825
+REGION=us-central1
+gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${REGION}
+
