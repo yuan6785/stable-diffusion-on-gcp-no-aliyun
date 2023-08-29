@@ -45,6 +45,7 @@
     
   4.3. 如果通过fleet来管理gameserver，用allocate创建，那么需要修改
   agones的values.yaml的allocator->nodeSelector: gpu-spot-pool即可
+  另外需要修改fleet.yaml和fleet_autoscale.yaml的nodeselect到default-pool即可
 
 
 4. 连接k8s集群
