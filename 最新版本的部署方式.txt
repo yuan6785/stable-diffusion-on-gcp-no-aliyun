@@ -174,7 +174,8 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     NAME              SCHEDULING   DESIRED   CURRENT   ALLOCATED   READY   AGE
     sd-agones-fleet   Packed       1         0         0           0       3d17h
     ####
-    可能原因: 我看到kubectl get nodes的节点的age是22h，但是agones和fleet是3天前部署的，可能是最有一个节点被删除，又重新创建的，导致fleet失效
+    可能原因: 参考 /0yxgithub/stable-diffusion-on-gcp-no-aliyun/手动部署最新版本(230825).txt 重要知识点
+    我看到kubectl get nodes的节点的age是22h，但是agones和fleet是3天前部署的，可能是最有一个节点被删除，又重新创建的，导致fleet失效
     因为gke用的突发性实例节点,突发性实例在没有使用情况或者使用的很少的情况下下，会被回收；
     还有个可能就是现在agones 也是部署在spot gpu 节点上的 随着gpu 节点的全部回收agones 组件里面的allocator controller 之类的就没法正常工作了 导致了这个错误 如果像我们后来手动部署的集群 把agones 安装在按需节点池 default-pool 里面 因为不会中断 所以agones 组件一直是正常工作状态；
     >>>>>解决方法一(未验证):先执行helm list -A看看agones的版本确定当前版本，后面的参数--version用这个版本, 重装agones更新values的值 
