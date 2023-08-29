@@ -161,13 +161,22 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
 
 
 10. 重大bug解决(agones无法安装和fleet失效的问题)----
+    ----------agones无法安装的问题-------
     agones-controller,agones-extensions起不来的问题，报证书错误，文件夹路径找不到需要重装agones，并且不能和当前版本一样
     # 切换安装非原来的版本---解决(cert找不到的问题)---非必要---
     # agones-controller,agones-extensions起不来的问题，报证书错误，文件夹路径找不到需要重装agones，并且不能和当前版本一样
     # --version 的版本不要和当前版本一样，当前版本可以用helm list -A查看
     helm list -A  # 可以1.33.0和1.34.0相互切换
     helm upgrade sd-agones-release --namespace agones-system -f values.yaml --version 1.33.0 agones/agones
-    ----------另外的问题-------
+    ----------另外的问题(get fleet DESIRED 为1， current为0的问题)-------
+    #### 执行如下命令
+    kubectl get fleet
+    NAME              SCHEDULING   DESIRED   CURRENT   ALLOCATED   READY   AGE
+    sd-agones-fleet   Packed       1         0         0           0       3d17h
+    ####
+    可能原因: 我看到kubectl get nodes的节点的age是22h，但是agones和fleet是3天前部署的，可能是最有一个节点被删除，又重新创建的，导致fleet失效
+    因为gke用的突发性实例
+    ####
     当重装agones后,过一段时间fleet失效，具体现象是页面一直报many Users, kubect get fleet 一直只有一个sd-agones-fleet对象还是DESIRED状态
     可以进入nginx的pod调试扩展agones的方法（解决: there is no available GameServer to allocate 报这个错的方案）
     kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep nginx |awk '{print $1}' |awk NR==1)   /bin/bash
