@@ -17,3 +17,4 @@ terraform destroy --auto-approve -target="module.module_b";terraform destroy --a
 
 # 注意:
 这个实例不用在output输出里面看，需要在执行过程中看，因为我用了null_resource的local-exec进行调试，所以需要在执行过程中看，不然看不到结果
+这里可以看到尽管没有output的输出，但是echo中还是能看到变量的传递，具体怎么传递的我还真不知道，但是可以看到是可以传递的
