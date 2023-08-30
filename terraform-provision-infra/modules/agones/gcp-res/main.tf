@@ -163,7 +163,7 @@ resource "google_container_node_pool" "default_nodepool" {
   name     = var.default_nodepool_name
   location = var.cluster_location
   cluster  = google_container_cluster.gke.name
-  autoscaling_profile = "optimize-utilization"
+  # autoscaling_profile = "optimize-utilization"
   # node_count = 1
   # initial_node_count表示默认节点池
   initial_node_count = 1
