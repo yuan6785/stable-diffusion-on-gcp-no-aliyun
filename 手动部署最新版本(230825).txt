@@ -27,6 +27,10 @@
         绑定证书搜索iap
         静态ip搜索ip addresses
         代码存储地方 搜索 cloudstorage
+        路由连接器 搜索 router
+        搜索clound nat
+        搜索 vpc访问通道
+        搜索 Identity-Aware Proxy
 
 4. 重要知识点（yx添加）：
   4.1.  为什么agones的values.yaml的allocator->nodeSelector: default-pool
