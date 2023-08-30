@@ -34,7 +34,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     获取gke集群的凭证
     source  ~/.zshrc_google_cloud  即可用gcloud命令
     ------------------------------------
-    GKE_CLUSTER_NAME=tf-gen-gke-952cdc27
+    GKE_CLUSTER_NAME=tf-gen-gke-524bb7b1
     REGION=us-central1-f
     gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${REGION}
     ------------------------------------
@@ -42,7 +42,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     ------------------------------------
     检测凭证生命周期
     ------------------------------------
-    GKE_CLUSTER_NAME=tf-gen-gke-952cdc27
+    GKE_CLUSTER_NAME=tf-gen-gke-524bb7b1
     REGION=us-central1-f
     gcloud container clusters describe ${GKE_CLUSTER_NAME} \
         --region ${REGION} \
@@ -87,6 +87,8 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
 
 5. gcloud config set project happyaigc  (输入谷歌账号的密码即可)
    kubectl get all   # 获取所有资源概览
+   ---
+   kubectl get pods --all-namespaces -o wide # 获取所有资源所在的节点池
    ---
    kubectl get fleet
    kubectl get fleet -o yaml # 修改这个yaml，然后apply -f即可修改sd的镜像挂载等配置
