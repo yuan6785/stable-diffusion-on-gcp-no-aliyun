@@ -1,6 +1,8 @@
 测试terraform在不同模块之间变量传值
 
-测试之前删除terraform.tfstate, .terraform文件夹, .terraform.lock.hcl文件
+测试之前删除terraform.tfstate, terraform.tfstate.backup, .terraform文件夹, .terraform.lock.hcl文件
+
+rm -rf terraform.tfstate .terraform .terraform.lock.hcl  terraform.tfstate.backup
 
 terraform init 
 
