@@ -47,8 +47,7 @@
   agones的values.yaml的allocator->nodeSelector: gpu-spot-pool即可
   另外需要修改fleet.yaml和fleet_autoscale.yaml的nodeselect到default-pool即可
 
-
-4. 连接k8s集群
+5. 连接k8s集群
 
 source  ~/.zshrc_google_cloud
 
@@ -56,3 +55,8 @@ GKE_CLUSTER_NAME=sd-on-gke-agones-230825
 REGION=us-central1
 gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${REGION}
 
+
+
+其他有用参考文档:
+    节点池的操作:
+    https://cloud.google.com/kubernetes-engine/docs/how-to/node-pools?hl=zh-cn
