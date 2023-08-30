@@ -60,8 +60,7 @@ resource "helm_release" "agones" {
   namespace        = "agones-system"
   create_namespace = true
   values = [
-    # modify by yx
-    file("../Stable-Diffusion-UI-Agones/agones/values_yx_terraform.yaml")  
+    file("../Stable-Diffusion-UI-Agones/agones/values.yaml")
   ]
   set {
     name  = "agones.controller.nodeSelector.cloud\\.google\\.com/gke-nodepool"
