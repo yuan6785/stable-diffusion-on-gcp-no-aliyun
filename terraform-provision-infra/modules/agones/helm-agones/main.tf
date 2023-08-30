@@ -79,22 +79,22 @@ resource "helm_release" "agones" {
   ]
   set {
     name  = "agones.controller.nodeSelector.cloud\\.google\\.com/gke-nodepool"
-    value = var.default_nodepool_name  # modify by yx
+    value = var.default_nodepool_name  # modify by yx---must be not gpu nodepool
     type  = "string"
   }
   set {
     name  = "agones.ping.nodeSelector.cloud\\.google\\.com/gke-nodepool"
-    value = var.default_nodepool_name # modify by yx
+    value = var.default_nodepool_name # modify by yx---must be not gpu nodepool
     type  = "string"
   }
   set {
     name  = "agones.allocator.nodeSelector.cloud\\.google\\.com/gke-nodepool"
-    value = var.default_nodepool_name # modify by yx
+    value = var.default_nodepool_name # modify by yx---must be not gpu nodepool
     type  = "string"
   }
   set {
     name  = "agones.extensions.nodeSelector.cloud\\.google\\.com/gke-nodepool"
-    value = var.default_nodepool_name # modify by yx
+    value = var.default_nodepool_name # modify by yx---must be not gpu nodepool
     type  = "string"
   }
 }
