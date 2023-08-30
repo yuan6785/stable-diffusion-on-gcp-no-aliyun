@@ -134,11 +134,17 @@ resource "kubernetes_deployment" "nginx" {
     }
   }
 }
-data "http" "gpu_driver_file" {
-  url = "https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded-latest.yaml"
-}
+# 我已经下载到/Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/agones/daemonset-preloaded-latest.yaml
+# data "http" "gpu_driver_file" {
+#   url = "https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded-latest.yaml"
+# }
+# resource "kubernetes_manifest" "gpu_driver" {
+#   manifest = yamldecode(data.http.gpu_driver_file.response_body)
+# }
+
+# 从gpu_driver_file的路径下载的
 resource "kubernetes_manifest" "gpu_driver" {
-  manifest = yamldecode(data.http.gpu_driver_file.response_body)
+  manifest = yamldecode(file("../Stable-Diffusion-UI-Agones/agones/daemonset-preloaded-latest.yaml"))
 }
 
 resource "kubernetes_manifest" "webui_fleet" {
@@ -152,8 +158,6 @@ resource "kubernetes_manifest" "webui_fleet" {
       replicas: 1
       template:
         spec:
-          nodeSelector:        # Add this nodeSelector block --- add by yx
-            cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
           container: simple-game-server
           ports:
           - name: default
@@ -165,6 +169,8 @@ resource "kubernetes_manifest" "webui_fleet" {
             protocol: TCP
           template:
             spec:
+              nodeSelector: # Add this nodeSelector block --- add by yx
+                cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
               containers:
               - name: simple-game-server
                 image: "${var.game_server_image_url}"
@@ -204,8 +210,6 @@ resource "kubernetes_manifest" "webui_fleet_autoscaler" {
       name: fleet-autoscaler-policy
       namespace: default
     spec:
-      nodeSelector:  # Add this nodeSelector block --- add by yx
-        cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
       fleetName: sd-agones-fleet
       policy:
         type: Buffer
@@ -231,8 +235,6 @@ resource "kubernetes_manifest" "webui_backend_config" {
       name: config-default
       namespace: default
     spec:
-      nodeSelector:  # Add this nodeSelector block --- add by yx
-        cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
       timeoutSec: 900
       iap:
         enabled: true
@@ -249,8 +251,6 @@ resource "kubernetes_manifest" "webui_cert" {
       name: managed-cert
       namespace: default
     spec:
-      nodeSelector:  # Add this nodeSelector block --- add by yx
-        cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
       domains:
         - "${var.sd_webui_domain}"
     EOF
@@ -269,8 +269,6 @@ resource "kubernetes_manifest" "webui_svc" {
       labels:
         app: stable-diffusion-nginx
     spec:
-      nodeSelector:  # Add this nodeSelector block --- add by yx
-        cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
       ports:
       - protocol: TCP
         port: 8080
@@ -293,8 +291,6 @@ resource "kubernetes_manifest" "webui_ingress" {
         networking.gke.io/managed-certificates: managed-cert
         kubernetes.io/ingress.class: "gce"
     spec:
-      nodeSelector:  # Add this nodeSelector block --- add by yx
-        cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
       defaultBackend:
         service:
           name: stable-diffusion-nginx-service # Name of the Service targeted by the Ingress
