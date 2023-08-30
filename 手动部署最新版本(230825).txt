@@ -45,6 +45,7 @@
     
   4.3. 如果通过fleet来管理gameserver，用allocate创建，那么需要修改
   另外需要修改fleet.yaml和fleet_autoscale.yaml的nodeselect到gpu-spot-pool即可
+  我理解是agones只要安装到非突发性实例上即可，应该不会报错。
 
 5. 连接k8s集群
 
