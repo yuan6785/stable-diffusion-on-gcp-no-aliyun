@@ -13,3 +13,7 @@ terraform apply --auto-approve -target="module.module_a";terraform apply --auto-
 
 # 销毁资源
 terraform destroy --auto-approve -target="module.module_b";terraform destroy --auto-approve -target="module.module_a";
+
+
+# 注意:
+这个实例不用在output输出里面看，需要在执行过程中看，因为我用了null_resource的local-exec进行调试，所以需要在执行过程中看，不然看不到结果
