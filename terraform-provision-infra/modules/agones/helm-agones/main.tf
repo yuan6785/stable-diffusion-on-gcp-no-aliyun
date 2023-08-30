@@ -61,7 +61,7 @@ resource "helm_release" "agones" {
   namespace        = "agones-system"
   create_namespace = true
   values = [
-    # modify by yx
+    # modify by yx --- yaml里面可以修改agones的版本
     file("../Stable-Diffusion-UI-Agones/agones/values_yx_terraform.yaml")  
     # replace(
     #   replace(
