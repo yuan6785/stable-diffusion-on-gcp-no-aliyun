@@ -35,6 +35,7 @@ resource "null_resource" "build_game_server_image" {
 resource "null_resource" "modify_nginx_image" {
   provisioner "local-exec" {
     command     = "sed -i 's/$${REDIS_HOST}/redis.private.domain/g' sd.lua"
+    # sed "s@\"\${REDIS_HOST}\"@${REDIS_IP}@g" sd.lua > _tmp
     working_dir = var.nginx_image.path
   }
 }
