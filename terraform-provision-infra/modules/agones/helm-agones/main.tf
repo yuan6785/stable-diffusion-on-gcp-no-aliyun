@@ -89,7 +89,7 @@ resource "helm_release" "agones" {
   }
   set {
     name  = "agones.allocator.nodeSelector.cloud\\.google\\.com/gke-nodepool"
-    value = var.gpu_nodepool_name # modify by yx
+    value = var.default_nodepool_name # modify by yx
     type  = "string"
   }
   set {
