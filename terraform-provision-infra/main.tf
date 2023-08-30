@@ -47,7 +47,6 @@ module "agones_gcp_res" {
 module "agones_build_image" {
   source            = "./modules/agones/cloud-build"
   artifact_registry = module.agones_gcp_res.artifactregistry_url
-  google_redis_instance_host = module.agones_gcp_res.google_redis_instance_host
 }
 
 module "helm_agones" {

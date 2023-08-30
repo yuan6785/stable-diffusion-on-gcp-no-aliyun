@@ -32,10 +32,13 @@ resource "null_resource" "build_game_server_image" {
     working_dir = var.game_server_image.path
   }
 }
+
+# modify by yx
 resource "null_resource" "modify_nginx_image" {
   provisioner "local-exec" {
-    command     = "sed -i 's/$${REDIS_HOST}/redis.private.domain/g' sd.lua"
+    # command     = "sed -i 's/$${REDIS_HOST}/redis.private.domain/g' sd.lua"
     # sed "s@\"\${REDIS_HOST}\"@${REDIS_IP}@g" sd.lua > _tmp
+    command = "awk '{gsub(\"{TF_REDIS_HOST}\", \"redis.private.domain\"); print}' sd.lua > sd_tf.lua"
     working_dir = var.nginx_image.path
   }
 }
@@ -43,6 +46,14 @@ resource "null_resource" "modify_nginx_image" {
 resource "null_resource" "build_nginx_image" {
   provisioner "local-exec" {
     command     = "gcloud builds submit --machine-type=e2-highcpu-32 --disk-size=100 --region=us-central1 -t ${var.artifact_registry}/${var.nginx_image.tag}"
+    working_dir = var.nginx_image.path
+  }
+}
+
+# add by yx
+resource "null_resource" "del_sd_lua" {
+  provisioner "local-exec" {
+    command = "rm -rf haha.txt"
     working_dir = var.nginx_image.path
   }
 }

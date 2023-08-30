@@ -19,7 +19,8 @@ variable "nginx_image" {
     tag  = string
   })
   default = {
-    path = "../Stable-Diffusion-UI-Agones/nginx/"
+    # modify by yx，old is "../Stable-Diffusion-UI-Agones/nginx/"
+    path = "../Stable-Diffusion-UI-Agones/nginx_tf/"
     tag  = "nginx:tf"
   }
 }
