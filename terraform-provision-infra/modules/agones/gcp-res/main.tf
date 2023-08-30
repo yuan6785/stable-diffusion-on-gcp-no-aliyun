@@ -100,6 +100,79 @@ resource "google_compute_router_nat" "nat" {
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
 }
 
+# 周五来改
+# provider "google" {
+#   project = "happyaigc"
+#   region  = "us-central1"
+#   zone    = "us-central1-a"
+# }
+
+# resource "google_container_cluster" "primary" {
+#   name               = "sd-on-gke-agones-230825"
+#   location           = "us-central1"
+#   initial_node_count = 1
+
+#   addons_config {
+#     horizontal_pod_autoscaling {
+#       disabled = false
+#     }
+
+#     http_load_balancing {
+#       disabled = false
+#     }
+
+#     gce_persistent_disk_csi_driver_config {
+#       enabled = true
+#     }
+
+#     gcp_filestore_csi_driver_config {
+#       enabled = true
+#     }
+#   }
+
+#   cluster_autoscaling {
+#     enabled = true
+#     autoscaling_profile = "OPTIMIZE_UTILIZATION"
+#   }
+
+#   ip_allocation_policy {
+#     create_subnetwork = false
+#     subnetwork_name   = "projects/happyaigc/regions/us-central1/subnetworks/default"
+#   }
+
+#   master_auth {
+#     username = ""
+#     password = ""
+
+#     client_certificate_config {
+#       issue_client_certificate = false
+#     }
+#   }
+
+#   node_config {
+#     machine_type    = "e2-standard-2"
+#     disk_size_gb    = 100
+#     disk_type       = "pd-balanced"
+#     image_type      = "COS_CONTAINERD"
+#     oauth_scopes = [
+#       "https://www.googleapis.com/auth/cloud-platform",
+#     ]
+
+#     workload_metadata_config {
+#       node_metadata = "GKE_METADATA_SERVER"
+#     }
+#   }
+
+#   network_policy {
+#     enabled = true
+#     provider = "CALICO"
+#   }
+
+#   logging_service    = "logging.googleapis.com/kubernetes"
+#   monitoring_service = "monitoring.googleapis.com/kubernetes"
+# }
+
+
 # GKE cluster
 resource "google_container_cluster" "gke" {
   name                     = "tf-gen-gke-${random_id.tf_subfix.hex}"
@@ -200,6 +273,7 @@ resource "google_container_node_pool" "default_nodepool" {
     ignore_changes = all
   }
 }
+
 
 # Separately Managed Node Pool
 resource "google_container_node_pool" "gpu_nodepool" {
