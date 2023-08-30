@@ -24,6 +24,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     -----
     sudo mount -o rw,intr 10.106.129.210:/vol1  /mnt
     -----
+    source  ~/.zshrc_google_cloud 
     ecs的ssh可以进入控制台，复制gcloud的命令进行ssh即可(输入谷歌账号的密码即可)：
     gcloud compute ssh --zone "us-central1-c" "sd-terraform-manage" --project "happyaigc"
     gcloud config set project happyaigc (输入谷歌账号的密码即可)

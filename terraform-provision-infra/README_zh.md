@@ -1,6 +1,8 @@
 [英文部署文档](./README.md)
 # Terraform部署指南
 
+Terraform v1.5.4 on linux_amd64  # add by yx
+
 我们提供两个版本的部署指南 Agones版本与GKE版本
 
 ###  准备工作

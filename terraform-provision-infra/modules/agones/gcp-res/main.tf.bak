@@ -158,47 +158,6 @@ resource "google_container_cluster" "gke" {
   }
 }
 
-# add default node pool (add by yx)
-resource "google_container_node_pool" "default_nodepool" {
-  name     = "default-nodepool"
-  location = var.cluster_location
-  cluster  = google_container_cluster.gke.name
-  autoscaling_profile = "optimize-utilization"
-  node_count = 1
-  node_config {
-    oauth_scopes = [
-      "https://www.googleapis.com/auth/cloud-platform"
-    ]
-
-    labels = {
-      Terraform   = "true"
-      Environment = "dev"
-    }
-
-    preemptible  = true
-    # 这里不要创建突发性实例，要用标准实例，用于安装agones和fleet，还有nginx等
-    machine_type = "e2-standard-2"
-    image_type   = "COS_CONTAINERD"
-    gcfs_config {
-      enabled = true
-    }
-    disk_type    = "pd-balanced"
-    disk_size_gb = 100
-
-    tags = ["default-node", "gke-default"]
-    metadata = {
-      disable-legacy-endpoints = "true"
-    }
-    shielded_instance_config {
-      enable_secure_boot          = true
-      enable_integrity_monitoring = true
-    }
-  }
-  lifecycle {
-    ignore_changes = all
-  }
-}
-
 # Separately Managed Node Pool
 resource "google_container_node_pool" "gpu_nodepool" {
   name     = "${var.accelerator_type}-nodepool"
@@ -220,7 +179,6 @@ resource "google_container_node_pool" "gpu_nodepool" {
     }
 
     preemptible  = true
-    # 这里只用GPU实例，用于game server
     machine_type = var.node_machine_type
     image_type   = "COS_CONTAINERD"
     gcfs_config {
