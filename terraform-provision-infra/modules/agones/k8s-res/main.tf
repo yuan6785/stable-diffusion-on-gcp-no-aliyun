@@ -153,7 +153,7 @@ resource "kubernetes_manifest" "webui_fleet" {
       template:
         spec:
           nodeSelector:        # Add this nodeSelector block --- add by yx
-            cloud.google.com/gke-nodepool: default-pool
+            cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
           container: simple-game-server
           ports:
           - name: default
@@ -205,7 +205,7 @@ resource "kubernetes_manifest" "webui_fleet_autoscaler" {
       namespace: default
     spec:
       nodeSelector:  # Add this nodeSelector block --- add by yx
-        cloud.google.com/gke-nodepool: default-pool
+        cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
       fleetName: sd-agones-fleet
       policy:
         type: Buffer
@@ -232,7 +232,7 @@ resource "kubernetes_manifest" "webui_backend_config" {
       namespace: default
     spec:
       nodeSelector:  # Add this nodeSelector block --- add by yx
-        cloud.google.com/gke-nodepool: default-pool
+        cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
       timeoutSec: 900
       iap:
         enabled: true
@@ -250,7 +250,7 @@ resource "kubernetes_manifest" "webui_cert" {
       namespace: default
     spec:
       nodeSelector:  # Add this nodeSelector block --- add by yx
-        cloud.google.com/gke-nodepool: default-pool
+        cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
       domains:
         - "${var.sd_webui_domain}"
     EOF
@@ -270,7 +270,7 @@ resource "kubernetes_manifest" "webui_svc" {
         app: stable-diffusion-nginx
     spec:
       nodeSelector:  # Add this nodeSelector block --- add by yx
-        cloud.google.com/gke-nodepool: default-pool
+        cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
       ports:
       - protocol: TCP
         port: 8080
@@ -294,7 +294,7 @@ resource "kubernetes_manifest" "webui_ingress" {
         kubernetes.io/ingress.class: "gce"
     spec:
       nodeSelector:  # Add this nodeSelector block --- add by yx
-        cloud.google.com/gke-nodepool: default-pool
+        cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
       defaultBackend:
         service:
           name: stable-diffusion-nginx-service # Name of the Service targeted by the Ingress

@@ -160,11 +160,13 @@ resource "google_container_cluster" "gke" {
 
 # add default node pool (add by yx)
 resource "google_container_node_pool" "default_nodepool" {
-  name     = "default-nodepool"
+  name     = var.default_nodepool_name
   location = var.cluster_location
   cluster  = google_container_cluster.gke.name
   autoscaling_profile = "optimize-utilization"
-  node_count = 1
+  # node_count = 1
+  # initial_node_count表示默认节点池
+  initial_node_count = 1
   node_config {
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"

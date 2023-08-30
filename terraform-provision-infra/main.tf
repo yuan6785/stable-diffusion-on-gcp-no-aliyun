@@ -24,6 +24,8 @@ locals {
   node_machine_type   = "custom-12-49152-ext"
   accelerator_type    = "nvidia-tesla-t4" # Available accelerator_type from gcloud compute accelerator-types list --format='csv(zone,name)'
   gke_num_nodes       = 5
+  # add by yx
+  default_nodepool_name = "default-pool"
 }
 
 #[Agones version]
@@ -38,6 +40,8 @@ module "agones_gcp_res" {
   accelerator_type                = local.accelerator_type
   gke_num_nodes                   = local.gke_num_nodes
   cloudfunctions_source_code_path = "../Stable-Diffusion-UI-Agones/cloud-function/"
+  # add by yx
+  default_nodepool_name           = local.default_nodepool_name
 }
 
 module "agones_build_image" {
@@ -51,6 +55,10 @@ module "helm_agones" {
   gke_cluster_name     = module.agones_gcp_res.kubernetes_cluster_name
   gke_cluster_location = module.agones_gcp_res.gke_location
   gke_cluster_nodepool = module.agones_gcp_res.gpu_nodepool_name
+  #add by yx
+  default_nodepool_name= module.agones_gcp_res.default_nodepool_name
+  #add by yx
+  gpu_nodepool_name    =  module.agones_gcp_res.gpu_nodepool_name
 }
 
 module "agones_k8s_res" {
@@ -64,6 +72,8 @@ module "agones_k8s_res" {
   gke_cluster_nodepool               = module.agones_gcp_res.gpu_nodepool_name
   google_filestore_reserved_ip_range = module.agones_gcp_res.google_filestore_reserved_ip_range
   webui_address_name                 = module.agones_gcp_res.webui_address_name
+  # add by yx
+  default_nodepool_name              = module.agones_gcp_res.default_nodepool_name
   nginx_image_url                    = module.agones_build_image.nginx_image
   webui_image_url                    = module.agones_build_image.webui_image
   game_server_image_url              = module.agones_build_image.game_server_image

@@ -81,3 +81,7 @@ variable "cloudfunctions_source_code_path" {
   type        = string
   default     = "../Stable-Diffusion-UI-Agones/cloud-function/"
 }
+variable "default_nodepool_name" {
+  description = "default gke nodepool name"
+  type        = string
+}

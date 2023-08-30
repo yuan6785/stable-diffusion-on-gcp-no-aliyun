@@ -28,3 +28,13 @@ variable "gke_cluster_nodepool" {
   description = "GCP project id"
   type        = string
 }
+# add by yx
+variable "default_nodepool_name" {
+  description = "default nodepool name"
+  type        = string
+}
+# add by yx
+variable "gpu_nodepool_name" {
+  description = "gpu nodepool name"
+  type        = string
+}

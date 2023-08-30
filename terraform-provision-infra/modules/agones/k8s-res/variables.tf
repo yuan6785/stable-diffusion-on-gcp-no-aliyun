@@ -45,6 +45,10 @@ variable "gke_cluster_nodepool" {
   description = "GCP project id"
   type        = string
 }
+variable "default_nodepool_name" {
+  description = "default nodepool name"
+  type        = string
+}
 variable "nginx_image_url" {
   description = "Nginx Image url"
   type        = string

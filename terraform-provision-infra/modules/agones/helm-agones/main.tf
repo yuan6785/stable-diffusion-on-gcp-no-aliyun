@@ -53,6 +53,7 @@ provider "helm" {
   }
 }
 
+
 resource "helm_release" "agones" {
   name             = "agones"
   repository       = "https://agones.dev/chart/stable"
@@ -62,25 +63,38 @@ resource "helm_release" "agones" {
   values = [
     # modify by yx
     file("../Stable-Diffusion-UI-Agones/agones/values_yx_terraform.yaml")  
+    # replace(
+    #   replace(
+    #     replace(
+    #       file("../Stable-Diffusion-UI-Agones/agones/values_yx_terraform.yaml"),
+    #       "allocator-default-pool", 
+    #       var.gpu_nodepool_name
+    #     ), 
+    #     "ping-default-pool", 
+    #     var.default_nodepool_name
+    #   ),
+    #   "controller-default-pool",
+    #   var.default_nodepool_name
+    # )
   ]
   set {
     name  = "agones.controller.nodeSelector.cloud\\.google\\.com/gke-nodepool"
-    value = var.gke_cluster_nodepool
+    value = var.default_nodepool_name  # modify by yx
     type  = "string"
   }
   set {
     name  = "agones.ping.nodeSelector.cloud\\.google\\.com/gke-nodepool"
-    value = var.gke_cluster_nodepool
+    value = var.default_nodepool_name # modify by yx
     type  = "string"
   }
   set {
     name  = "agones.allocator.nodeSelector.cloud\\.google\\.com/gke-nodepool"
-    value = var.gke_cluster_nodepool
+    value = var.gpu_cluster_nodepool # modify by yx
     type  = "string"
   }
   set {
     name  = "agones.extensions.nodeSelector.cloud\\.google\\.com/gke-nodepool"
-    value = var.gke_cluster_nodepool
+    value = var.default_nodepool_name # modify by yx
     type  = "string"
   }
 }
