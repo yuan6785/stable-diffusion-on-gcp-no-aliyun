@@ -17,7 +17,7 @@
 
 ------------部署资源关键字(手动删除需要搜索的)-------------------------
         函数计算：gcp搜索function即可
-        部署的定时任务，gcp搜索job
+        部署的定时任务，gcp搜索cloudscheduler
         公共目录挂载,Gcp搜索filestore —--比较贵
         Redis搜索redis
         Docker搜索artifact
@@ -26,6 +26,7 @@
         K8s搜索gke —--比较贵
         绑定证书搜索iap
         静态ip搜索ip addresses
+        代码存储地方 搜索 cloudstorage
 
 4. 重要知识点（yx添加）：
   4.1.  为什么agones的values.yaml的allocator->nodeSelector: default-pool
