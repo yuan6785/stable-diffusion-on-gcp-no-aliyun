@@ -1,7 +1,24 @@
 [英文部署文档](./README.md)
 # Terraform部署指南
 
+###  版本记录
+```
+terraform -v  
 Terraform v1.5.4 on linux_amd64  # add by yx
+```
+
+```
+gcloud -v  
+Google Cloud SDK 429.0.0   
+beta 2023.04.28    
+bq 2.0.92  
+bundled-python3-unix 3.9.16  
+core 2023.04.28  
+gcloud-crc32c 1.0.0  
+gke-gcloud-auth-plugin 0.5.2  
+gsutil 5.23  
+kubectl 1.24.13  
+```
 
 我们提供两个版本的部署指南 Agones版本与GKE版本
 
