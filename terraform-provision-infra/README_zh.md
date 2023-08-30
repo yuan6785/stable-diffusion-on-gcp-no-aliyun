@@ -89,6 +89,8 @@ locals {
   node_machine_type   = "custom-12-49152-ext"
   accelerator_type    = "nvidia-tesla-t4" # Available accelerator_type from gcloud compute accelerator-types list --format='csv(zone,name)'
   gke_num_nodes       = 1
+  # add by yx
+  default_nodepool_name = "default-pool"
 }
 
 ```
