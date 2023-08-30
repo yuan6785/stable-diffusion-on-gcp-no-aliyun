@@ -128,7 +128,9 @@ resource "kubernetes_deployment" "nginx" {
           }
         }
         node_selector = {
-          "cloud.google.com/gke-nodepool" = var.gke_cluster_nodepool
+          # "cloud.google.com/gke-nodepool" = var.gke_cluster_nodepool
+          # add by yx
+          "cloud.google.com/gke-nodepool" = var.default_nodepool_name
         }
       }
     }
@@ -169,8 +171,8 @@ resource "kubernetes_manifest" "webui_fleet" {
             protocol: TCP
           template:
             spec:
-              nodeSelector: # Add this nodeSelector block --- add by yx
-                cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
+              nodeSelector: # Add this nodeSelector block, must be gpu node --- add by yx
+                cloud.google.com/gke-nodepool: ${var.gke_cluster_nodepool}
               containers:
               - name: simple-game-server
                 image: "${var.game_server_image_url}"
