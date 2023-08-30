@@ -40,12 +40,11 @@
   第二是因为default-pool没有gpu实例，而上面的gameserver的yaml明确指定需要gpu实例，所以只能创建在gpu-spot-pool上；
 
   4.2. 这里的agones为什么创建在default-pool上,怎么创建在default-pool上的？
-  values.yaml里面指定各个模块都在default-pool即可。
+  values.yaml里面指定各个模块都在default-pool即可。(terraform里面可以在set里面指定，allocator等四个资源都指定非gpu的节点池即可)
   因为default-pool的节点不是gpu，比较节省资源；最重要的是default-pool的实例类型不是突发类型，不会被回收回去，不然agones会出各种问题
     
   4.3. 如果通过fleet来管理gameserver，用allocate创建，那么需要修改
-  agones的values.yaml的allocator->nodeSelector: gpu-spot-pool即可
-  另外需要修改fleet.yaml和fleet_autoscale.yaml的nodeselect到default-pool即可
+  另外需要修改fleet.yaml和fleet_autoscale.yaml的nodeselect到gpu-spot-pool即可
 
 5. 连接k8s集群
 

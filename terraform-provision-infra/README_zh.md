@@ -101,6 +101,7 @@ locals {
 cd gcp-stable-diffusion-build-deploy/terraform-provision-infra/
 
 # 初始化
+rm -rf terraform.tfstate .terraform .terraform.lock.hcl  terraform.tfstate.backup .terraform.tfstate.lock.info
 terraform init
 
 # 部署资源
