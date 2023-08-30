@@ -3,10 +3,10 @@ variable "variable_a" {
   type        = string
 }
 
-# 必须放一个资源才会有输出
-resource "random_id" "tf_subfix" {
-  byte_length = 4
-}
+# # 必须放一个资源才会有输出
+# resource "random_id" "tf_subfix" {
+#   byte_length = 4
+# }
 
 output "output_from_module_a" {
   value = var.variable_a
