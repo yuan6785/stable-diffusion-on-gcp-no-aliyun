@@ -101,8 +101,9 @@ locals {
 # 切换至代码目录
 cd gcp-stable-diffusion-build-deploy/terraform-provision-infra/
 
-# 初始化
+# 清理环境(执行这个之前请检查是否需要执行destory命令，如果要的话，就先不执行这个)
 rm -rf terraform.tfstate .terraform .terraform.lock.hcl  terraform.tfstate.backup .terraform.tfstate.lock.info
+# 初始化
 terraform init
 
 # 部署资源
