@@ -23,7 +23,7 @@ locals {
   cluster_location    = "us-central1-f" # GKE Cluster location  # us-central1 us-central1-f
   node_machine_type   = "custom-12-49152-ext"
   accelerator_type    = "nvidia-tesla-t4" # Available accelerator_type from gcloud compute accelerator-types list --format='csv(zone,name)'
-  gke_num_nodes       = 1   # 这里设置的是gpu节点池的节点数量，默认节点数量在terraform-provision-infra/modules/agones/gcp-res/main.tf的default_nodepool里面设置
+  gke_num_nodes       = 0   # 这里设置的是gpu节点池的节点数量，默认节点数量在terraform-provision-infra/modules/agones/gcp-res/main.tf的default_nodepool里面设置
   # add by yx
   default_nodepool_name = "default-pool"
 }
