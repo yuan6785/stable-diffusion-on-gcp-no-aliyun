@@ -123,7 +123,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    -----例如进入ubuntu清空redis，可以强制重启sd---------
    apt update
    apt install redis-tools
-   redis-cli -h redis.private.domain -p 6379   # redis搜索gcp的redis自己看ip
+   redis-cli -h 10.198.153.83 -p 6379   # redis搜索gcp的redis自己看ip
    select 0
    keys *
    hgetall accounts.google.com:yuanxiao6786@gmail.com
