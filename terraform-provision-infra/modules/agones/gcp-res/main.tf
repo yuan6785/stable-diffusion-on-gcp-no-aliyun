@@ -162,7 +162,7 @@ resource "google_container_cluster" "gke" {
   # }
   node_pool {
     name = var.default_nodepool_name
-    initial_node_count = 3
+    initial_node_count = 1
     autoscaling {
       min_node_count = 1
       max_node_count = 4
