@@ -123,7 +123,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    -----例如进入ubuntu清空redis，可以强制重启sd---------
    apt update
    apt install redis-tools
-   redis-cli -h 10.140.160.147 -p 6379 
+   redis-cli -h redis.private.domain -p 6379   # redis搜索gcp的redis自己看ip
    select 0
    keys *
    hgetall accounts.google.com:yuanxiao6786@gmail.com
@@ -337,6 +337,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
         ----
     
     c. 最后清理我们的fleet和FleetAutoscaler
+       # kubectl delete gs --all  # 删除所有gs，一般不这么用
        kubectl delete fleet yx-test-simple-game-server1 yx-test-simple-game-server2
        kubectl delete fleetautoscaler yx-test-fleet-autoscaler-policy1 yx-test-fleet-autoscaler-policy2
        #测试是否删除干净
