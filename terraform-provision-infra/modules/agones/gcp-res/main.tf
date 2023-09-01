@@ -100,86 +100,19 @@ resource "google_compute_router_nat" "nat" {
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
 }
 
-# 周五来改
-# provider "google" {
-#   project = "happyaigc"
-#   region  = "us-central1"
-#   zone    = "us-central1-a"
-# }
-
-# resource "google_container_cluster" "primary" {
-#   name               = "sd-on-gke-agones-230825"
-#   location           = "us-central1"
-#   initial_node_count = 1
-
-#   addons_config {
-#     horizontal_pod_autoscaling {
-#       disabled = false
-#     }
-
-#     http_load_balancing {
-#       disabled = false
-#     }
-
-#     gce_persistent_disk_csi_driver_config {
-#       enabled = true
-#     }
-
-#     gcp_filestore_csi_driver_config {
-#       enabled = true
-#     }
-#   }
-
-#   cluster_autoscaling {
-#     enabled = true
-#     autoscaling_profile = "OPTIMIZE_UTILIZATION"
-#   }
-
-#   ip_allocation_policy {
-#     create_subnetwork = false
-#     subnetwork_name   = "projects/happyaigc/regions/us-central1/subnetworks/default"
-#   }
-
-#   master_auth {
-#     username = ""
-#     password = ""
-
-#     client_certificate_config {
-#       issue_client_certificate = false
-#     }
-#   }
-
-#   node_config {
-#     machine_type    = "e2-standard-2"
-#     disk_size_gb    = 100
-#     disk_type       = "pd-balanced"
-#     image_type      = "COS_CONTAINERD"
-#     oauth_scopes = [
-#       "https://www.googleapis.com/auth/cloud-platform",
-#     ]
-
-#     workload_metadata_config {
-#       node_metadata = "GKE_METADATA_SERVER"
-#     }
-#   }
-
-#   network_policy {
-#     enabled = true
-#     provider = "CALICO"
-#   }
-
-#   logging_service    = "logging.googleapis.com/kubernetes"
-#   monitoring_service = "monitoring.googleapis.com/kubernetes"
-# }
 
 
-# GKE cluster
+
+# add by yx create gke with default node pool---带默认节点池,将k8s基础组件安装到默认节点池，如果节点次和gke分开创建，会导致k8s基础组件安装其他节点池上面
 resource "google_container_cluster" "gke" {
   name                     = "tf-gen-gke-${random_id.tf_subfix.hex}"
   location                 = var.cluster_location
-  remove_default_node_pool = true
+  remove_default_node_pool = false
   enable_shielded_nodes    = true
-  initial_node_count       = 1
+  # autoscaling_profile = "optimize-utilization"
+  # node_count = 1
+  # initial_node_count表示默认节点池
+  initial_node_count = 3
   network                  = google_compute_network.vpc.name
   subnetwork               = google_compute_subnetwork.subnet.name
   private_cluster_config {
@@ -220,26 +153,12 @@ resource "google_container_cluster" "gke" {
       enabled = true
     }
   }
-  node_config {
-    shielded_instance_config {
-      enable_secure_boot          = true
-      enable_integrity_monitoring = true
-    }
-  }
-  lifecycle {
-    ignore_changes = all
-  }
-}
 
-# add default node pool (add by yx)
-resource "google_container_node_pool" "default_nodepool" {
-  name     = var.default_nodepool_name
-  location = var.cluster_location
-  cluster  = google_container_cluster.gke.name
-  # autoscaling_profile = "optimize-utilization"
-  # node_count = 1
-  # initial_node_count表示默认节点池
-  initial_node_count = 1
+  cluster_autoscaling {
+    enabled = true
+    autoscaling_profile = "OPTIMIZE_UTILIZATION"
+  }
+
   node_config {
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
@@ -269,10 +188,116 @@ resource "google_container_node_pool" "default_nodepool" {
       enable_integrity_monitoring = true
     }
   }
+
   lifecycle {
     ignore_changes = all
   }
+
 }
+
+
+
+
+# # GKE cluster---不带默认节点池
+# resource "google_container_cluster" "gke" {
+#   name                     = "tf-gen-gke-${random_id.tf_subfix.hex}"
+#   location                 = var.cluster_location
+#   remove_default_node_pool = true
+#   enable_shielded_nodes    = true
+#   initial_node_count       = 1
+#   network                  = google_compute_network.vpc.name
+#   subnetwork               = google_compute_subnetwork.subnet.name
+#   private_cluster_config {
+#     enable_private_nodes   = true
+#     master_ipv4_cidr_block = "192.168.1.0/28"
+#   }
+#   ip_allocation_policy {
+#   }
+#   monitoring_config {
+#     enable_components = ["SYSTEM_COMPONENTS", "APISERVER", "SCHEDULER", "CONTROLLER_MANAGER"]
+#     managed_prometheus { enabled = true }
+#   }
+#   logging_config {
+#     enable_components = ["SYSTEM_COMPONENTS", "WORKLOADS", "APISERVER", "SCHEDULER", "CONTROLLER_MANAGER"]
+#   }
+#   release_channel {
+#     channel = "STABLE"
+#   }
+#   maintenance_policy {
+#     daily_maintenance_window {
+#       start_time = "03:00"
+#     }
+#   }
+#   addons_config {
+#     http_load_balancing {
+#       disabled = false
+#     }
+#     horizontal_pod_autoscaling {
+#       disabled = false
+#     }
+#     gcp_filestore_csi_driver_config {
+#       enabled = true
+#     }
+#     gce_persistent_disk_csi_driver_config {
+#       enabled = true
+#     }
+#     dns_cache_config {
+#       enabled = true
+#     }
+#   }
+#   node_config {
+#     shielded_instance_config {
+#       enable_secure_boot          = true
+#       enable_integrity_monitoring = true
+#     }
+#   }
+#   lifecycle {
+#     ignore_changes = all
+#   }
+# }
+
+# # add default node pool (add by yx)
+# resource "google_container_node_pool" "default_nodepool" {
+#   name     = var.default_nodepool_name
+#   location = var.cluster_location
+#   cluster  = google_container_cluster.gke.name
+#   # autoscaling_profile = "optimize-utilization"
+#   # node_count = 1
+#   # initial_node_count表示默认节点池
+#   initial_node_count = 1
+#   node_config {
+#     oauth_scopes = [
+#       "https://www.googleapis.com/auth/cloud-platform"
+#     ]
+
+#     labels = {
+#       Terraform   = "true"
+#       Environment = "dev"
+#     }
+
+#     preemptible  = true
+#     # 这里不要创建突发性实例，要用标准实例，用于安装agones和fleet，还有nginx等
+#     machine_type = "e2-standard-2"
+#     image_type   = "COS_CONTAINERD"
+#     gcfs_config {
+#       enabled = true
+#     }
+#     disk_type    = "pd-balanced"
+#     disk_size_gb = 100
+
+#     tags = ["default-node", "gke-default"]
+#     metadata = {
+#       disable-legacy-endpoints = "true"
+#     }
+#     shielded_instance_config {
+#       enable_secure_boot          = true
+#       enable_integrity_monitoring = true
+#     }
+#   }
+#   lifecycle {
+#     ignore_changes = all
+#   }
+# }
 
 
 # Separately Managed Node Pool
