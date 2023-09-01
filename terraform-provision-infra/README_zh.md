@@ -29,6 +29,7 @@ kubectl 1.24.13
 
 安装和设置的示例命令如下:
 ```bash
+source  ~/.zshrc_google_cloud  # 即可用gcloud命令
 #安装google-cloud-sdk
 curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-429.0.0-linux-arm.tar.gz
 tar -xf google-cloud-cli-429.0.0-linux-arm.tar.gz 
