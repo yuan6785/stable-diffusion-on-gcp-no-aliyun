@@ -6,6 +6,9 @@ metadata:
 spec:
   replicas: 1
   template:
+    metadata:
+      labels:
+        yxgameserver: yxgameserver1
     spec:
       container: simple-game-server
       ports:
@@ -18,9 +21,11 @@ spec:
         protocol: TCP
       template:
         spec:
-          containers:
+          # nodeSelector: # Add this nodeSelector block, must be gpu node --- add by yx
+          #   cloud.google.com/gke-nodepool: nvidia-tesla-t4-nodepool
+          containers: 
           - name: simple-game-server
-            image: us-central1-docker.pkg.dev/happyaigc/sd-repository-88d93bc5/game-server:tf
+            image: us-central1-docker.pkg.dev/happyaigc/sd-repository-bd5e6ea1/game-server:tf
             resources:
               requests:
                 memory: "64Mi"
@@ -29,7 +34,7 @@ spec:
                 memory: "64Mi"
                 cpu: "20m"
           - name: stable-diffusion-webui
-            image: us-central1-docker.pkg.dev/happyaigc/sd-repository-88d93bc5/sd-webui:tf
+            image: us-central1-docker.pkg.dev/happyaigc/sd-repository-bd5e6ea1/sd-webui:tf
             command: ["/bin/sh", "start.sh"]
             volumeMounts:
             - mountPath: /stable-diffusion-webui/models

@@ -52,3 +52,7 @@ kubectl get namespaces
 #
 # 硬核清理:
 gcloud container clusters delete testagones --region=${REGION}
+
+
+# fleet和agones的测试
+参考 /0yxgithub/stable-diffusion-on-gcp-no-aliyun/最新版本的部署方式.txt 的 第11点

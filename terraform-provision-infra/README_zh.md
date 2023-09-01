@@ -86,7 +86,7 @@ locals {
   sd_webui_domain     = "YOUR_OWNED_CUSTOM_DOMAIN_OR_SUBDOMAIN"
   region              = "us-central1"
   filestore_zone      = "us-central1-f" # Filestore location must be same region or zone with gke
-  cluster_location    = "us-central1-f" # GKE Cluster location
+  cluster_location    = "us-central1-f" # GKE Cluster location， 后面还是改为 us-central1，否则显卡不够用，us-central1-f大概创建6个GPU节点就不行了，如果改为us-central1，可以创建3*6=18个GPU节点
   node_machine_type   = "custom-12-49152-ext"
   accelerator_type    = "nvidia-tesla-t4" # Available accelerator_type from gcloud compute accelerator-types list --format='csv(zone,name)'
   gke_num_nodes       = 0

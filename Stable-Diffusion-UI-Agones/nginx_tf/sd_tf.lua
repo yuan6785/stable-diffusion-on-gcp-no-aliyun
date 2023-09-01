@@ -51,7 +51,7 @@ if lookup_res == ngx.null then
     local sub_key = string.gsub(key, ":", ".")
     local final_uid = string.gsub(sub_key, "@", ".")
     local res, err = httpc:request_uri(
-        -- 参考 https://agones.dev/site/docs/reference/gameserverallocation/
+        -- 参考 https://agones.dev/site/docs/getting-started/create-fleet/#4-allocate-a-game-server-from-the-fleet
         "http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation",
             {
             method = "POST",

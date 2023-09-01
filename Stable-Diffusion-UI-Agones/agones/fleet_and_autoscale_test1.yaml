@@ -1,0 +1,65 @@
+# Copyright 2020 Google LLC All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# 功能点1: 测试多个fleet的创建以及autoscale的功能，以及用【0yxgithub/stable-diffusion-on-gcp-no-aliyun/最新版本的部署方式.txt】第11点的curl来进行测试
+
+apiVersion: "agones.dev/v1"
+kind: Fleet  # fleet本身不创建agones的gameserver，只是提供一个gameserver的模板，供下面的autoscale创建agones的gameserver使用
+metadata:
+  name: yx-test-simple-game-server1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        # 重要设置, 供上面说明中[功能点1]的curl进行匹配用
+        yxgameserver: yx-test-yxgameserver1
+    spec:
+      ports:
+      - name: default
+        containerPort: 7654
+      template:
+        spec:
+          # nodeSelector: # Add this nodeSelector block, must be gpu node --- add by yx
+          #   cloud.google.com/gke-nodepool: nvidia-tesla-t4-nodepool
+          containers:
+          - name: simple-game-server
+            image: us-docker.pkg.dev/agones-images/examples/simple-game-server:0.17
+            resources:
+              requests:
+                memory: "64Mi"
+                cpu: "20m"
+              limits:
+                memory: "64Mi"
+                cpu: "20m"
+                # nvidia.com/gpu: "1"
+---
+apiVersion: "autoscaling.agones.dev/v1"
+# 这里才真正创建agones的gameserver
+kind: FleetAutoscaler  
+metadata:
+  name: yx-test-fleet-autoscaler-policy1
+  namespace: default
+spec:
+  fleetName: yx-test-simple-game-server1 # 上面的fleet名称
+  policy:
+    type: Buffer
+    buffer:
+      bufferSize: 1  # 保证有一个agones的ready的gameserver
+      minReplicas: 1 # 最小要有一个agones的gameserver
+      maxReplicas: 20
+  sync:
+    type: FixedInterval
+    fixedInterval:
+      seconds: 30
