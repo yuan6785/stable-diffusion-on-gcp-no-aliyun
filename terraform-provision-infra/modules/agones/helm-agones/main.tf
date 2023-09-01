@@ -54,6 +54,17 @@ provider "helm" {
 }
 
 
+resource "null_resource" "debugyx" {
+  triggers = {
+    timestamp = timestamp()
+  }
+
+  provisioner "local-exec" {
+    command = "echo Debugging information var.default_nodepool_name: ${timestamp()}, ${var.default_nodepool_name}"
+  }
+}
+
+
 resource "helm_release" "agones" {
   name             = "agones"
   repository       = "https://agones.dev/chart/stable"
