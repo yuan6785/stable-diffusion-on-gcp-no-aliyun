@@ -114,7 +114,10 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    参考: Stable-Diffusion-UI-Agones/nginx/readme_yx.txt
 
 8. 调试以及重要理解
-   参考/Users/yuanxiao/workspace/0yxgithub/Stable-Diffusion-on-GCP/yx部署过程记录.txt 的【结束语】部分 
+   参考/Users/yuanxiao/workspace/0yxgithub/Stable-Diffusion-on-GCP/yx部署过程记录.txt 的【结束语】部分,我已经拷贝到下面第一条命令里面
+   ---
+   cd /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun
+   kubectl apply -f ubuntu_test.yaml
    ----进入ubuntu---
    kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep ubuntu |awk '{print $1}' |awk NR==1)   /bin/bash
    -----例如进入ubuntu清空redis，可以强制重启sd---------
