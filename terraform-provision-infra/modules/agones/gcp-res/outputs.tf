@@ -74,9 +74,14 @@ output "redis_private_domain" {
   value       = google_dns_record_set.redis_a.name
   description = "redis private domain"
 }
+# # add by yx
+# output "default_nodepool_name" {
+#   value       = google_container_node_pool.default_nodepool.name
+#   description = "default node pool name"
+# }
 # add by yx
 output "default_nodepool_name" {
-  value       = google_container_node_pool.default_nodepool.name
+  value       = google_container_cluster.gke.node_pool[0].name
   description = "default node pool name"
 }
 output "gpu_nodepool_name" {

@@ -154,41 +154,48 @@ resource "google_container_cluster" "gke" {
     }
   }
 
-  cluster_autoscaling {
-    enabled = true
-    autoscaling_profile = "OPTIMIZE_UTILIZATION"
+  # cluster_autoscaling {
+  #   enabled = true
+  #   autoscaling_profile = "optimize-utilization"
+  # }
+  node_pool {
+    name = var.default_nodepool_name
+    initial_node_count = 3
+    autoscaling {
+      min_node_count = 2
+      max_node_count = 4
+    }
+    node_config {
+      oauth_scopes = [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+
+      labels = {
+        Terraform   = "true"
+        Environment = "dev"
+      }
+
+      preemptible  = false # 不要用突发性实例，用于安装agones和fleet，还有nginx等---重要----
+      # 这里不要创建突发性实例，要用标准实例，用于安装agones和fleet，还有nginx等
+      machine_type = "e2-standard-2"
+      image_type   = "COS_CONTAINERD"
+      gcfs_config {
+        enabled = true
+      }
+      disk_type    = "pd-balanced"
+      disk_size_gb = 100
+
+      tags = ["default-node", "gke-default"]
+      metadata = {
+        disable-legacy-endpoints = "true"
+      }
+      shielded_instance_config {
+        enable_secure_boot          = true
+        enable_integrity_monitoring = true
+      }
+    }
   }
-
-  node_config {
-    oauth_scopes = [
-      "https://www.googleapis.com/auth/cloud-platform"
-    ]
-
-    labels = {
-      Terraform   = "true"
-      Environment = "dev"
-    }
-
-    preemptible  = true
-    # 这里不要创建突发性实例，要用标准实例，用于安装agones和fleet，还有nginx等
-    machine_type = "e2-standard-2"
-    image_type   = "COS_CONTAINERD"
-    gcfs_config {
-      enabled = true
-    }
-    disk_type    = "pd-balanced"
-    disk_size_gb = 100
-
-    tags = ["default-node", "gke-default"]
-    metadata = {
-      disable-legacy-endpoints = "true"
-    }
-    shielded_instance_config {
-      enable_secure_boot          = true
-      enable_integrity_monitoring = true
-    }
-  }
-
+  
   lifecycle {
     ignore_changes = all
   }
@@ -275,7 +282,7 @@ resource "google_container_cluster" "gke" {
 #       Environment = "dev"
 #     }
 
-#     preemptible  = true
+#     preemptible  = false # 不要用突发性实例，用于安装agones和fleet，还有nginx等---重要----
 #     # 这里不要创建突发性实例，要用标准实例，用于安装agones和fleet，还有nginx等
 #     machine_type = "e2-standard-2"
 #     image_type   = "COS_CONTAINERD"
