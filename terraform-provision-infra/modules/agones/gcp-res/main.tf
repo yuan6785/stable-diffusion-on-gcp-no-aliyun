@@ -112,7 +112,7 @@ resource "google_container_cluster" "gke" {
   # autoscaling_profile = "optimize-utilization"
   # node_count = 1
   # initial_node_count表示默认节点池
-  initial_node_count = 3
+  # initial_node_count = 3  # 有nodepool就放到nodepool里面即可
   network                  = google_compute_network.vpc.name
   subnetwork               = google_compute_subnetwork.subnet.name
   private_cluster_config {
@@ -154,8 +154,10 @@ resource "google_container_cluster" "gke" {
     }
   }
 
+
   # cluster_autoscaling {
   #   enabled = true
+  #    参考 https://stackoverflow.com/questions/63674153/gke-w-terraform-set-autoscaling-profile
   #   autoscaling_profile = "optimize-utilization"
   # }
   node_pool {
