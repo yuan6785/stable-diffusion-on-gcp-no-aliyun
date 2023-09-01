@@ -144,7 +144,10 @@ resource "kubernetes_deployment" "nginx" {
 #   manifest = yamldecode(data.http.gpu_driver_file.response_body)
 # }
 
-# 从gpu_driver_file的路径下载的
+# 从gpu_driver_file的路径下载的---如果是其他机型，下载其他的yaml即可
+# T4: https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded-latest.yaml
+# T4: https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded.yaml
+# G2/L4: https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded-latest.yaml
 resource "kubernetes_manifest" "gpu_driver" {
   manifest = yamldecode(file("../Stable-Diffusion-UI-Agones/agones/daemonset-preloaded-latest.yaml"))
 }
