@@ -194,11 +194,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep nginx |awk '{print $1}' |awk NR==1)   /bin/bash
     #
     # apt update  # 然后安装想要的东西 
-    # 含义参考: https://agones.dev/site/docs/getting-started/create-fleet/#4-allocate-a-game-server-from-the-fleet 入门
-    # 字段参考: https://agones.dev/site/docs/reference/gameserverallocation/  每个字段的解释
-    # 字段参考: https://agones.dev/site/docs/advanced/allocator-service/#using-rest
-    # 字段参考: https://github.com/googleforgames/agones/blob/release-1.34.0/pkg/allocation/go/allocation.swagger.json  这个才是真正的，参考allocationAllocationRequest选项即可---重要---
-    # labels如果是添加gs的信息，那么是如何做到一个用户一个gs的呢?---因为user是保存在redis中的，其实如果没有保存，就单独调用这里的接口，有多少次就会分配多少次gs和labeld无关---重要---
+    # 具体fleet和agones的关系, 参考下面第11点
     curl -X POST \
     -H "Content-Type: application/json" \
     -d '{
@@ -243,7 +239,8 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
         静态ip搜索ip addresses
         函数计算的代码存储地址: gcs
 
-11. 重要知识记录:fleet和agones的关系
+
+11. 重要知识记录:fleet,FleetAutoscaler和agones的关系
     agones是一个分布式游戏服务器管理, gameserverallocation 这个api是agones的原生api,这个api不是由fleet提供的
     参考: https://agones.dev/site/docs/advanced/allocator-service/#using-rest;
     agones里面的gameserver可以分为多种类型，可以通过label来区分；
@@ -256,20 +253,30 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
        cd /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun
        kubectl apply -f ./Stable-Diffusion-UI-Agones/agones/fleet_and_autoscale_test1.yaml
        kubectl apply -f ./Stable-Diffusion-UI-Agones/agones/fleet_and_autoscale_test2.yaml
+       #
        kubectl get fleet # 进行查看
        -----
        NAME                          SCHEDULING   DESIRED   CURRENT   ALLOCATED   READY   AGE
         yx-test-simple-game-server1   Packed       1         1         0           0       56s
         yx-test-simple-game-server2   Packed       1         1         0           0       47s
        -----
+       #
+       kubectl get gs # 可以看到两个REDAY的gs分别属于两个fleet的模板
+       #
        # 查看fleet和fleetautoscaler的yaml是否正确
        kubectl get fleet yx-test-simple-game-server1 -o yaml  
        kubectl get fleet yx-test-simple-game-server2 -o yaml  
 
     b. 我们进入随便一个k8s内部的pod进行测试，我这里进入的是sdwebui的nginx的pod进行测试
        kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep nginx |awk '{print $1}' |awk NR==1)   /bin/bash
+        # 含义参考: https://agones.dev/site/docs/getting-started/create-fleet/#4-allocate-a-game-server-from-the-fleet 入门
+        # 字段参考: https://agones.dev/site/docs/reference/gameserverallocation/  每个字段的解释
         # 字段参考: https://agones.dev/site/docs/advanced/allocator-service/#using-rest
-        # 字段参考: https://github.com/googleforgames/agones/blob/release-1.34.0/pkg/allocation/go/allocation.swagger.json  这个才是
+        # 字段参考: https://github.com/googleforgames/agones/blob/release-1.34.0/pkg/allocation/go/allocation.swagger.json  这个才是真正的，参考allocationAllocationRequest选项即可---重要---
+        # 其中labels是给服务器打入自己的属性，比如user: yuanxiao6785 
+        # gameServerSelectors选择什么服务器模板进行创建，这里就是a步骤里面的yaml的选择哪一个labels的进行分配
+        执行如下脚本进行服务器分配，不是创建，是分配FleetAutoscaler创建好的服务器, 如果FleetAutoscaler没有创建好服务器，这里会如下错误()
+        #######
         curl -X POST \
         -H "Content-Type: application/json" \
         -d '{
@@ -282,12 +289,61 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
             "gameServerSelectors": [
                 {
                     "matchLabels":{
-                        "yxgameserver": "yxgameserver1"
+                        "yxgameserver": "yx-test-yxgameserver1"
                     }
                 }
             ]
         }' \
         http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation
+        #######
+        注意: agones采用fleet来创建gameserver的模板, FleetAutoscaler来自动创建gameserver，sd.lua中： http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation 这个api是agones的api，笔记搜索【云原生研究fleet和agones】),用来分配gameserver的，这个接口不会创建gameserver，只会分配现存通过FleetAutoscaler创建好的gameserver;
+        如果没有gameServerSelectors选择， 该api则会选择第一个fleet模板进行创建gameserver，我已经测试过了
+        #
+        执行完成后，看
+        kubectl get gs # 发现yx-test-simple-game-server1多了一个gs为Allocated的状态，这就是已经分配了，然后又会自动创建一个buffersize数量的reday状态的服务器
+        行如下脚本进行服务器分配，不是创建，是分配FleetAutoscaler创建好的服务器, 如果FleetAutoscaler没有创建好服务器，这里会如下错误(there is no available GameServer to allocate)--重要---
+        #######
+        curl -X POST \
+        -H "Content-Type: application/json" \
+        -d '{
+            "namespace": "default",
+            "metadata": {
+                "labels": {
+                    "user": "yuanxiao6785"
+                }
+            },
+            "gameServerSelectors": [
+                {
+                    "matchLabels":{
+                        "yxgameserver": "yx-test-yxgameserver2"
+                    }
+                }
+            ]
+        }' \
+        http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation
+        #######
+        执行完成后，看
+        kubectl get gs # 发现yx-test-simple-game-server2多了一个gs为Allocated的状态，这就是已经分配了，然后又会自动创建一个buffersize数量的reday状态的服务器
+        ######
+        最后看fleet的状态
+        kubectl get fleet  # 分别被分配了一个服务器，以及一个buffersize数量的reday状态的服务器
+        ----
+        NAME                          SCHEDULING   DESIRED   CURRENT   ALLOCATED   READY   AGE
+        yx-test-simple-game-server1   Packed       2         2         1           1       29m
+        yx-test-simple-game-server2   Packed       2         2         1           1       29m
+        ----
+    
+    c. 最后清理我们的fleet和FleetAutoscaler
+       kubectl delete fleet yx-test-simple-game-server1 yx-test-simple-game-server2
+       kubectl delete fleetautoscaler yx-test-fleet-autoscaler-policy1 yx-test-fleet-autoscaler-policy2
+       #测试是否删除干净
+       kubectl get fleet
+       kubectl get fleetautoscaler
+    
+    
+
+
+
 
 
 
