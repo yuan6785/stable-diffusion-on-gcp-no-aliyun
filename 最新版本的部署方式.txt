@@ -35,7 +35,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     source  ~/.zshrc_google_cloud  即可用gcloud命令
     ------------------------------------
     GKE_CLUSTER_NAME=tf-gen-gke-c8c84f4c
-    REGION=us-central1-f
+    REGION=us-central1
     gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${REGION}
     ------------------------------------
     f*b**1**
@@ -43,7 +43,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     检测凭证生命周期
     ------------------------------------
     GKE_CLUSTER_NAME=tf-gen-gke-c8c84f4c
-    REGION=us-central1-f
+    REGION=us-central1
     gcloud container clusters describe ${GKE_CLUSTER_NAME} \
         --region ${REGION} \
         --format "value(masterAuth.clusterCaCertificate)" \
