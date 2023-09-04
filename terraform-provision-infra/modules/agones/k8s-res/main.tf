@@ -305,6 +305,36 @@ resource "kubernetes_manifest" "webui_ingress" {
   )
 }
 
+resource "kubernetes_manifest" "yx_ubuntu_test" {
+  manifest = yamldecode(<<-EOF
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: ubuntu-2204
+      namespace: default  # 如果不是这个命名空间,则修改
+      labels:
+        app: ubuntu-2204 # change_other_model
+    spec:
+      nodeSelector: # Add this nodeSelector block, must be gpu node, 这里配合下面的 nvidia.com/gpu: "1"使用 --- add by yx
+        cloud.google.com/gke-nodepool: default-pool
+      volumes:
+        - name: stable-diffusion-storage
+          persistentVolumeClaim:
+            claimName: vol1
+      containers:
+        - name: ubuntu-2204
+          image: ubuntu:22.04
+          command: ["bash","-c","while true;do date;sleep 86400;done"]
+          args: []
+          volumeMounts:
+            - mountPath: "/yuanxiao_root_nfs"
+              name: stable-diffusion-storage
+              # subPath: "/" # 不允许这样写,会报错
+              subPath: #这样写不会报错,也是挂载到filestore的根目录,后面留个空格即可
+    EOF
+  )
+}
+
 
 
 #resource "kubernetes_manifest" "ingress_sd_agones_ingress" {
