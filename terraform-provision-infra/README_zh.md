@@ -40,7 +40,7 @@ gcloud components install gke-gcloud-auth-plugin
 #设置 gcloud 和 gcloud application-default 认证
 gcloud auth application-default login   # 重要------这一步要执行------
 gcloud auth login
-gcloud config set project PROJECT_ID
+gcloud config set project PROJECT_ID    # 重要------这一步要执行------(否则执行第二步安装buildimage会有问题)
 
 ```
 
