@@ -315,7 +315,7 @@ resource "kubernetes_manifest" "yx_ubuntu_test" {
       labels:
         app: ubuntu-2204 # change_other_model
     spec:
-      nodeSelector: # Add this nodeSelector block, must be gpu node, 这里配合下面的 nvidia.com/gpu: "1"使用 --- add by yx
+      nodeSelector: 
         cloud.google.com/gke-nodepool: default-pool
       volumes:
         - name: stable-diffusion-storage
