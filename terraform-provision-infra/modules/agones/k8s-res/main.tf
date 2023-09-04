@@ -305,35 +305,84 @@ resource "kubernetes_manifest" "webui_ingress" {
   )
 }
 
-resource "kubernetes_manifest" "yx_ubuntu_test" {
-  manifest = yamldecode(<<-EOF
-    apiVersion: v1
-    kind: Pod
-    metadata:
-      name: ubuntu-2204
-      namespace: default  # 如果不是这个命名空间,则修改
-      labels:
-        app: ubuntu-2204 # change_other_model
-    spec:
-      nodeSelector: 
-        cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
-      containers:
-        - name: ubuntu-2204
-          image: ubuntu:22.04
-          command: ["bash","-c","while true;do date;sleep 86400;done"]
-          args: []
-          volumeMounts:
-            - mountPath: "/yuanxiao_root_nfs"
-              name: stable-diffusion-storage
-              # subPath: "/" # 不允许这样写,会报错
-              subPath: #这样写不会报错,也是挂载到filestore的根目录,后面留个空格即可
-      volumes:
-        - name: stable-diffusion-storage
-          persistentVolumeClaim:
-            claimName: vol1
-    EOF
-  )
+
+resource "kubernetes_deployment" "yx_ubuntu_test" {
+  metadata {
+    name = "ubuntu-2204"
+    labels = {
+      app = "ubuntu-2204"
+    }
+  }
+  spec {
+    replicas = 1
+    selector {
+      match_labels = {
+        app = "ubuntu-2204"
+      }
+    }
+    template {
+      metadata {
+        labels = {
+          app = "ubuntu-2204"
+        }
+      }
+      spec {
+        container {
+          image = "ubuntu:22.04"
+          name  = "ubuntu-2204"
+          command = ["bash","-c","while true;do date;sleep 86400;done"]
+          args = []
+          volume_mount {
+            mount_path = "/yuanxiao_root_nfs"
+            name = "stable-diffusion-storage"
+            sub_path = " " # 这里留个空格即可
+          }
+        }
+        node_selector = {
+          # "cloud.google.com/gke-nodepool" = var.gke_cluster_nodepool
+          # add by yx
+          "cloud.google.com/gke-nodepool" = var.default_nodepool_name
+        }
+        volume {
+          name = "stable-diffusion-storage"
+          persistent_volume_claim {
+            claim_name = "vol1"
+          }
+        }
+      }
+    }
+  }
 }
+
+# resource "kubernetes_manifest" "yx_ubuntu_test" {
+#   manifest = yamldecode(<<-EOF
+#     apiVersion: v1
+#     kind: Pod
+#     metadata:
+#       name: ubuntu-2204
+#       namespace: default  # 如果不是这个命名空间,则修改
+#       labels:
+#         app: ubuntu-2204 # change_other_model
+#     spec:
+#       nodeSelector: 
+#         cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
+#       containers:
+#         - name: ubuntu-2204
+#           image: ubuntu:22.04
+#           command: ["bash","-c","while true;do date;sleep 86400;done"]
+#           args: []
+#           volumeMounts:
+#             - mountPath: "/yuanxiao_root_nfs"
+#               name: stable-diffusion-storage
+#               # subPath: "/" # 不允许这样写,会报错
+#               subPath: #这样写不会报错,也是挂载到filestore的根目录,后面留个空格即可
+#       volumes:
+#         - name: stable-diffusion-storage
+#           persistentVolumeClaim:
+#             claimName: vol1
+#     EOF
+#   )
+# }
 
 
 
