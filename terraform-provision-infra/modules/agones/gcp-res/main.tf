@@ -162,7 +162,9 @@ resource "google_container_cluster" "gke" {
   # }
   node_pool {
     name = var.default_nodepool_name
-    initial_node_count = 1
+    # 这里如果cluster_location    = "us-central1"，那么这里的initial_node_count最小值为1, 也会在每个区创建一个节点，所以是3个
+    # 如果cluster_location    = "us-central1-a"，那么这里的initial_node_count最小值为1, 也会在每个区创建一个节点，所以是1个
+    initial_node_count = 1  
     autoscaling {
       min_node_count = 1
       max_node_count = 4
