@@ -316,11 +316,7 @@ resource "kubernetes_manifest" "yx_ubuntu_test" {
         app: ubuntu-2204 # change_other_model
     spec:
       nodeSelector: 
-        cloud.google.com/gke-nodepool: default-pool
-      volumes:
-        - name: stable-diffusion-storage
-          persistentVolumeClaim:
-            claimName: vol1
+        cloud.google.com/gke-nodepool: ${var.default_nodepool_name}
       containers:
         - name: ubuntu-2204
           image: ubuntu:22.04
@@ -331,6 +327,10 @@ resource "kubernetes_manifest" "yx_ubuntu_test" {
               name: stable-diffusion-storage
               # subPath: "/" # 不允许这样写,会报错
               subPath: #这样写不会报错,也是挂载到filestore的根目录,后面留个空格即可
+      volumes:
+        - name: stable-diffusion-storage
+          persistentVolumeClaim:
+            claimName: vol1
     EOF
   )
 }
