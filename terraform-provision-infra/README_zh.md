@@ -110,7 +110,7 @@ terraform init
 terraform apply --auto-approve -target="module.agones_gcp_res";terraform apply --auto-approve  -target="module.agones_build_image";terraform apply --auto-approve -target="module.helm_agones";terraform apply --auto-approve -target="module.agones_k8s_res"
 
 
-# 销毁资源
+# 销毁资源（执行这个之前记得先销毁不在teraform创建的pod资源，比如自己创建的ubuntu节点挂载了pvc这些，否则无法删除其他pod）
 terraform destroy --auto-approve -target="module.agones_k8s_res";terraform destroy --auto-approve  -target="module.helm_agones";terraform destroy --auto-approve -target="module.agones_gcp_res"
 ```
 
