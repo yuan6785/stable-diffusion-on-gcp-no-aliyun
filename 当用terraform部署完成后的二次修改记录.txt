@@ -22,19 +22,27 @@
    笔记搜索[awss3sync常用命令sdwebui云函数nas同步备份webui]
    同步路径: /yuanxiao_root_nfs/sdwebui_public
 
-3. 修改fleet的sd的挂载路径
+
+3. 重新打包sdwebui
+   参考打包基础镜像: /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/readme.txt
+   
+
+4. 修改fleet的sd的挂载路径
    kubect get fleet sd-agones-fleet -o yaml > sd-agones-fleet-tmp.yaml
    修改 sd-agones-fleet-tmp.yaml
    #########
+   template:
+    spec:
+        ...
+        containers:
+        - name: stable-diffusion-webui
+            image: us-central1-docker.pkg.dev/happyaigc/sd-repository-c8c84f4c/sd-webui:xxx # 修改这里为上面的镜像
+        ...
+   ...
    volumeMounts:
-   - mountPath: /share
+   - mountPath: /share  # 修改这里
      name: stable-diffusion-storage
      subPath:  #一个空格挂载到根目录
    #########
    kubectl apply -f sd-agones-fleet-tmp.yaml
    rm -rf sd-agones-fleet-tmp.yaml
-
-
-4. 重新打包sdwebui
-   参考
-   /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/readme.txt
