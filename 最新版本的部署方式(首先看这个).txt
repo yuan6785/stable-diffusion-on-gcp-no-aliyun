@@ -72,7 +72,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     }
     -----main.tf----
     部署:
-    参考: /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/terraform-provision-infra/README_zh.md
+    根据这个的agones部分一步步的来(非agones部分不用看): /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/terraform-provision-infra/README_zh.md
     Agones 版本部分 （必须到terraform-provision-infra目录下执行命令）
       第一步 auth2登录验证， gcloud auth application-default login，  gcloud config set project PROJECT_ID
       第二步 最后的部署命令，最好一句语句执行，就是每一个分号执行一次，执行完成执行下一个分号前的命令；
