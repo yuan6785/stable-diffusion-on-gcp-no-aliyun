@@ -1,0 +1,27 @@
+1. 在自定义ubuntu里面部署filestore的公共Python环境和sd公共环境(只用部署一次，后面filesstore里面即可用这个python环境)
+    ----进入ubuntu---
+    kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep ubuntu |awk '{print $1}' |awk NR==1)   /bin/bash
+    防止vim的时候中文乱码: 搜索笔记【securecrt乱码的原因两种】看最后ubuntu的那一段即可
+    ------在filestore里面安装anconda------------
+    mkdir -p /yuanxiao_root_nfs/sdwebui_public/versions/sdwebui_env
+    cd /yuanxiao_root_nfs/sdwebui_public
+    wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.1.0-1-Linux-x86_64.sh
+    bash Miniconda3-py38_23.1.0-1-Linux-x86_64.sh -b -p -f /yuanxiao_root_nfs/sdwebui_public/versions/sdwebui_env/miniconda3
+    --- 激活conda环境 ---
+    /yuanxiao_root_nfs/sdwebui_public/versions/sdwebui_env/miniconda3/bin/conda init
+    source ~/.bashrc
+    --- 创建一个虚拟环境---
+    conda create -y --name sd_python310_20230907 python=3.10
+    conda activate sd_python310_20230907
+    pip install aws-shell==0.2.2 # 用于同步s3的模型
+    --- 测试gradio是否能提供公网访问(pod内没有service)--测试成功，可以访问 ---
+    0yxgithub/userful_scripts/gradio_test/test_browse_donwload_inner_fastapi_onefile.py
+
+
+2. 同步s3的模型到filestore
+   笔记搜索[awss3sync常用命令sdwebui云函数nas同步备份webui]
+   同步路径: /yuanxiao_root_nfs/sdwebui_public
+
+3. 重新打包sdwebui
+   参考
+   /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/readme.txt
