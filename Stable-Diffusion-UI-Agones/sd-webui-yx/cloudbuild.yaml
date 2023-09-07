@@ -1,11 +1,13 @@
 # file add by yx
+# 一行命令执行
+# gcloud builds submit --machine-type=e2-highcpu-32 --disk-size=100 --region=us-central1 -t  us-central1-docker.pkg.dev/happyaigc/sd-repository-2b6bae98/sd-webui:tf151
+
+
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'us-central1-docker.pkg.dev/happyaigc/sd-repository-2b6bae98/sd-nginx-yx:0.2', '-f', 'Dockerfile_yx', '.']
+  args: [ 'build', '-t', 'us-central1-docker.pkg.dev/happyaigc/sd-repository-c8c84f4c/sd-webui:tt1', '-f', 'Dockerfile', '.' ]
 options:
   machineType: 'E2_HIGHCPU_8'
   diskSizeGb: '200'
-images: ['us-central1-docker.pkg.dev/happyaigc/sd-repository-2b6bae98/sd-nginx-yx:0.2']
-
-# 一行命令执行
-# gcloud builds submit --machine-type=e2-highcpu-32 --disk-size=100 --region=us-central1 -t  us-central1-docker.pkg.dev/happyaigc/sd-repository-2b6bae98/sd-webui:tf151
+  region: 'us-central1'
+images: ['us-central1-docker.pkg.dev/happyaigc/sd-repository-c8c84f4c/sd-webui:tt1']
