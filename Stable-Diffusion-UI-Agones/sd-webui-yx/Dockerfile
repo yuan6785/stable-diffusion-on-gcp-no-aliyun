@@ -17,58 +17,61 @@ FROM nvidia/cuda:11.8.0-runtime-ubuntu22.04
 
 RUN set -ex && \
     apt update && \
-    apt install -y wget git python3 python3-venv python3-pip libglib2.0-0 pkg-config libcairo2-dev ffmpeg libsm6 libxext6 libtcmalloc-minimal4 && \
+    apt install -y wget git libglib2.0-0 pkg-config libcairo2-dev ffmpeg libsm6 libxext6 libtcmalloc-minimal4 && \
     rm -rf /var/lib/apt/lists/*
 
-RUN python3 -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118 --prefer-binary
-RUN python3 -m pip install git+https://github.com/TencentARC/GFPGAN.git@8d2447a2d918f8eba5a4a01463fd48e45126a379 --prefer-binary
-RUN python3 -m pip install git+https://github.com/openai/CLIP.git@d50d76daa670286dd6cacf3bcd80b5e4823fc8e1 --prefer-binary
-RUN python3 -m pip install git+https://github.com/mlfoundations/open_clip.git@bb6e834e9c70d9c27d0dc3ecedeebeaeb1ffad6b --prefer-binary
-RUN python3 -m pip install xformers --prefer-binary
-RUN python3 -m pip install pyngrok --prefer-binary
-RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
-RUN git -C /stable-diffusion-webui checkout 89f9faa63388756314e8a1d96cf86bf5e0663045
-RUN git clone https://github.com/Stability-AI/stablediffusion.git /stable-diffusion-webui/repositories/stable-diffusion-stability-ai
-RUN git -C /stable-diffusion-webui/repositories/stable-diffusion-stability-ai checkout cf1d67a6fd5ea1aa600c4df58e5b47da45f6bdbf
-RUN git clone https://github.com/CompVis/taming-transformers.git /stable-diffusion-webui/repositories/taming-transformers
-RUN git -C /stable-diffusion-webui/repositories/taming-transformers checkout 24268930bf1dce879235a7fddd0b2355b84d7ea6
-RUN git clone https://github.com/crowsonkb/k-diffusion.git /stable-diffusion-webui/repositories/k-diffusion
-RUN git -C /stable-diffusion-webui/repositories/k-diffusion checkout c9fe758757e022f05ca5a53fa8fac28889e4f1cf
-RUN git clone https://github.com/sczhou/CodeFormer.git /stable-diffusion-webui/repositories/CodeFormer
-RUN git -C /stable-diffusion-webui/repositories/CodeFormer checkout c5b4593074ba6214284d6acd5f1719b6c5d739af
-RUN git clone https://github.com/salesforce/BLIP.git /stable-diffusion-webui/repositories/BLIP
-RUN git -C /stable-diffusion-webui/repositories/BLIP checkout 48211a1594f1321b00f14c9f7a5b4813144b2fb9
-RUN python3 -m pip install -r /stable-diffusion-webui/repositories/CodeFormer/requirements.txt --prefer-binary
-RUN python3 -m pip install -r /stable-diffusion-webui/requirements_versions.txt --prefer-binary
-RUN python3 -m pip install sqlalchemy --prefer-binary
+# 参考: /Users/yuanxiao/workspace/0yxgithub/Stable-Diffusion-on-GCP/Stable-Diffusion-UI-Novel/docker_inference/Dockerfile.finally.yx
 
-RUN set -ex && cd stable-diffusion-webui \
-    && git clone https://github.com/kohya-ss/sd-webui-additional-networks.git extensions/sd-webui-additional-networks \
-    && git clone https://github.com/hnmr293/sd-webui-cutoff.git extensions/sd-webui-cutoff \
-    && git clone https://github.com/toriato/stable-diffusion-webui-wd14-tagger.git extensions/stable-diffusion-webui-wd14-tagger \
-    && git clone https://github.com/DominikDoom/a1111-sd-webui-tagcomplete.git extensions/a1111-sd-webui-tagcomplete \
-    && git clone https://github.com/Mikubill/sd-webui-controlnet.git extensions/sd-webui-controlnet \
-    && git clone https://github.com/zanllp/sd-webui-infinite-image-browsing.git extensions/sd-webui-infinite-image-browsing \
-    && git -C /stable-diffusion-webui/extensions/sd-webui-infinite-image-browsing checkout 4720b15126c3ee05e97d50108050d1178e50639b \
-    && git clone https://github.com/aria1th/Hypernetwork-MonkeyPatch-Extension.git extensions/Hypernetwork-MonkeyPatch-Extension \
-    && git clone https://github.com/butaixianran/Stable-Diffusion-Webui-Civitai-Helper.git extensions/Stable-Diffusion-Webui-Civitai-Helper \
-    && git clone https://github.com/ilian6806/stable-diffusion-webui-state.git extensions/stable-diffusion-webui-state \
-    && git clone https://github.com/vladmandic/sd-extension-system-info extensions/sd-extension-system-info \
-    && git clone https://github.com/ArtVentureX/sd-webui-agent-scheduler.git extensions/agent-scheduler
-    # && git clone https://github.com/continue-revolution/sd-webui-segment-anything extensions/sd-webui-segment-anything
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/cuda/lib64
+RUN ln -s /usr/local/cuda/lib64/libcudart.so.11.0 /usr/local/cuda/lib64/libcudart.so
 
-RUN python3 -m pip install -r /stable-diffusion-webui/extensions/sd-webui-controlnet/requirements.txt --prefer-binary
-# RUN python3 -m pip install -r /stable-diffusion-webui/extensions/sd-webui-segment-anything/requirements.txt --prefer-binary
+WORKDIR /opt
+RUN ls -l /opt
+
+
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.1.0-1-Linux-x86_64.sh
+RUN chmod -Rf 777 Miniconda3-py38_23.1.0-1-Linux-x86_64.sh&&chmod +x Miniconda3-py38_23.1.0-1-Linux-x86_64.sh
+
+RUN set -ex \
+    && bash Miniconda3-py38_23.1.0-1-Linux-x86_64.sh -b -p /opt/miniconda3 \
+    && /opt/miniconda3/bin/conda init \
+    && /opt/miniconda3/bin/conda create -y --name py310_sdwebui python=3.10 \
+    && /opt/miniconda3/bin/conda install -y -n py310_sdwebui virtualenv \
+    && git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui \
+    && cd stable-diffusion-webui \
+    && git checkout -b develop f865d3e11647dfd6c7b2cdf90dde24680e58acd8 \
+    && /opt/miniconda3/envs/py310_sdwebui/bin/python -m pip install cython==0.29.36 \
+    && cd extensions \
+    && git clone  https://github.com/d8ahazard/sd_dreambooth_extension && cd sd_dreambooth_extension && git checkout -b develop  c2a5617c587b812b5a408143ddfb18fc49234edf && cd .. \
+    && git clone https://github.com/Mikubill/sd-webui-controlnet.git && cd sd-webui-controlnet && git checkout -b develop 098f6cd887ac5f6f5f0e7cc9d81460095d2be012 && cd .. \
+    && git clone https://github.com/KohakuBlueleaf/a1111-sd-webui-lycoris.git && cd a1111-sd-webui-lycoris && git checkout -b develop  8e97bf54867c25d00fc480be1ab4dae5399b35ef && cd .. \
+    && git clone https://github.com/DominikDoom/a1111-sd-webui-tagcomplete.git && cd a1111-sd-webui-tagcomplete && git checkout -b develop 2.6.0 && cd .. \
+    && git clone https://github.com/fkunn1326/openpose-editor && cd openpose-editor && git checkout -b develop  722bca6fb9b062815d13b950e7040589abaec797 && cd .. \
+    && git clone https://github.com/hnmr293/posex && cd posex && git checkout -b develop 292f92d5068046f988fe002eb0a43b8841ad449e && cd .. \
+    && git clone https://github.com/kohya-ss/sd-webui-additional-networks && cd sd-webui-additional-networks && git checkout -b develop v0.5.0 && cd .. \
+    && git clone https://github.com/jexom/sd-webui-depth-lib.git && cd sd-webui-depth-lib && git checkout -b develop  efa9f616b30ea0f27e5dadf40ab41815012d1d78 && cd .. \
+    && git clone https://github.com/thomasasfk/sd-webui-aspect-ratio-helper.git && cd sd-webui-aspect-ratio-helper && git checkout -b develop  99fcf9b0a4e3f8c8cac07b12d17b66f12297b828 && cd .. \
+    && git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui-rembg.git && cd stable-diffusion-webui-rembg && git checkout -b develop  3d9eedbbf0d585207f97d5b21e42f32c0042df70 && cd .. \
+    && git clone https://github.com/picobyte/stable-diffusion-webui-wd14-tagger.git && cd stable-diffusion-webui-wd14-tagger && git checkout -b develop  v1.1.1 && cd .. \
+    && git clone https://github.com/Coyote-A/ultimate-upscale-for-automatic1111.git && cd ultimate-upscale-for-automatic1111 && git checkout -b develop c99f382b31509b87b4d512e70e9caf08ae7a079f && cd .. \
+    && /opt/miniconda3/envs/py310_sdwebui/bin/python -c "import launch;launch.prepare_environment();"
+
 
 ENV SAFETENSORS_FAST_GPU=1
 ENV LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so.4"
 
+# RUN set -ex \
+#     && /opt/miniconda3/envs/py310_sdwebui/bin/python -m pip install tensorrt==8.6.0
+ARG CUDNN_PATH=$(dirname $(/root/miniconda3/envs/py310_sdwebui/bin/python -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))
+ARG TENSORRT_PATH=$(dirname $(/root/miniconda3/envs/py310_sdwebui/bin/python -c "import tensorrt;print(tensorrt.__file__)"))
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/cuda/lib64:$CUDNN_PATH:$TENSORRT_PATH
+
 EXPOSE 7860
 
-COPY extensions/ /stable-diffusion-webui/extensions/
-COPY user-watch.py /stable-diffusion-webui/user-watch.py
-COPY start.sh /stable-diffusion-webui/start.sh
-COPY *.json /stable-diffusion-webui/
 
-WORKDIR /stable-diffusion-webui/
-CMD ["python3", "webui.py", "--listen", "--opt-sdp-attention", "--enable-insecure-extension-access", "--api"]
+COPY dockerdata/start_finally_20230713.sh  /opt/stable-diffusion-webui/start.sh
+COPY dockerdata/config.json /opt/stable-diffusion-webui/config.json
+
+WORKDIR /opt/stable-diffusion-webui/
+CMD /bin/sh -c './start.sh'
+# CMD ["python3", "webui.py", "--listen", "--opt-sdp-attention", "--enable-insecure-extension-access", "--api"]
