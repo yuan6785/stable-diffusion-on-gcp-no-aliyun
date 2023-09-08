@@ -23,14 +23,14 @@
    同步路径: /yuanxiao_root_nfs/sdwebui_public
 
 
-3. 重新打包sdwebui并调试
+3. 重新打包sdwebui并调试(后面有sd镜像升级，可以从这一步开始)
    参考打包基础镜像: /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/readme.txt
       
 
 4. 修改fleet的sd的挂载路径(访问supervisor在域名后面加/psuperfaa即可)
    
     第一种方法(测试成功):
-        修改sd-agones-fleet-std.yaml里面需要修改的，有注释---重要---
+        修改/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml 里面需要修改的,特别是镜像版本，有注释---重要---
         kubectl delete fleet sd-agones-fleet
         kubectl apply -f sd-agones-fleet-std.yaml 即可
 
@@ -58,7 +58,12 @@
         #########
         kubectl apply -f sd-agones-fleet-tmp.yaml
         rm -rf sd-agones-fleet-tmp.yaml
+    
+    注意： 重新部署fleet后，需要参考------重要------
+          /0yxgithub/stable-diffusion-on-gcp-no-aliyun/最新版本的部署方式(首先看这个).txt
+          第八点 调试以及重要理解  ----- 清理redis的数据，否则会出现用户502的问题
 
 5. 进入gs进行调试，或者进入gs看日志
    # 这个gs的pod因为是多容器的，所以进入的时候要指定容器，这里指定的是stable-diffusion-webui即可
    kubectl  exec -it   -n default gs的pod的name  -c stable-diffusion-webui  /bin/bash
+   # /usr/sbin/nginx -s reload  nignx重启命令

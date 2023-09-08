@@ -33,7 +33,7 @@
     执行 /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/dockerdata/start_supervisor2.sh 里面的命令，分开调试即可, 运行sd的时候打开share,这样可以直接公网访问sd。
     # 进入gs多个容器的节点方法
     # kubectl  exec -it   -n default sd-agones-fleet-jngqm-ljtxq  -c stable-diffusion-webui  /bin/bash
-    # 调试完成一定记得删除pod
+    # 调试完成一定记得删除pod----重要----   
     kubectl delete pod sdwebui-debug
 
 
