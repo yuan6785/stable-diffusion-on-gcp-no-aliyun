@@ -26,7 +26,7 @@
     f*b**1**
 
     cd  /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx  # 必须是这个目录
-    kubectl apply -f sd_pod_debug.yaml
+    kubectl apply -f sd_pod_debug.yaml  # 记得修改sd_pod_debug.yaml的镜像地址和版本为第一步打包的镜像--重要--
     # 进入pod进行调试即可
     kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep sdwebui-debug |awk '{print $1}' |awk NR==1)   /bin/bash
     # 进入gs多个容器的节点方法

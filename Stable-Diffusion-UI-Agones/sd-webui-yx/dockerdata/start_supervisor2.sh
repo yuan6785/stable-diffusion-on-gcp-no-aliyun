@@ -15,5 +15,12 @@ cd /opt/stable-diffusion-webui
 # 为什么加这句参考 0yxgithub/Stable-Diffusion-on-GCP/Stable-Diffusion-UI-Novel/docker_inference/aliyun_func_libo/Dockerfile.aliyun.libo.20230713
 # 下面用dockerfile安装的python路径，不要用filestore的公共路径的python(这里和阿里云函数不一样)
 /opt/miniconda3/bin/conda init;chmod +x ~/.bashrc;. ~/.bashrc;eval "$(/opt/miniconda3/bin/conda shell.bash hook)";conda activate py310_sdwebui;python -c "import sys; print(sys.executable)"
-# /opt/miniconda3/envs/py310_sdwebui/bin/python -m  http.server 7860   # ----可以加--share让pod可以公网访问
-/opt/miniconda3/envs/py310_sdwebui/bin/python -u launch.py --port 7860 --listen --xformers --medvram --share --lyco-debug --lyco-patch-lora --lyco-dir ./models/Lora --skip-prepare-environment --api 2>&1 | tee /var/log/sdwebui.log
+# /opt/miniconda3/envs/py310_sdwebui/bin/python -m  http.server 7860   ----可以加--share让pod可以公网访问
+# /opt/miniconda3/envs/py310_sdwebui/bin/python -u launch.py --port 7860 --listen --xformers --medvram --share --lyco-debug --lyco-patch-lora --lyco-dir ./models/Lora --skip-prepare-environment --api 2>&1 | tee /var/log/sdwebui.log
+# 将sdwebui放到supervisor中使用
+echo ---------start launch cmd-------$(date +"%Y-%m-%d %H:%M:%S")---------------
+cd /opt
+/usr/sbin/nginx -c /etc/nginx/nginx.conf
+rm -rf /var/run/supervisor.sock;/usr/bin/supervisord -c /etc/supervisord.conf
+while true;do date;sleep 86400;done
+echo ---------end-------'
