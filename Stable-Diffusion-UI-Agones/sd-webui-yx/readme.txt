@@ -29,6 +29,7 @@
     kubectl apply -f sd_pod_debug.yaml  # 记得修改sd_pod_debug.yaml的镜像地址和版本为第一步打包的镜像--重要--
     # 进入pod进行调试即可
     kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep sdwebui-debug |awk '{print $1}' |awk NR==1)   /bin/bash
+    执行 /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/dockerdata/start_supervisor2.sh 里面的命令，分开调试即可.
     # 进入gs多个容器的节点方法
     # kubectl  exec -it   -n default sd-agones-fleet-jngqm-ljtxq  -c stable-diffusion-webui  /bin/bash
     # 调试完成一定记得删除pod
