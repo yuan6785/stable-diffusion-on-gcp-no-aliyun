@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: sdwebui-debug
+  name: sdwebui-debug1
   namespace: default  # 如果不是这个命名空间,则修改
   labels:
     app: sdwebui-debug # change_other_model
@@ -28,7 +28,7 @@ spec:
           subPath: ' ' #这样写不会报错,也是挂载到filestore的根目录,后面留个空格即可
       resources:
         limits:
-          cpu: 5000m
-          memory: 21Gi
+          # cpu: 5000m
+          # memory: 20Gi
           nvidia.com/gpu: 1
         
