@@ -15,12 +15,12 @@ spec:
   containers:
     - name: sdwebui-debug
       image: us-central1-docker.pkg.dev/happyaigc/sd-repository-c8c84f4c/sd-webui:tt1
-      # command: ["bash","-c","sleep 3600;"] # 测试用
-      command: ["bash","-c","./start_debug.sh"] # debug用
+      command: ["bash","-c","sleep 3600;"] # 测试用
+      # command: ["bash","-c","./start_debug.sh"] # debug用
       # command: ["bash","-c","./start.sh"]  # 正式命令
       args: []
       volumeMounts:
-        - mountPath: "/share"
+        - mountPath: "/yuanxiao_root_nfs"
           name: stable-diffusion-storage
           # subPath: "/" # 不允许这样写,会报错
           subPath: ' ' #这样写不会报错,也是挂载到filestore的根目录,后面留个空格即可

@@ -39,7 +39,7 @@ RUN set -ex \
     && /opt/miniconda3/bin/conda install -y -n py310_sdwebui virtualenv \
     && git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui \
     && cd stable-diffusion-webui \
-    && git checkout -b develop f865d3e11647dfd6c7b2cdf90dde24680e58acd8 \
+    && git checkout -b develop 68f336bd994bed5442ad95bad6b6ad5564a5409a \
     && /opt/miniconda3/envs/py310_sdwebui/bin/python -m pip install cython==0.29.36 \
     && cd extensions \
     && git clone  https://github.com/d8ahazard/sd_dreambooth_extension && cd sd_dreambooth_extension && git checkout -b develop  c2a5617c587b812b5a408143ddfb18fc49234edf && cd .. \
@@ -48,23 +48,25 @@ RUN set -ex \
     && git clone https://github.com/DominikDoom/a1111-sd-webui-tagcomplete.git && cd a1111-sd-webui-tagcomplete && git checkout -b develop 2.6.0 && cd .. \
     && git clone https://github.com/fkunn1326/openpose-editor && cd openpose-editor && git checkout -b develop  722bca6fb9b062815d13b950e7040589abaec797 && cd .. \
     && git clone https://github.com/hnmr293/posex && cd posex && git checkout -b develop 292f92d5068046f988fe002eb0a43b8841ad449e && cd .. \
-    && git clone https://github.com/kohya-ss/sd-webui-additional-networks && cd sd-webui-additional-networks && git checkout -b develop v0.5.0 && cd .. \
+    # && git clone https://github.com/kohya-ss/sd-webui-additional-networks && cd sd-webui-additional-networks && git checkout -b develop v0.5.0 && cd .. \
     && git clone https://github.com/jexom/sd-webui-depth-lib.git && cd sd-webui-depth-lib && git checkout -b develop  efa9f616b30ea0f27e5dadf40ab41815012d1d78 && cd .. \
     && git clone https://github.com/thomasasfk/sd-webui-aspect-ratio-helper.git && cd sd-webui-aspect-ratio-helper && git checkout -b develop  99fcf9b0a4e3f8c8cac07b12d17b66f12297b828 && cd .. \
     && git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui-rembg.git && cd stable-diffusion-webui-rembg && git checkout -b develop  3d9eedbbf0d585207f97d5b21e42f32c0042df70 && cd .. \
     && git clone https://github.com/picobyte/stable-diffusion-webui-wd14-tagger.git && cd stable-diffusion-webui-wd14-tagger && git checkout -b develop  v1.1.1 && cd .. \
     && git clone https://github.com/Coyote-A/ultimate-upscale-for-automatic1111.git && cd ultimate-upscale-for-automatic1111 && git checkout -b develop c99f382b31509b87b4d512e70e9caf08ae7a079f && cd .. \
-    && cd /opt/stable-diffusion-webui;/opt/miniconda3/envs/py310_sdwebui/bin/python -c "import launch;launch.prepare_environment();" --skip-torch-cuda-test
+    && cd /opt/stable-diffusion-webui;/opt/miniconda3/envs/py310_sdwebui/bin/python -c "import launch;launch.prepare_environment();" --skip-torch-cuda-test;
 
 
 ENV SAFETENSORS_FAST_GPU=1
 ENV LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so.4"
 
-# RUN set -ex \
-#     && /opt/miniconda3/envs/py310_sdwebui/bin/python -m pip install tensorrt==8.6.0
+RUN set -ex \
+    && /opt/miniconda3/envs/py310_sdwebui/bin/python -m pip install tensorrt==8.6.0 xformers==0.0.20
 ARG CUDNN_PATH=$(dirname $(/opt/miniconda3/envs/py310_sdwebui/bin/python -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))
 ARG TENSORRT_PATH=$(dirname $(/opt/miniconda3/envs/py310_sdwebui/bin/python -c "import tensorrt;print(tensorrt.__file__)"))
 ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/cuda/lib64:$CUDNN_PATH:$TENSORRT_PATH
+RUN echo "yx output--------------"
+RUN echo $LD_LIBRARY_PATH
 
 EXPOSE 7860
 
@@ -74,5 +76,6 @@ COPY dockerdata/start_debug.sh  /opt/stable-diffusion-webui/start_debug.sh
 COPY dockerdata/config.json /opt/stable-diffusion-webui/config.json
 
 WORKDIR /opt/stable-diffusion-webui/
+# 关于公共目录的操作需要写到CMD中，在dockerfile中是没有公共目录的
 CMD /bin/sh -c './start.sh'
 # CMD ["python3", "webui.py", "--listen", "--opt-sdp-attention", "--enable-insecure-extension-access", "--api"]

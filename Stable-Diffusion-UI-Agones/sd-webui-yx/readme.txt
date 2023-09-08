@@ -33,3 +33,10 @@
     # kubectl  exec -it   -n default sd-agones-fleet-jngqm-ljtxq  -c stable-diffusion-webui  /bin/bash
     # 调试完成一定记得删除pod
     kubectl delete pod sdwebui-debug
+
+
+特别注意:
+    dockerfile最后安装完成我修改了一些python包的版本，以兼容插件能用起来，后面版本修复后，可以改回来
+    1. 参考 https://github.com/jexom/sd-webui-depth-lib/issues/36 修复了插件的问题
+       我的解决方法是在dockerfile里面gradio_client==0.5.0 降级到 gradio_client==0.2.7
+       后期如果gradio_client的bug修复，需要恢复最高版本，否则怕影响其他插件和sdwebui的使用
