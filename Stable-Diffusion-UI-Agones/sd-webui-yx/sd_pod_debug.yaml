@@ -15,7 +15,7 @@ spec:
   containers:
     - name: sdwebui-debug
       image: us-central1-docker.pkg.dev/happyaigc/sd-repository-c8c84f4c/sd-webui:tt1
-      command: ["bash","-c","./start_debug.sh"]
+      command: ["bash","-c","sleep 3600;./start_debug.sh"]
       args: []
       volumeMounts:
         - mountPath: "/share"
