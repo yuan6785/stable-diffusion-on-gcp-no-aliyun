@@ -28,7 +28,7 @@
       
 
 4. 修改fleet的sd的挂载路径
-   kubect get fleet sd-agones-fleet -o yaml > sd-agones-fleet-tmp.yaml
+   kubectl get fleet sd-agones-fleet -o yaml > sd-agones-fleet-tmp.yaml
    修改 sd-agones-fleet-tmp.yaml
    #########
    template:
