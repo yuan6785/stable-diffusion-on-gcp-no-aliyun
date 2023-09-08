@@ -56,12 +56,13 @@ RUN set -ex \
     && git clone https://github.com/Coyote-A/ultimate-upscale-for-automatic1111.git && cd ultimate-upscale-for-automatic1111 && git checkout -b develop c99f382b31509b87b4d512e70e9caf08ae7a079f && cd .. \
     && cd /opt/stable-diffusion-webui;/opt/miniconda3/envs/py310_sdwebui/bin/python -c "import launch;launch.prepare_environment();" --skip-torch-cuda-test;
 
+# 安装其他额外的包(一些特定需要定期检查的包和一些插件需要的特定包)----
+RUN set -ex \
+    && /opt/miniconda3/envs/py310_sdwebui/bin/python -m pip install tensorrt==8.6.0 xformers==0.0.20 gradio_client==0.2.7
 
 ENV SAFETENSORS_FAST_GPU=1
 ENV LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so.4"
 
-RUN set -ex \
-    && /opt/miniconda3/envs/py310_sdwebui/bin/python -m pip install tensorrt==8.6.0 xformers==0.0.20
 ARG CUDNN_PATH=$(dirname $(/opt/miniconda3/envs/py310_sdwebui/bin/python -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))
 ARG TENSORRT_PATH=$(dirname $(/opt/miniconda3/envs/py310_sdwebui/bin/python -c "import tensorrt;print(tensorrt.__file__)"))
 ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/cuda/lib64:$CUDNN_PATH:$TENSORRT_PATH
