@@ -35,7 +35,9 @@ spec:
             image: us-central1-docker.pkg.dev/happyaigc/sd-repository-c8c84f4c/sd-webui:stt3 # 这里改成自己的镜像
             name: stable-diffusion-webui
             resources:
-              limits:
+              limits: # 加入cpu和memory限制才能共享gpu
+                cpu: 5000m
+                memory: 21Gi
                 nvidia.com/gpu: "1"
             volumeMounts:
             - mountPath: /yuanxiao_root_nfs   # 这里改成自己的nfs挂载路径
