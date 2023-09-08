@@ -27,8 +27,9 @@
    参考打包基础镜像: /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/readme.txt
       
 
-4. 修改fleet的sd的挂载路径
-    第一种方法:
+4. 修改fleet的sd的挂载路径(访问supervisor在域名后面加/psuperfaa即可)
+   
+    第一种方法(测试成功):
         修改sd-agones-fleet-std.yaml里面需要修改的，有注释---重要---
         kubectl delete fleet sd-agones-fleet
         kubectl apply -f sd-agones-fleet-std.yaml 即可
