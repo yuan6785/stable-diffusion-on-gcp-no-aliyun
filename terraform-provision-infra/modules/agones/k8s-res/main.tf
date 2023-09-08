@@ -336,7 +336,7 @@ resource "kubernetes_deployment" "yx_ubuntu_test" {
           volume_mount {
             mount_path = "/yuanxiao_root_nfs"
             name = "stable-diffusion-storage"
-            sub_path = " " # 这里留个空格即可
+            sub_path = " " # 这里留个空格即可---这里的空格不是空目录，就是目录为空格，而且也不是根目录，我被坑了很久，对应yaml里面要写空格字符串
           }
         }
         node_selector = {

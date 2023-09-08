@@ -21,5 +21,6 @@ spec:
         - mountPath: "/yuanxiao_root_nfs"
           name: stable-diffusion-storage
           # subPath: "/" # 不允许这样写,会报错
-          subPath: #这样写不会报错,也是挂载到filestore的根目录,后面留个空格即可
+          # subPath: ' '  # 这里留个空格即可---这里的空格不是空目录，就是目录为空格，而且也不是根目录，我被坑了很久，对应yaml里面要写空格字符串， 对应terraform的sub_path = " "
+          subPath:   #这样写不会报错,也是挂载到filestore的根目录,后面留个空格即可， 这个才是真正的挂载到根目录
         
