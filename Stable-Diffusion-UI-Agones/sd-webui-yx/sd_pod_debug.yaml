@@ -22,4 +22,7 @@ spec:
           name: stable-diffusion-storage
           # subPath: "/" # 不允许这样写,会报错
           subPath:  #这样写不会报错,也是挂载到filestore的根目录,后面留个空格即可
+      resources:
+        limits:
+          nvidia.com/gpu: 1
         

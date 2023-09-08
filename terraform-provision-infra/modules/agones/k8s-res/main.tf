@@ -148,6 +148,7 @@ resource "kubernetes_deployment" "nginx" {
 # T4: https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded-latest.yaml
 # T4: https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded.yaml
 # G2/L4: https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded-latest.yaml
+# 查看这个yaml可以知道, 节点必须具有 cloud.google.com/gke-accelerator 标签，同时不应该有 cloud.google.com/gke-gpu-driver-version 标签。这些条件用于确定是否在节点上安装 GPU 驱动程序
 resource "kubernetes_manifest" "gpu_driver" {
   manifest = yamldecode(file("../Stable-Diffusion-UI-Agones/agones/daemonset-preloaded-latest.yaml"))
 }

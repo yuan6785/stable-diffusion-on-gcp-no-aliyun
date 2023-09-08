@@ -352,6 +352,35 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation
 
 
+13. 如何给不同显卡的节点池安装不同的驱动(好像用不到，因为t4和g2/l4的节点池是一样的)
+    kubectl get nodes --show-labels  # 可以看各个节点的标签和值
+    kubectl get node gke-tf-gen-gke-c8c84-nvidia-tesla-t4--07b29247-bdgv -o yaml  # 查看具体的某个节点的yaml
+    # 可以发现t4的有标签: cloud.google.com/gke-accelerator: nvidia-tesla-t4
+    # T4: https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded-latest.yaml
+    # T4: https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded.yaml
+    # G2/L4: https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded-latest.yaml
+    如果想给不同的节点池，比如T4节点池和G2/L4节点池安装不同的驱动, 可以修改daemonset-preloaded-latest.yaml的matchExpressions部分
+    修改上面链接的yaml文件的matchExpressions部分即可
+    ###############
+    matchExpressions:
+    - key: cloud.google.com/gke-accelerator
+    operator: Exists
+    - key: cloud.google.com/gke-gpu-driver-version
+    operator: DoesNotExist
+    ###############
+    修改为下面即可，记得修改yaml为不同名称，这样就可以给不同的节点池安装不一样的驱动
+    ###############
+    - matchExpressions:
+    - key: cloud.google.com/gke-accelerator
+        operator: In
+        values:
+        - nvidia-tesla-t4
+    - key: cloud.google.com/gke-gpu-driver-version
+        operator: DoesNotExist
+    ###############
+
+    最后在fleet.yaml中的nodeSelector中加入多个节点池即可；
+
 
 
 

@@ -29,3 +29,5 @@
     kubectl apply -f sd_pod_debug.yaml
     # 进入pod进行调试即可
     kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep sdwebui-debug |awk '{print $1}' |awk NR==1)   /bin/bash
+    # 调试完成一定记得删除pod
+    kubectl delete pod sdwebui-debug
