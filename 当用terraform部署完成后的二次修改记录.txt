@@ -40,9 +40,9 @@
         ...
    ...
    volumeMounts:
-   - mountPath: /share  # 修改这里
+   - mountPath: /yuanxiao_root_nfs  # 修改这里
      name: stable-diffusion-storage
-     subPath:  #一个空格挂载到根目录
+     subPath: " "
    #########
    kubectl apply -f sd-agones-fleet-tmp.yaml
    rm -rf sd-agones-fleet-tmp.yaml
