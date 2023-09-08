@@ -29,7 +29,7 @@
 
 4. 修改fleet的sd的挂载路径
     第一种方法:
-        修改sd-agones-fleet-std.yaml里面需要修改的，有注释
+        修改sd-agones-fleet-std.yaml里面需要修改的，有注释---重要---
         kubectl delete fleet sd-agones-fleet
         kubectl apply -f sd-agones-fleet-std.yaml 即可
 

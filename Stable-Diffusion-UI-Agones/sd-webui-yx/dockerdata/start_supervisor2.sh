@@ -20,7 +20,7 @@ cd /opt/stable-diffusion-webui
 # 将sdwebui放到supervisor中使用
 echo ---------start launch cmd-------$(date +"%Y-%m-%d %H:%M:%S")---------------
 cd /opt
-/usr/sbin/nginx -c /etc/nginx/nginx.conf
+/usr/sbin/nginx -c /etc/nginx/nginx.conf  # /usr/sbin/nginx -s reload
 rm -rf /var/run/supervisor.sock;/usr/bin/supervisord -c /etc/supervisord.conf
 while true;do date;sleep 86400;done
 echo ---------end-------'

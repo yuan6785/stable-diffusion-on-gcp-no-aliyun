@@ -15,7 +15,7 @@
     gcloud builds submit --region=${REGION} . --config=cloudbuild.yaml
 
 
-2. 调试镜像
+2. 调试镜像(如果肯定镜像是对的,可以跳过这一步)
     获取gke集群的凭证
     source  ~/.zshrc_google_cloud  即可用gcloud命令
     ------------------------------------
