@@ -16,3 +16,16 @@
 
 
 2. 调试镜像
+    获取gke集群的凭证
+    source  ~/.zshrc_google_cloud  即可用gcloud命令
+    ------------------------------------
+    GKE_CLUSTER_NAME=tf-gen-gke-c8c84f4c
+    REGION=us-central1
+    gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${REGION}
+    ------------------------------------
+    f*b**1**
+
+    cd  /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx  # 必须是这个目录
+    kubectl apply -f sd_pod_debug.yaml
+    # 进入pod进行调试即可
+    kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep sdwebui-debug |awk '{print $1}' |awk NR==1)   /bin/bash

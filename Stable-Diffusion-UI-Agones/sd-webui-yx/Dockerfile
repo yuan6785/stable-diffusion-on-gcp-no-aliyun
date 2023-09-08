@@ -54,7 +54,7 @@ RUN set -ex \
     && git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui-rembg.git && cd stable-diffusion-webui-rembg && git checkout -b develop  3d9eedbbf0d585207f97d5b21e42f32c0042df70 && cd .. \
     && git clone https://github.com/picobyte/stable-diffusion-webui-wd14-tagger.git && cd stable-diffusion-webui-wd14-tagger && git checkout -b develop  v1.1.1 && cd .. \
     && git clone https://github.com/Coyote-A/ultimate-upscale-for-automatic1111.git && cd ultimate-upscale-for-automatic1111 && git checkout -b develop c99f382b31509b87b4d512e70e9caf08ae7a079f && cd .. \
-    && /opt/miniconda3/envs/py310_sdwebui/bin/python -c "import launch;launch.prepare_environment();"
+    && cd /opt/stable-diffusion-webui;/opt/miniconda3/envs/py310_sdwebui/bin/python -c "import launch;launch.prepare_environment();"
 
 
 ENV SAFETENSORS_FAST_GPU=1
