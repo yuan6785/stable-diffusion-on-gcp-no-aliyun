@@ -27,7 +27,7 @@
    参考打包基础镜像: /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/readme.txt
       
 
-4. 修改fleet的sd的挂载路径(访问supervisor在域名后面加/psuperfaa即可)
+4. 修改fleet的sd的挂载路径(访问supervisor在域名后面加/psuperfaa/即可)
    
     第一种方法(测试成功):
         修改/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml 里面需要修改的,特别是镜像版本，有注释---重要---
@@ -66,4 +66,6 @@
 5. 进入gs进行调试，或者进入gs看日志
    # 这个gs的pod因为是多容器的，所以进入的时候要指定容器，这里指定的是stable-diffusion-webui即可
    kubectl  exec -it   -n default gs的pod的name  -c stable-diffusion-webui  /bin/bash
+   例如:
+   kubectl  exec -it   -n default sd-agones-fleet-9p7j5-v45h5  -c stable-diffusion-webui  /bin/bash
    # /usr/sbin/nginx -s reload  nignx重启命令
