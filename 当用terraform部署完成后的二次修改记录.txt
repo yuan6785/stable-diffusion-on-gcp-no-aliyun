@@ -23,9 +23,9 @@
    同步路径: /yuanxiao_root_nfs/sdwebui_public
 
 
-3. 重新打包sdwebui
+3. 重新打包sdwebui并调试
    参考打包基础镜像: /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/readme.txt
-   
+      
 
 4. 修改fleet的sd的挂载路径
    kubect get fleet sd-agones-fleet -o yaml > sd-agones-fleet-tmp.yaml

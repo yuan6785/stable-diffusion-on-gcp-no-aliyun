@@ -69,7 +69,8 @@ ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/cuda/lib64:$CUDNN_PATH:$TENSORRT
 EXPOSE 7860
 
 
-COPY dockerdata/start_finally_20230713.sh  /opt/stable-diffusion-webui/start.sh
+COPY dockerdata/start.sh  /opt/stable-diffusion-webui/start.sh
+COPY dockerdata/start_debug.sh  /opt/stable-diffusion-webui/start_debug.sh
 COPY dockerdata/config.json /opt/stable-diffusion-webui/config.json
 
 WORKDIR /opt/stable-diffusion-webui/
