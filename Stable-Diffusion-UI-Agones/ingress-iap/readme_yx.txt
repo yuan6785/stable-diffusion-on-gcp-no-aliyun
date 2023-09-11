@@ -24,18 +24,19 @@ Certificate Status:  Provisioning  # 表示正在申请证书
 
 
 
+后期其他参考: 
 
-不带iap认证的ingress:
-    修改backendconfig.yaml  
-    iap:
-        enabled: false
+    不带iap认证的ingress:
+        修改backendconfig.yaml  
+        iap:
+            enabled: false
 
 
 
-        
-保留iap认证的， 新建不带iap认证的ingress:
-    0. 新建ip addresses, 选择静态ip
-    1. 首先新建一个不带iap的service.yaml, 制定一个自定义nginx的pod，重写nginx的sd.lua
-    2. 然后新建一个不带iap的ingress.yaml（选择第0步的ip和第2步的service）
+            
+    保留iap认证的， 新建不带iap认证的ingress:
+        0. 新建ip addresses, 选择静态ip
+        1. 首先新建一个不带iap的service.yaml, 制定一个自定义nginx的pod，重写nginx的sd.lua
+        2. 然后新建一个不带iap的ingress.yaml（选择第0步的ip和第2步的service）
 
 
