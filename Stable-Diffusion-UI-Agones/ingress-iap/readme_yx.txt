@@ -21,3 +21,22 @@ Certificate Status:  Provisioning  # 表示正在申请证书
 
 也可以在[gke]-->[service 和 ingerss]-->[ingress, 点进去一个ingerss]------>[负载均衡器,  点进去]----->[https证书, 点击去查看即可]
 
+
+
+
+
+不带iap认证的ingress:
+    修改backendconfig.yaml  
+    iap:
+        enabled: false
+
+
+
+        
+
+保留iap认证的， 新建不带iap认证的ingress:
+    0. 新建ip addresses, 选择静态ip
+    1. 首先新建一个不带iap的service.yaml, 制定一个自定义nginx的pod，重写nginx的sd.lua
+    2. 然后新建一个不带iap的ingress.yaml（选择第0步的ip和第2步的service）
+
+
