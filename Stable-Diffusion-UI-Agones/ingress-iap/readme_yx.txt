@@ -10,7 +10,7 @@ kubectl delete ManagedCertificate  managed-cert
 kubectl apply -f ./ingress-iap/managed-cert-yx.yaml
 #kubectl apply -f ./ingress-iap/backendconfig.yaml
 #kubectl apply -f ./ingress-iap/service.yaml
-kubectl apply -f ./ingress-iap/ingress_yx.yaml  # ingress这个最好先删除再运行这个命令
+kubectl apply -f ./ingress-iap/ingress_yx.yaml  # ingress这个最好先删除再运行这个命令， 这个如果没有修改静态ip，可以不执行这个命令
 
 # 查看证书配置是否完成的命令---
 kubectl describe managedcertificate managed-cert
