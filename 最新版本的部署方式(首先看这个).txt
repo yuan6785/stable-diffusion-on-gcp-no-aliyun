@@ -414,10 +414,11 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
 
 15. 问清楚nvidia.com/gpu: "1"可以共享gpu吗，不需要限制cpu和memory吗
     参考: https://cloud.google.com/kubernetes-engine/docs/how-to/timesharing-gpus?hl=zh-cn
+    创建集群的时候首先就要设置共享gpu，terraform里面有配置
     需要在/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml
     里面限制cpu和内存，即可共享gpu
     你可以根据节点资源的情况均分一下设置cpu和mem的限制
-    资源request 和 limit 写上 
+    资源request 和 limit 写上 (共享gpu才会生效)
         nvidia.com/gpu: "1"
 
 
