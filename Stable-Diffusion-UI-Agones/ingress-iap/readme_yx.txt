@@ -33,7 +33,6 @@ Certificate Status:  Provisioning  # 表示正在申请证书
 
 
         
-
 保留iap认证的， 新建不带iap认证的ingress:
     0. 新建ip addresses, 选择静态ip
     1. 首先新建一个不带iap的service.yaml, 制定一个自定义nginx的pod，重写nginx的sd.lua
