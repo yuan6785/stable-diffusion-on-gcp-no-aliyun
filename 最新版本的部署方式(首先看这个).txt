@@ -386,6 +386,31 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     最后在fleet.yaml中的nodeSelector中加入多个节点池即可；
 
 
+14. 多端口的dockerfile对应k8s的yaml
+    dockefile配置
+    ##########################
+    EXPOSE 30001 30002 30003   
+    或者
+    EXPOSE 30001
+    EXPOSE 30002
+    EXPOSE 30003
+    ##########################
+
+    k8s的pod配置
+    ##########################
+    spec:
+    nodeName: cn-node1
+    containers:
+    - name: nginx
+    - images: nginx
+      ports:
+      - containerPort: 30001
+        protocol: TCP
+      - containerPort: 30002
+        protocol: UDP
+      - containerPort: 30003
+        protocol: TCP
+    ##########################
 
 
 

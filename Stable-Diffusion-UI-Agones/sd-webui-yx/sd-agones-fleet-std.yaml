@@ -14,8 +14,8 @@ spec:
         name: default
       - container: stable-diffusion-webui
         containerPort: 7860
-        name: sd
         protocol: TCP
+        name: sd
       template:
         spec:
           containers:

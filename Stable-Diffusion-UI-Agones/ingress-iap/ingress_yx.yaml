@@ -16,7 +16,8 @@ kind: Ingress
 metadata:
   name: sd-agones-ingress
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: sd-webui-ingress-88d93bc5  # 手动的话，这里需要修改，找到静态ip的名称---yx
+    # 手动的话，这里需要修改，找到静态ip的名称,gcp搜索ip addresses---yx----
+    kubernetes.io/ingress.global-static-ip-name: sd-webui-ingress-c8c84f4c
     networking.gke.io/managed-certificates: managed-cert
     kubernetes.io/ingress.class: "gce"
 spec:

@@ -6,9 +6,10 @@ cd  Stable-Diffusion-UI-Agones/ingress-iap
 修改managed-cert-yx.yaml的 domains为你的域名，支持多个
 
 # 然后
+kubectl delete ManagedCertificate  managed-cert
 kubectl apply -f ./ingress-iap/managed-cert-yx.yaml
-kubectl apply -f ./ingress-iap/backendconfig.yaml
-kubectl apply -f ./ingress-iap/service.yaml
+#kubectl apply -f ./ingress-iap/backendconfig.yaml
+#kubectl apply -f ./ingress-iap/service.yaml
 kubectl apply -f ./ingress-iap/ingress_yx.yaml  # ingress这个最好先删除再运行这个命令
 
 # 查看证书配置是否完成的命令---
@@ -17,4 +18,6 @@ kubectl describe managedcertificate managed-cert
 # 有时候报【证书类型错误】【ssl_type_xxx】的错误需要等60分钟
 当： Certificate Status:  Active # 就可以了
 Certificate Status:  Provisioning  # 表示正在申请证书 
+
+也可以在[gke]-->[service 和 ingerss]-->[ingress, 点进去一个ingerss]------>[负载均衡器,  点进去]----->[https证书, 点击去查看即可]
 

@@ -68,6 +68,7 @@ Main step as follow
 1. 完成OAuth consent screen设置
 2. 创建 OAuth 凭据(**注意** *记录一下 client id 与 secret**，后续在local变量中会使用)
 3. 更新 OAuth 重定向URL
+凭据创建参考(yx): https://docs.google.com/document/d/1DfUXXmeOQ1o03ocl7--umrCPlNMstb0Cr0oREK2oSJE/edit?resourcekey=0-Y2n8dYbNBJuVIlz9hApLsg  的 【部署负载均衡和IAP】 部分
 
 
 ### 03 替换相应的本地变量 [值为大写的内容必须替换] ,取消[Agone verion]代码块的注释，同时注释掉[GKE version]代码块

@@ -26,8 +26,15 @@
 3. 重新打包sdwebui并调试(后面有sd镜像升级，可以从这一步开始)
    参考打包基础镜像: /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/readme.txt
       
+4. 新增支持minio的域名
+   域名在: /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/dockerdata/nginx2.conf 里面有三个
+   sdwebui和supervisor共用一个域名用nignx的rewrite来区分
+   minio-web需要根路径，所以需要单独一个域名
+   minio-api也需要根路径，所以需要单独一个域名
 
-4. 修改fleet的sd的挂载路径(访问supervisor在域名后面加/psuperfaa/即可)
+   参考 /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/readme_yx.txt
+
+5. 修改fleet的sd的挂载路径(访问supervisor在域名后面加/psuperfaa/即可)
    
     第一种方法(测试成功):
         修改/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml 里面需要修改的,特别是镜像版本，有注释---重要---
@@ -67,5 +74,5 @@
    # 这个gs的pod因为是多容器的，所以进入的时候要指定容器，这里指定的是stable-diffusion-webui即可
    kubectl  exec -it   -n default gs的pod的name  -c stable-diffusion-webui  /bin/bash
    例如:
-   kubectl  exec -it   -n default sd-agones-fleet-9p7j5-v45h5  -c stable-diffusion-webui  /bin/bash
+   kubectl  exec -it   -n default sd-agones-fleet-6hxl9-4dsmx  -c stable-diffusion-webui  /bin/bash
    # /usr/sbin/nginx -s reload  nignx重启命令
