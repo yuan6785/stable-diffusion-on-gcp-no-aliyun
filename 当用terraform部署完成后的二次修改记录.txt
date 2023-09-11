@@ -31,8 +31,8 @@
    sdwebui和supervisor共用一个域名用nignx的rewrite来区分
    minio-web需要根路径，所以需要单独一个域名
    minio-api也需要根路径，所以需要单独一个域名
-
-   参考 /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/readme_yx.txt
+   ---
+   参考 /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/readme_yx.txt  如何新增域名
 
 5. 修改fleet的sd的挂载路径(访问supervisor在域名后面加/psuperfaa/即可)
    
