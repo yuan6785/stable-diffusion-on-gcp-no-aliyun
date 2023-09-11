@@ -412,8 +412,28 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
         protocol: TCP
     ##########################
 
+15. 问清楚nvidia.com/gpu: "1"可以共享gpu吗，不需要限制cpu和memory吗
+    参考: https://cloud.google.com/kubernetes-engine/docs/how-to/timesharing-gpus?hl=zh-cn
+    需要在/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml
+    里面限制cpu和内存，即可共享gpu
+    你可以根据节点资源的情况均分一下设置cpu和mem的限制
+    资源request 和 limit 写上 
+        nvidia.com/gpu: "1"
 
 
+16. 部署多种GPU的节点池，T4, L4等
+     还有个问题想请教下，我如果想再做一个L4机型的节点池，在T4没有的情况下，用L4节点池。 可以用nodeselect来实现不
+     类似这样：
+     kind: fleet
+     nodeSelector:
+            cloud.google.com/gke-nodepool: nvidia-tesla-t4-nodepool
+            cloud.google.com/gke-nodepool: nvidia-L4-nodepool
+     回答:
+         配置两个节点池就行 提前把L4的显卡驱动装好
+         node selector里面把两个GPU类型都写上 
+         其实比较推荐的做法是你们选好一款gpu 然后创建两个节点池 一个标准 一个spot gke会以成本优先帮你调度节点
+
+    
 
 其他----------------------------------------------------
 
