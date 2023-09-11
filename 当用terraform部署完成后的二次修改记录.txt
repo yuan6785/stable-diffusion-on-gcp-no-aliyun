@@ -74,5 +74,5 @@
    # 这个gs的pod因为是多容器的，所以进入的时候要指定容器，这里指定的是stable-diffusion-webui即可
    kubectl  exec -it   -n default gs的pod的name  -c stable-diffusion-webui  /bin/bash
    例如:
-   kubectl  exec -it   -n default sd-agones-fleet-q47ph-289gs  -c stable-diffusion-webui  /bin/bash
+   kubectl  exec -it   -n default sd-agones-fleet-p4kbn-7dzw5  -c stable-diffusion-webui  /bin/bash
    # /usr/sbin/nginx -s reload  nignx重启命令
