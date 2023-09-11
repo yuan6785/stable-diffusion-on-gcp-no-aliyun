@@ -1,7 +1,15 @@
 echo ---------start-------$(date +"%Y-%m-%d %H:%M:%S")---------------
 echo ---------start ln base-------$(date +"%Y-%m-%d %H:%M:%S")---------------
-for dir in ControlNet  hypernetworks  Lora  Stable-diffusion  VAE BLIP torch_deepdanbooru; do if [ ! -L "/opt/stable-diffusion-webui/models/$dir" ]; then rm -rf  /opt/stable-diffusion-webui/models/$dir; ln -s /yuanxiao_root_nfs/sdwebui_public/public/models/$dir  /opt/stable-diffusion-webui/models/; fi; done
-for dir in embeddings  localizations  outputs  samples  scripts; do if [ ! -L "/opt/stable-diffusion-webui/$dir" ]; then rm -rf  /opt/stable-diffusion-webui/$dir; ln -s /yuanxiao_root_nfs/sdwebui_public/public/$dir  /opt/stable-diffusion-webui/; fi; done
+# 1
+# for dir in ControlNet  hypernetworks  Lora  Stable-diffusion  VAE BLIP torch_deepdanbooru; do if [ ! -L "/opt/stable-diffusion-webui/models/$dir" ]; then rm -rf  /opt/stable-diffusion-webui/models/$dir; ln -s /yuanxiao_root_nfs/sdwebui_public/public/models/$dir  /opt/stable-diffusion-webui/models/; fi; done
+for dir in ControlNet  hypernetworks  Stable-diffusion  BLIP torch_deepdanbooru; do if [ ! -L "/opt/stable-diffusion-webui/models/$dir" ]; then rm -rf  /opt/stable-diffusion-webui/models/$dir; ln -s /yuanxiao_root_nfs/sdwebui_public/public/models/$dir  /opt/stable-diffusion-webui/models/; fi; done
+rm -rf /opt/stable-diffusion-webui/models/Lora; mkdir -p /opt/stable-diffusion-webui/models/Lora
+rm -rf /opt/stable-diffusion-webui/models/VAE;mkdir -p  /opt/stable-diffusion-webui/models/VAE; rsync -azP --no-perms --no-owner --no-group   /yuanxiao_root_nfs/sdwebui_public/public/models/VAE/ /opt/stable-diffusion-webui/models/VAE;
+# 2
+# for dir in embeddings  localizations  outputs  samples  scripts; do if [ ! -L "/opt/stable-diffusion-webui/$dir" ]; then rm -rf  /opt/stable-diffusion-webui/$dir; ln -s /yuanxiao_root_nfs/sdwebui_public/public/$dir  /opt/stable-diffusion-webui/; fi; done
+for dir in embeddings  localizations  outputs; do if [ ! -L "/opt/stable-diffusion-webui/$dir" ]; then rm -rf  /opt/stable-diffusion-webui/$dir; ln -s /yuanxiao_root_nfs/sdwebui_public/public/$dir  /opt/stable-diffusion-webui/; fi; done
+rm -rf /opt/stable-diffusion-webui/samples; mkdir -p /opt/stable-diffusion-webui/samples
+rm -rf /opt/stable-diffusion-webui/scripts; mkdir -p /opt/stable-diffusion-webui/scripts; rsync -azP --no-perms --no-owner --no-group   /yuanxiao_root_nfs/sdwebui_public/public/scripts/ /opt/stable-diffusion-webui/scripts;
 # echo ---------start ln additional networks-------$(date +"%Y-%m-%d %H:%M:%S")---------------
 # rm -rf /opt/stable-diffusion-webui/extensions/sd-webui-additional-networks/models/lora/*
 # ln -s /yuanxiao_root_nfs/sdwebui_public/public/models/Lora  /opt/stable-diffusion-webui/extensions/sd-webui-additional-networks/models/lora/

@@ -32,7 +32,7 @@ spec:
             - /bin/sh
             - -c
             - ./start_supervisor2.sh
-            image: us-central1-docker.pkg.dev/happyaigc/sd-repository-c8c84f4c/sd-webui:stt5 # 这里改成自己的镜像
+            image: us-central1-docker.pkg.dev/happyaigc/sd-repository-c8c84f4c/sd-webui:stt6 # 这里改成自己的镜像
             name: stable-diffusion-webui
             resources:
               limits: # 加入cpu和memory限制才能共享gpu
