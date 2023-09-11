@@ -26,7 +26,7 @@
 3. 重新打包sdwebui并调试(后面有sd镜像升级，可以从这一步开始)
    参考打包基础镜像: /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/readme.txt
       
-4. 新增支持minio的域名
+4. 新增或修改支持minio的域名(可选)
    域名在: /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/dockerdata/nginx2.conf 里面有三个
    sdwebui和supervisor共用一个域名用nignx的rewrite来区分
    minio-web需要根路径，所以需要单独一个域名
