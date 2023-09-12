@@ -7,6 +7,7 @@ data:
     <html>
     yx1111
     </html>
+  # 修改nginx_onefile_yx.conf,然后复制进来即可
   nginx_conf: |
     worker_processes  auto;
 
@@ -30,6 +31,7 @@ data:
 
         include /etc/nginx/conf.d/default.conf;
     }
+  # 修改default_onefile_yx.conf,然后复制进来即可
   default_conf: |
     server {
         listen 8080;
@@ -87,6 +89,19 @@ data:
     }
   # 修改sd_onefile_yx.lua,然后复制进来即可
   test_lua: |
+    --  Copyright 2023 Google LLC
+    -- 
+    --  Licensed under the Apache License, Version 2.0 (the "License");
+    --  you may not use this file except in compliance with the License.
+    --  You may obtain a copy of the License at
+    -- 
+    --      http://www.apache.org/licenses/LICENSE-2.0
+    -- 
+    --  Unless required by applicable law or agreed to in writing, software
+    --  distributed under the License is distributed on an "AS IS" BASIS,
+    --  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    --  See the License for the specific language governing permissions and
+    --  limitations under the License.
     local headers = ngx.req.get_headers()
     local key = headers["x-goog-authenticated-user-email"]
     -- print(key)
@@ -200,6 +215,38 @@ data:
         end
     else
         ngx.var.target = lookup_res
+        -- add by yx 判断ngx.var.target是否是有效地址,是否该pod已经被删除，如果是从redis中删除这个key, 因为pod是抢占式的，可能会被删除
+        -- 后期这一部分改到定时任务中去做
+        local http = require "resty.http"
+        local httpc = http.new()
+        httpc:set_timeout(1000*5) --毫秒
+        local res, err = httpc:request_uri( 
+            "http://" .. ngx.var.target .. "/fdafadew12_health_fajijiqjfajdsfs",
+                {
+                method = "GET",
+              }
+        )
+        if not res then
+            ngx.log(ngx.ERR, "Failed to request URI: ", err)
+            ngx.status = 500
+            ngx.say("抢占式sd服务器已经被删除, 请刷新页面重试!")
+            --
+            local ok, err = red:del(key) -- 删除redis中的key的全部信息
+            --
+            return ngx.exit(ngx.status)
+        end
+        if res.status == 200 then
+            -- 什么都不做
+            -- 调试
+            -- ngx.log(ngx.INFO, "Received 200 status code: " .. ngx.var.target .. ", end", res.status)
+            ngx.say("Failed to make the request." .. ngx.var.target .. res.body .. ", end")
+            return
+        else
+            ngx.log(ngx.ERR, "Received non-200 status code: ", res.status)
+            -- ngx.status = res.status
+            -- ngx.say("Received non-200 status code.")
+        end
+        -- end add by yx
         ok, err = red:hset(key, "lastaccess", secs)
         if not ok then
     --         print("fail to set redis key")
@@ -208,6 +255,11 @@ data:
             return
         end
     end
+
+
+
+
+
 
 ---
 apiVersion: apps/v1
