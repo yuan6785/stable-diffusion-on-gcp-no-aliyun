@@ -143,7 +143,8 @@ else
             ngx.status = 500
             ngx.header["Content-Type"] = "text/plain; charset=utf-8" -- 防止中文乱码
             ngx.say("抢占式sd服务器已经被删除, 请刷新页面重试!")
-            --
+            -- 
+               -- todo: 小优化可以改为不要del这个key, 将这个key重命名下即可,在key后面加一个随机数，这样的话判断gs是否未被使用，可以被删除 --
             local ok, err = red:del(key) -- 删除redis中的key的全部信息,并删除相关gs，因为有可能并不是gs被删除了，而是sd内存占满导致死机--todo--
             --
             return ngx.exit(ngx.status)
