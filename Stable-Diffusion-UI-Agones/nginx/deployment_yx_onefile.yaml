@@ -85,6 +85,7 @@ data:
             proxy_read_timeout                 150s;
         }
     }
+  # 修改sd_onefile_yx.lua,然后复制进来即可
   test_lua: |
     local headers = ngx.req.get_headers()
     local key = headers["x-goog-authenticated-user-email"]
