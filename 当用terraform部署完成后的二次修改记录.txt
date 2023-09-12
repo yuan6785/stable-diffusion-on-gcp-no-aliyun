@@ -82,3 +82,6 @@
 6. 后期如果需要不走iap认证走自己的认证可以参考
    0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/yx-clean-ingress
    自己定义带lua的nginx和重定向到自己的认证服务即可
+
+7. 后期调试带lua的nignx转发用
+   /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/nginx/readme_yx.txt 的第二种方法即可
