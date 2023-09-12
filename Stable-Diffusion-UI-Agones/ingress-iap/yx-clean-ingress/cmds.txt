@@ -12,3 +12,5 @@ kubectl delete  ingress sd-nginx-ingress
 kubectl delete  configmap sd-nginx-configmap
 
 
+ingress创建后需要等待一段时间静态ip和slb才会出来，删除ingress会删除相应的静态ip和slb----验证过---
+
