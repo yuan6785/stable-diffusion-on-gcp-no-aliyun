@@ -76,3 +76,7 @@
    例如:
    kubectl  exec -it   -n default sd-agones-fleet-p4kbn-7dzw5  -c stable-diffusion-webui  /bin/bash
    # /usr/sbin/nginx -s reload  nignx重启命令
+
+6. 后期如果需要不走iap认证走自己的认证可以参考
+   0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/yx-clean-ingress
+   自己定义带lua的nginx和重定向到自己的认证服务即可
