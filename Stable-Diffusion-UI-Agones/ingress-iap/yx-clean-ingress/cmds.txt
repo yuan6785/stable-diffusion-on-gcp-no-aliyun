@@ -1,16 +1,21 @@
 全部创建命令-----
 cd /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap
 # kubectl apply -f  0_public_nginx/pod.yaml
-kubectl apply -f  yx-clean-ingress/pod_nginx_lua.yaml
+# 下面两种类型选一个即可，要么pod，要么deployment
+kubectl apply -f  yx-clean-ingress/pod_nginx_lua.yaml  或者 kubectl apply -f  yx-clean-ingress/deployment_nginx_lua.yaml
 kubectl apply -f  yx-clean-ingress/service_ingress.yaml
 
 
 删除命令----
-kubectl delete  pod sd-nginx
+# 根据上面创建的类型选一个即可，要么pod，要么deployment
+kubectl delete  pod sd-nginx   或者  kubectl delete  deployment sd-nginx
 kubectl delete  service sd-nginx-service
 kubectl delete  ingress sd-nginx-ingress
 kubectl delete  configmap sd-nginx-configmap
 
 
-ingress创建后需要等待一段时间静态ip和slb才会出来，删除ingress会删除相应的静态ip和slb----验证过---
+注意:
+1.  ingress创建后需要等待一段时间静态ip和slb才会出来，删除ingress会删除相应的静态ip和slb----验证过(gcp搜索ip adderss和负载均衡)---
+等静态ip出来后，需要赛稍等一会才能访问----重要----
 
+2.  如果只是为了测试nginx, 可以不用删除service和ingress，修改pod或者deployment的yaml，删除pod或者deployment然后重新创pod和deployment即可

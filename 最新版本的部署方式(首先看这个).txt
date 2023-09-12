@@ -440,8 +440,10 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     因为gpu实例是突发性实例，可能被回收了，gs是新弹出来的。但是原来的用户还在使用原来的gs，导致502，等待一段时间，gs就会被回收，然后给重新分配gs，就可以了。也可以自己清理redis的key，然后删除gs，重新分配gs即可，参考第8点，删除redis的key的方法
 
 18. 带lua的nginx的一个yaml创建，不用打镜像的方式；以及纯净版本的nginx和service和ingerss，不带iap认证的
-    参考: /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/yx-clean-ingress
-    重要文件带lua的nginx的一个yaml的创建: /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/yx-clean-ingress/service_ingress.yaml
+    参考: 0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/yx-clean-ingress
+    重要文件带lua的nginx的一个k8s的yaml的创建(快速测试lua脚本):/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/yx-clean-ingress/service_ingress.yaml
+    本地docker的lua测试参考: 0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/nginx/Dockerfile
+
 
 
 其他----------------------------------------------------
