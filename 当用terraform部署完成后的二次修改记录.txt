@@ -85,3 +85,4 @@
 
 7. 后期调试和修改带lua的nignx转发用
    /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/nginx/readme_yx.txt 的第二种方法即可
+   
