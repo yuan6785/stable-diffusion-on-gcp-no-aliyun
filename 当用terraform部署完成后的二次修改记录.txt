@@ -41,6 +41,7 @@
         cd /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx
         kubectl delete fleet sd-agones-fleet
         kubectl apply -f sd-agones-fleet-std.yaml 即可, 会重新创建gameserver， 如果需要修改自动弹缩,打开文件里面最后的注释即可
+        # kubectl scale fleet sd-agones-fleet --replicas=5  # 这个命令可以修改自动弹缩的数量
 
     第二种方法(比较保险):
         kubectl get fleet sd-agones-fleet -o yaml > sd-agones-fleet-tmp.yaml
