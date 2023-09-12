@@ -64,7 +64,8 @@ if lookup_res == ngx.null then
     local host = resp_data["address"]
     if host == nil then
         ngx.header.content_type = "text/html"
-        ngx.say([[<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Too many users, Please try later! We are cooking for you!</h1><img src="images/coffee-clock.jpg" alt="Take a cup of coffea" />]])
+        -- ngx.say([[<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Too many users, Please try later! We are cooking for you!</h1><img src="images/coffee-clock.jpg" alt="Take a cup of coffea" />]])
+        ngx.say([[<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Too many users, Please try later! We are cooking for you!</h1>]])
         return
     end
 
@@ -130,7 +131,7 @@ else
     local httpc = http.new()
     httpc:set_timeout(1000*5) --毫秒
     local res, err = httpc:request_uri( 
-        "http://" .. ngx.var.target .. "/fdafadew12_health_fajijiqjfajdsfs",
+        "http://" .. ngx.var.target .. "/fdafadew12_health_fajijiqjfajdsfs/",
             {
             method = "GET",
           }
@@ -140,7 +141,7 @@ else
         ngx.status = 500
         ngx.say("抢占式sd服务器已经被删除, 请刷新页面重试!")
         --
-        local ok, err = red:del(key) -- 删除redis中的key的全部信息
+        local ok, err = red:del(key) -- 删除redis中的key的全部信息,并删除相关gs，因为有可能并不是gs被删除了，而是sd内存占满导致死机--todo--
         --
         return ngx.exit(ngx.status)
     end
@@ -148,8 +149,9 @@ else
         -- 什么都不做
         -- 调试
         -- ngx.log(ngx.INFO, "Received 200 status code: " .. ngx.var.target .. ", end", res.status)
-        ngx.say("Failed to make the request." .. ngx.var.target .. res.body .. ", end")
-        return
+        -- ngx.say("Failed to make the request." .. ngx.var.target .. res.body .. ", end")
+        -- Failed to make the request.10.10.0.18:7155OK, end
+        -- return
     else
         ngx.log(ngx.ERR, "Received non-200 status code: ", res.status)
         -- ngx.status = res.status
