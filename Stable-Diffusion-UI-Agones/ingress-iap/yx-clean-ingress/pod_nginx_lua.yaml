@@ -1,0 +1,116 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sd-nginx-configmap
+data:
+  index_html: |
+    <html>
+    yx1111
+    </html>
+  nginx_conf: |
+    worker_processes  auto;
+
+    events {
+        worker_connections 1024;
+    }
+
+    http {
+        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                        '$status $body_bytes_sent "$http_referer" '
+                        '"$http_user_agent" "$http_x_forwarded_for"';
+
+        access_log  /usr/local/openresty/nginx/logs/access.log  main;
+        error_log /usr/local/openresty/nginx/logs/error.log error;
+        client_max_body_size 0;
+
+        map $http_upgrade $connection_upgrade {
+            default upgrade;
+            '' close;
+        }
+
+        include /etc/nginx/conf.d/default.conf;
+    }
+  default_conf: |
+    server {
+        listen 8080;  # 指定监听的端口
+
+        location / {
+            root /etc/nginx/html;  # 设置HTML文件所在的目录
+            index index.html;  # 指定默认的HTML文件
+        }
+
+        location /testlua {
+            default_type 'text/plain';
+            content_by_lua_file "test.lua";  # 引入Lua脚本
+        }
+    }
+  test_lua: |
+    ngx.say("Hello, Lua in Nginx!")
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sd-nginx
+  namespace: default  # 如果不是这个命名空间,则修改
+  labels:
+    app: sd-nginx # 标签
+spec:
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool  # 节点池选择
+  containers:
+  - name: sd-nginx
+    # image: k8s.gcr.io/nginx-slim:0.8
+    image: openresty/openresty:1.21.4.1-0-focal
+    ports:
+      - containerPort: 8080  # 暴露端口
+    command: ["/bin/sh", "-c"]
+    # sleep 86400  # 调试用
+    # nginx -c /usr/local/openresty/nginx/conf/nginx.conf -g 'daemon off;'
+    # /usr/local/openresty/nginx/sbin/nginx -c /usr/local/openresty/nginx/conf/nginx.conf -g 'daemon off;'
+    # /usr/local/openresty/bin/openresty -c /usr/local/openresty/nginx/conf/nginx.conf -g 'daemon off;'
+    args:
+      - |
+        opm get ledgetech/lua-resty-http &&
+        opm get openresty/lua-resty-redis &&
+        opm get openresty/lua-resty-dns &&
+        /usr/local/openresty/bin/openresty -c /usr/local/openresty/nginx/conf/nginx.conf -g 'daemon off;'
+    volumeMounts:
+    - name: nginx-index-html
+      # 参考 https://blog.csdn.net/qq_34556414/article/details/115124529
+      # 这里如果只写目录,则会把整个目录都覆盖掉；如果写文件,则需要加上subPath,则可实现添加一个文件或修改一个文件的功能；
+      mountPath: /etc/nginx/html/index.html   
+      subPath: index.html  # 必须和下面的volumes.configMap.items.path一样
+    - name: nginx-conf
+      mountPath: /usr/local/openresty/nginx/conf/nginx.conf
+      subPath: nginx.conf
+    - name: nginx-default-config
+      mountPath: /etc/nginx/conf.d/default.conf
+      subPath: default.conf
+    - name: nginx-test-lua
+      mountPath: /usr/local/openresty/nginx/test.lua
+      subPath: test.lua
+  volumes:
+  - name: nginx-index-html
+    configMap:
+      name: sd-nginx-configmap
+      items:
+      - key: index_html
+        path: index.html  
+  - name: nginx-conf
+    configMap:
+      name: sd-nginx-configmap
+      items:
+      - key: nginx_conf
+        path: nginx.conf
+  - name: nginx-default-config
+    configMap:
+      name: sd-nginx-configmap
+      items:
+      - key: default_conf
+        path: default.conf
+  - name: nginx-test-lua
+    configMap:
+      name: sd-nginx-configmap
+      items:
+      - key: test_lua
+        path: test.lua

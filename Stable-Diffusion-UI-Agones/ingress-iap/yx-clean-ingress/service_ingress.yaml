@@ -17,26 +17,32 @@ kind: Ingress
 metadata:
   name: sd-nginx-ingress
 spec:
-  rules:
-  - host: 
-    http:
-      paths:
-      - path: /sd15
-        pathType: Prefix
-        backend:
-          service:
-            name: sd-nginx-service
-            port:
-              name: http
-        # 如果需要配置TLS，取消以下注释并修改相应内容
-        #tls:
-        #- hosts:
-        #  - example.com
-        #  secretName: tls-secret
-      - path: /dreamworld
-        pathType: Prefix
-        backend:
-          service:
-            name: sd-nginx-service
-            port:
-              name: http
+  defaultBackend:
+    service:
+      name: sd-nginx-service # Name of the Service targeted by the Ingress
+      port:
+        number: 8080 # Should match the port used by the Service
+# spec:
+#   rules:
+#   - host: 
+#     http:
+#       paths:
+#       - path: /sd15
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: sd-nginx-service
+#             port:
+#               name: http
+#         # 如果需要配置TLS，取消以下注释并修改相应内容
+#         #tls:
+#         #- hosts:
+#         #  - example.com
+#         #  secretName: tls-secret
+#       - path: /dreamworld
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: sd-nginx-service
+#             port:
+#               name: http

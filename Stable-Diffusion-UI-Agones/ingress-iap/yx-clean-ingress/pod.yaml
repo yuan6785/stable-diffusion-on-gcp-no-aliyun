@@ -79,6 +79,7 @@ spec:
     image: nginx:1.24.0
     volumeMounts:
     - name: nginx-conf
+      # 参考: https://blog.csdn.net/qq_34556414/article/details/115124529
       mountPath: /etc/nginx/conf.d
     - name: nginx-index-html
       mountPath: /etc/nginx/html
@@ -86,7 +87,7 @@ spec:
   - name: nginx-conf
     configMap:
       name: sd-nginx-configmap
-      items:
+      items: 
       - key: nginx-config.conf
         path: nginx.conf
   - name: nginx-index-html
