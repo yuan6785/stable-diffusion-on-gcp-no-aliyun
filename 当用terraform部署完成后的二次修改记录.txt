@@ -40,7 +40,7 @@
         修改/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml 里面需要修改的,特别是镜像版本，有注释---重要---
         cd /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx
         kubectl delete fleet sd-agones-fleet
-        kubectl apply -f sd-agones-fleet-std.yaml 即可
+        kubectl apply -f sd-agones-fleet-std.yaml 即可, 会重新创建gameserver
 
     第二种方法(比较保险):
         kubectl get fleet sd-agones-fleet -o yaml > sd-agones-fleet-tmp.yaml
