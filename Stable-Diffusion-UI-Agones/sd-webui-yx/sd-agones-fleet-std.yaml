@@ -53,22 +53,22 @@ spec:
           - name: stable-diffusion-storage
             persistentVolumeClaim:
               claimName: vol1
---- 
-# 需要一起修改scale的时候再打开这里 ----
-apiVersion: "autoscaling.agones.dev/v1"
-kind: FleetAutoscaler
-metadata:
-  name: fleet-autoscaler-policy
-  namespace: default
-spec:
-  fleetName: sd-agones-fleet
-  policy:
-    type: Buffer
-    buffer:
-      bufferSize: 1   #  一般同时修改这两个地方, 准备多少台
-      minReplicas: 1   #  一般同时修改这两个地方
-      maxReplicas: 60
-  sync:
-    type: FixedInterval
-    fixedInterval:
-      seconds: 30
+# --- 
+# # 需要一起修改scale的时候再打开这里 ----
+# apiVersion: "autoscaling.agones.dev/v1"
+# kind: FleetAutoscaler
+# metadata:
+#   name: fleet-autoscaler-policy
+#   namespace: default
+# spec:
+#   fleetName: sd-agones-fleet
+#   policy:
+#     type: Buffer
+#     buffer:
+#       bufferSize: 1   #  一般同时修改这两个地方, 准备多少台
+#       minReplicas: 1   #  一般同时修改这两个地方
+#       maxReplicas: 60
+#   sync:
+#     type: FixedInterval
+#     fixedInterval:
+#       seconds: 30
