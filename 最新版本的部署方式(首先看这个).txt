@@ -444,6 +444,13 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     参考: 0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/yx-clean-ingress
     重要文件带lua的nginx的一个k8s的yaml的创建(快速测试lua脚本):/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/yx-clean-ingress/service_ingress.yaml
     本地docker的lua测试参考: 0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/nginx/Dockerfile
+    -------
+    真实环境中带lua的nginx，一个文件的yaml我已经配置好了，参考下面的方法二
+    /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/nginx/readme_yx.txt
+
+
+19. k8s内部的pod, 如何执行k8s的api, 可以使用serviceaccount吗？
+    留给未来解决
 
 
 
