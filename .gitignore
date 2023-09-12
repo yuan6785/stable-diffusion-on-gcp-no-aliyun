@@ -24,6 +24,7 @@ workdir/**
 # .tfstate files
 *.tfstate
 *.tfstate.*
+.DS_Store
 
 # terraform version lock files
 terraform-provision-infra/.terraform.lock.hcl
