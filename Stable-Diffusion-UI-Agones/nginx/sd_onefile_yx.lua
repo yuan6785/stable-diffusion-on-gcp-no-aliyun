@@ -52,6 +52,7 @@ if lookup_res == ngx.null then
     local final_uid = string.gsub(sub_key, "@", ".")
     local res, err = httpc:request_uri(
         -- 参考 https://agones.dev/site/docs/getting-started/create-fleet/#4-allocate-a-game-server-from-the-fleet
+        -- 参考 https://github.com/googleforgames/agones/blob/release-1.34.0/pkg/allocation/go/allocation.swagger.json
         "http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation",
             {
             method = "POST",
@@ -127,7 +128,7 @@ else
     ngx.var.target = lookup_res
     -- add by yx 判断ngx.var.target是否是有效地址,是否该pod已经被删除，如果是从redis中删除这个key, 因为pod是抢占式的，可能会被删除
     -- 后期这一部分改到定时任务中去做,不然每次请求都要判断一次
-    if true then
+    if false then -- 暂时不开启判断, 后面开始就设置为true, 不开启就设置为false
         local http = require "resty.http"
         local httpc = http.new()
         httpc:set_timeout(1000*5) --毫秒
