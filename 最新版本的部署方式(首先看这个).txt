@@ -143,6 +143,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    https://agones.dev/site/docs/guides/client-sdks/
    用于agones发现gameserver的grpc端口, 用于agones的sdk和agones的gameserver进行通信的, 有这个才能判断pod是否是agones的gameserver
    ---
+   agones的作用在于: 每个gs都有自己的静态ip可以对外访问，一个nignx转发就可以管理所有gs，不用建service和ingress；如果是有状态的pod都需要一个service来对外保留服务，很不方便
    ---
    重要理解(Stable-Diffusion-UI-Agones/nginx/sd.lua和agones的simple-game-serverde main.go部分做的事情):
         0. agones采用fleet来创建gameserver的模板, FleetAutoscaler来自动创建gameserver，参考 https://agones.dev/site/docs/getting-started/create-fleet/
