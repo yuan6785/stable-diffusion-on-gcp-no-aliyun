@@ -4,11 +4,12 @@
   https://docs.google.com/document/d/1DfUXXmeOQ1o03ocl7--umrCPlNMstb0Cr0oREK2oSJE/edit?resourcekey=0-Y2n8dYbNBJuVIlz9hApLsg
 
 
-
 2. github仓库
    git clone https://github.com/i-jw/gcp-stable-diffusion-build-deploy.git -b agones-beta
    我已经fork到我的仓库分支
    https://github.com/yuan6785/Stable-Diffusion-on-GCP/tree/fork_ma_agones-beta
+
+   重要的代码： /Users/yuanxiao/workspace/0yxgithub/Stable-Diffusion-on-GCP/Stable-Diffusion-UI-Agones/cloud-function-gs-controller/main.py  手动创建agones的gs
 
 
 
