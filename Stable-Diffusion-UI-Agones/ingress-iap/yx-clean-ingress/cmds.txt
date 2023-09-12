@@ -1,7 +1,7 @@
 全部创建命令-----
 cd /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap
 # kubectl apply -f  0_public_nginx/pod.yaml
-# 下面两种类型选一个即可，要么pod，要么deployment
+# 下面两种类型选一个即可，要么pod，要么deployment---这个yaml里面有configmap,记得删除的时候删除configmap
 kubectl apply -f  yx-clean-ingress/pod_nginx_lua.yaml  或者 kubectl apply -f  yx-clean-ingress/deployment_nginx_lua.yaml
 kubectl apply -f  yx-clean-ingress/service_ingress.yaml
 
