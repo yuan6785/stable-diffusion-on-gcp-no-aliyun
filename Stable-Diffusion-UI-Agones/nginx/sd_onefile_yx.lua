@@ -140,6 +140,7 @@ else
         if not res then
             ngx.log(ngx.ERR, "Failed to request URI: ", err)
             ngx.status = 500
+            ngx.header["Content-Type"] = "text/plain; charset=utf-8" -- 防止中文乱码
             ngx.say("抢占式sd服务器已经被删除, 请刷新页面重试!")
             --
             local ok, err = red:del(key) -- 删除redis中的key的全部信息,并删除相关gs，因为有可能并不是gs被删除了，而是sd内存占满导致死机--todo--
