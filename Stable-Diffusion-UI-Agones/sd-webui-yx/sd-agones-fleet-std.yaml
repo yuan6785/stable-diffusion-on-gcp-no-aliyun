@@ -37,11 +37,11 @@ spec:
             resources:
               limits: # 加入cpu和memory限制才能共享gpu
                 cpu: 5000m
-                memory: 21Gi
+                memory: 20Gi
                 nvidia.com/gpu: "1"
               requests:
                 cpu: 5000m
-                memory: 21Gi
+                memory: 20Gi
                 nvidia.com/gpu: "1"
             volumeMounts:
             - mountPath: /yuanxiao_root_nfs   # 这里改成自己的nfs挂载路径
@@ -53,3 +53,22 @@ spec:
           - name: stable-diffusion-storage
             persistentVolumeClaim:
               claimName: vol1
+--- 
+# 需要一起修改scale的时候再打开这里 ----
+apiVersion: "autoscaling.agones.dev/v1"
+kind: FleetAutoscaler
+metadata:
+  name: fleet-autoscaler-policy
+  namespace: default
+spec:
+  fleetName: sd-agones-fleet
+  policy:
+    type: Buffer
+    buffer:
+      bufferSize: 1   #  一般同时修改这两个地方, 准备多少台
+      minReplicas: 1   #  一般同时修改这两个地方
+      maxReplicas: 60
+  sync:
+    type: FixedInterval
+    fixedInterval:
+      seconds: 30
