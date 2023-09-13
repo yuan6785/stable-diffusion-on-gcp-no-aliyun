@@ -449,8 +449,11 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/nginx/readme_yx.txt
 
 
-19. k8s内部的pod, 如何执行k8s的api, 可以使用serviceaccount吗？
+19. k8s内部的pod, 如何执行k8s的api, 比如不用fleet，通过agones的k8s的api创建gs, 可以使用serviceaccount吗？
     留给未来解决
+    可以参考（分支是fork_ma_agones-beta） /0yxgithub/Stable-Diffusion-on-GCP/Stable-Diffusion-UI-Agones/cloud-function-gs-controller/main.py
+    获取服务账号, k8s的api是通过服务账号来访问的
+    kubectl get serviceaccount 或者 kubectl get serviceaccount -A 
 
 
 
