@@ -27,6 +27,8 @@ import os
 def get_access_token():
     METADATA_URL = 'http://metadata.google.internal/computeMetadata/v1/'
     METADATA_HEADERS = {'Metadata-Flavor': 'Google'}
+    # 用kubectl获取有哪些服务账号
+    # kubectl get serviceaccounts 或者 kubectl get serviceaccounts -A
     SERVICE_ACCOUNT = 'default'
     url = '{}instance/service-accounts/{}/token?scopes=https://www.googleapis.com/auth/cloud-platform'.format(
         METADATA_URL, SERVICE_ACCOUNT)
