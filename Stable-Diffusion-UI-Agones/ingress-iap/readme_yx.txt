@@ -3,7 +3,7 @@
 cd  Stable-Diffusion-UI-Agones/ingress-iap
 # 更换域名的步骤:
 修改ingress_yx.yaml的 kubernetes.io/ingress.global-static-ip-name 为 静态ip名称
-修改managed-cert-yx.yaml的 domains为你的域名，支持多个,这些域名必须预先配置A记录解析到静态ip，才能申请证书成功
+修改managed-cert-yx.yaml的 domains为你的域名，支持多个,这些域名必须预先配置A记录解析到静态ip，先要能解析成功，才能申请证书成功
 
 # 然后
 kubectl delete ManagedCertificate  managed-cert
