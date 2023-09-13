@@ -35,7 +35,8 @@
    参考 /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/readme_yx.txt  如何新增域名
 
 5. (sd版本变更，必选重要步骤)修改fleet的sd的挂载路径(访问supervisor在域名后面加/psuperfaa/即可)
-   
+    必须第3步完成后才做这一步
+    
     第一种方法(测试成功):
         修改/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml 里面需要修改的,特别是镜像版本，有注释---重要---
         cd /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx
