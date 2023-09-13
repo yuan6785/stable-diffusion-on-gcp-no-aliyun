@@ -131,8 +131,8 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    redis-cli -h redis.private.domain -p 6379  # tf部署的
    select 0
    keys *
-   hgetall accounts.google.com:yuanxiao6786@gmail.com
-   del accounts.google.com:yuanxiao6786@gmail.com # 删除key
+   hgetall accounts.google.com:yuanxiao6785@gmail.com
+   del accounts.google.com:yuanxiao6785@gmail.com # 删除key
    FLUSHDB # 清空 
    ----进入fleet的agones的其中一个pod的gameserver的容器(pod描述命令: kubectl describe pod/sd-agones-fleet-lxpsk-9w2hm -n default)----
    kubectl  exec -it  -n default $(kubectl get pods  -n default  |grep sd-agones-fleet |awk '{print $1}' |awk NR==1)  -c agones-gameserver-sidecar   /bin/sh  # 这个gameserver好像没有用，只是agones自己启动的, 没有AGONES_SDK_GRPC_PORT环境变量
