@@ -450,10 +450,34 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
 
 
 19. k8s内部的pod, 如何执行k8s的api, 比如不用fleet，通过agones的k8s的api创建gs, 可以使用serviceaccount吗？
-    留给未来解决
+    -----
     可以参考（分支是fork_ma_agones-beta） /0yxgithub/Stable-Diffusion-on-GCP/Stable-Diffusion-UI-Agones/cloud-function-gs-controller/main.py
     获取服务账号, k8s的api是通过服务账号来访问的(创建好的gke默认就自带default的服务账号)
     kubectl get serviceaccount 或者 kubectl get serviceaccount -A 
+    #######在ubuntu的pod里面测试的，参考第8点如何进入ubuntu的pod
+    """
+    conda activate py3.11_virtualenv_test
+    pip install kubernetes==27.2.0
+    """
+    import requests
+    def get_access_token():
+        METADATA_URL = 'http://metadata.google.internal/computeMetadata/v1/'
+        METADATA_HEADERS = {'Metadata-Flavor': 'Google'}
+        SERVICE_ACCOUNT = 'default'
+        url = '{}instance/service-accounts/{}/token?scopes=https://www.googleapis.com/auth/cloud-platform'.format(METADATA_URL, SERVICE_ACCOUNT)
+        # Request an access token from the metadata server.
+        r = requests.get(url, headers=METADATA_HEADERS)
+        r.raise_for_status()
+        # Extract the access token from the response.
+        try:
+            access_token = r.json()['access_token']
+            print("get access token success!")
+        except Exception as e:
+            print("fail to get access token!", e)
+            return "fail"
+        return access_token
+    print(get_access_token())
+    #######
 
 
 
