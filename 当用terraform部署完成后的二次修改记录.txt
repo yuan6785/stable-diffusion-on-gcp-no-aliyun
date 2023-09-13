@@ -72,17 +72,17 @@
           /0yxgithub/stable-diffusion-on-gcp-no-aliyun/最新版本的部署方式(首先看这个).txt
           第八点 调试以及重要理解  ----- 清理redis的数据，否则会出现用户502的问题
 
-5. 进入gs进行调试，或者进入gs看日志
+5. (可选)进入gs进行调试，或者进入gs看日志
    # 这个gs的pod因为是多容器的，所以进入的时候要指定容器，这里指定的是stable-diffusion-webui即可
    kubectl  exec -it   -n default gs的pod的name  -c stable-diffusion-webui  /bin/bash
    例如:
    kubectl  exec -it   -n default sd-agones-fleet-p4kbn-7dzw5  -c stable-diffusion-webui  /bin/bash
    # /usr/sbin/nginx -s reload  nignx重启命令
 
-6. 后期如果需要不走iap认证走自己的认证可以参考
+6. (可选)后期如果需要不走iap认证走自己的认证可以参考
    0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/yx-clean-ingress
    自己定义带lua的nginx和重定向到自己的认证服务即可
 
-7. 后期调试和修改带lua的nignx转发用(重要的知识点),不用打包nginx镜像，直接apply yaml即可，非常方便
+7. (可选)后期调试和修改带lua的nignx转发用(重要的知识点),不用打包nginx镜像，直接apply yaml即可，非常方便
    /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/nginx/readme_yx.txt 的第二种方法即可
    
