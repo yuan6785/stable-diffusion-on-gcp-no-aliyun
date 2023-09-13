@@ -462,6 +462,8 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     /0yxgithub/stable-diffusion-on-gcp-no-aliyun/inner_call_k8s_api.py
     #######
 
+20. fleet的自动伸缩用web service的方式来创建，方便用户请求(不重要，只作为学习使用)
+    https://agones.dev/site/docs/getting-started/create-webhook-fleetautoscaler/
 
 
 其他----------------------------------------------------
