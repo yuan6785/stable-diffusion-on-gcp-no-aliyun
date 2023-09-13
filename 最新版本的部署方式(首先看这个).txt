@@ -216,7 +216,11 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     }' \
     http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation
     #
-    会报错 there is no available GameServer to allocate，就是上面的状态
+    --正常状态应该返回
+    {"gameServerName":"sd-agones-fleet-5k8k6-xs4p5", "ports":[{"name":"default", "port":7103}, {"name":"sd", "port":7787}], "address":"10.10.0.41", "addresses":[{"type":"InternalIP", "address":"10.10.0.41"}, {"type":"Hostname", "address":"gke-tf-gen-gke-c8c84-nvidia-tesla-t4--07b29247-4rdc"}], "nodeName":"gke-tf-gen-gke-c8c84-nvidia-tesla-t4--07b29247-4rdc", "source":"local", "metadata":{"labels":{"agones.dev/fleet":"sd-agones-fleet", "agones.dev/gameserverset":"sd-agones-fleet-5k8k6", "user":"yuanxiao6785"}, "annotations":{"agones.dev/last-allocated":"2023-09-13T05:39:07.316339392Z", "agones.dev/ready-container-id":"containerd://0186a3a5581135ef9edec200a46da2d671245da399842f277833195a5c0476b5", "agones.dev/sdk-version":"1.34.0"}}}
+    --
+    #
+    但是有时候会报错 there is no available GameServer to allocate，就是上上面的错误状态
     解决: there is no available GameServer to allocate 报这个错的方案
     --(需要重新安装fleet)--
     方法一(测试成功--解决上面无法allocate的问题):
