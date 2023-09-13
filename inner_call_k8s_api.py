@@ -89,6 +89,30 @@ def test_k8s_api(access_token):
             pod_status = pod["status"]["state"]
             print(f"Pod Name: {pod_name}, Status: {pod_status}")
             # print(pod)
+    if 0: # 删除一个gameserver名为sd-agones-fleet-5k8k6-5gd8c----测试成功---
+        group = 'agones.dev'
+        version = 'v1'
+        namespace = 'default'
+        resource_type = 'gameservers'
+        game_server_name = 'sd-agones-fleet-5k8k6-5gd8c'
+
+        try:
+            # Use the CustomObjectsApi to delete the GameServer
+            crdclient.delete_namespaced_custom_object(
+                group=group,
+                version=version,
+                namespace=namespace,
+                plural=resource_type,
+                name=game_server_name,
+                body=client.V1DeleteOptions()
+            )
+            print(f"Deleted GameServer: {game_server_name}")
+        except client.rest.ApiException as e:
+            if e.status == 404:
+                print(f"GameServer {game_server_name} not found in namespace {namespace}")
+            else:
+                print(f"Failed to delete GameServer {game_server_name}: {e}")
+
 
 
 if __name__ == "__main__":
