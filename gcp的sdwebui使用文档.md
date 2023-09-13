@@ -42,7 +42,7 @@ gcp的sdwebui是部署在谷歌gke集群上面的，
 
 保活:   和阿里云函数一样,进入如下界面进行保活，默认15分钟，如果保活时间到后大概15分钟左右服务器被回收
 
-
+![image-20230913165235274](https://markdown-source.playnexx.net/75bb62ad510c494c8582b0e3e6ddef19_1694595162.png)
 
 
 
@@ -50,9 +50,7 @@ gcp的sdwebui是部署在谷歌gke集群上面的，
 
 可以在下面界面打开
 
-
-
-
+<img src="https://markdown-source.playnexx.net/9339e34c8cbd4d2997abfdbdaad2996b_1694595025.png" alt="image-20230913165019127" style="zoom: 33%;" />
 
 也可以谷歌浏览器直接输入网址  https://sd.agones.playdayy.cn/psuperfaa/    <font color='red'>注意最后需要带上/</font> ,   进入如下界面
 
@@ -72,7 +70,7 @@ gcp的sdwebui是部署在谷歌gke集群上面的，
 
 可以在下面界面打开:
 
-
+<img src="https://markdown-source.playnexx.net/f30cf604352840279751effcb532c9b1_1694595099.png" alt="image-20230913165134305" style="zoom:33%;" />
 
 也可以用谷歌浏览器直接输入网址:  <font color='red'>https://minio-web.agones.playdayy.cn</font>;     用户名: ecsuser, 密码: ecsuserqwe
 
