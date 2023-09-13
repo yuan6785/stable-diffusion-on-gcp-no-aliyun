@@ -8,7 +8,7 @@ cd  Stable-Diffusion-UI-Agones/ingress-iap
 
 # 然后
 kubectl delete ManagedCertificate  managed-cert
-kubectl apply -f ./ingress-iap/managed-cert-yx.yaml
+kubectl apply -f ./ingress-iap/managed-cert-yx.yaml # 文件必须修改一下才有效果-----（必须修改--重要）
 #kubectl apply -f ./ingress-iap/backendconfig.yaml
 #kubectl apply -f ./ingress-iap/service.yaml
 kubectl apply -f ./ingress-iap/ingress_yx.yaml  # 这个如果没有修改静态ip，可以不执行这个命令; 如果需要修改，ingress这个最好先删除再运行这个命令。
