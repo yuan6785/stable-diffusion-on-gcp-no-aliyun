@@ -18,9 +18,13 @@ gcp的sdwebui是部署在谷歌gke集群上面的，
 
 ​            抢占式实例有一定的不稳定因素;
 
+
+
 ##### 使用方法
 
 和阿里云ecs以及云函数使用的方法差不多，下面只说差异部分
+
+
 
 ##### 用户申请
 
@@ -28,21 +32,29 @@ gcp的sdwebui是部署在谷歌gke集群上面的，
 
 将需要的账号交给黄志鹏进行记录真实用户对应的谁, 进行登记；黄志鹏将名单给袁潇进行后端授权即可
 
+
+
 ##### 访问
 
 用谷歌浏览器访问网页   https://sd.agones.playdayy.cn 然后用上面的谷歌账号登录即可
 
-```
-保活:      理论上只要sd一直在用, 服务器会一直存在, 当sd没有使用大概15分钟左右，服务器则会关闭，下次打开则是一台新的服务器
-
 训练和推理: 理论上训练和推理都支持，但存在 抢占式实例有可能被中途被回收的可能，导致训练中断
-```
+
+保活:   和阿里云函数一样,进入如下界面进行保活，默认15分钟，如果保活时间到后大概15分钟左右服务器被回收
+
+
 
 
 
 ##### 管理sd服务
 
-浏览器打开网址  https://sd.agones.playdayy.cn/psuperfaa/    <font color='red'>注意最后需要带上/</font> ,   进入如下界面
+可以在下面界面打开
+
+
+
+
+
+也可以谷歌浏览器直接输入网址  https://sd.agones.playdayy.cn/psuperfaa/    <font color='red'>注意最后需要带上/</font> ,   进入如下界面
 
 只用操作第二行，第一行不要动
 
@@ -58,7 +70,11 @@ gcp的sdwebui是部署在谷歌gke集群上面的，
 
 无需下载任何软件
 
-谷歌浏览器访问:  <font color='red'> minio-web.agones.playdayy.cn</font>;     用户名: ecsuser, 密码: ecsuserqwe
+可以在下面界面打开:
+
+
+
+也可以用谷歌浏览器直接输入网址:  <font color='red'>https://minio-web.agones.playdayy.cn</font>;     用户名: ecsuser, 密码: ecsuserqwe
 
 如下图:
 
