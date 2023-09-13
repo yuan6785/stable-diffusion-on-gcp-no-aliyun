@@ -1,4 +1,4 @@
-1. 在自定义ubuntu里面部署filestore的公共Python环境和sd公共环境(只用部署一次，后面filesstore里面即可用这个python环境)
+1. (首次执行)在自定义ubuntu里面部署filestore的公共Python环境和sd公共环境(只用部署一次，后面filesstore里面即可用这个python环境)
     ----进入ubuntu---
     kubectl  exec -it   -n default $(kubectl get pods  -n default  |grep ubuntu |awk '{print $1}' |awk NR==1)   /bin/bash
     防止vim的时候中文乱码: 搜索笔记【securecrt乱码的原因两种】看最后ubuntu的那一段即可
@@ -18,15 +18,15 @@
     0yxgithub/userful_scripts/gradio_test/test_browse_donwload_inner_fastapi_onefile.py
 
 
-2. 同步s3的模型到filestore
+2. (首次执行)同步s3的模型到filestore
    笔记搜索[awss3sync常用命令sdwebui云函数nas同步备份webui]
    同步路径: /yuanxiao_root_nfs/sdwebui_public
 
 
-3. 重新打包sdwebui并调试(后面有sd镜像升级，可以从这一步开始)
+3. (sd版本变更，必选重要步骤)重新打包sdwebui并调试(后面有sd镜像升级，可以从这一步开始)
    参考打包基础镜像: /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/readme.txt
       
-4. 新增或修改支持minio的域名(可选)
+4. (可选)新增或修改支持minio的域名(可选)
    域名在: /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/dockerdata/nginx2.conf 里面有三个
    sdwebui和supervisor共用一个域名用nignx的rewrite来区分
    minio-web需要根路径，所以需要单独一个域名
@@ -34,7 +34,7 @@
    ---
    参考 /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/readme_yx.txt  如何新增域名
 
-5. 修改fleet的sd的挂载路径(访问supervisor在域名后面加/psuperfaa/即可)
+5. (sd版本变更，必选重要步骤)修改fleet的sd的挂载路径(访问supervisor在域名后面加/psuperfaa/即可)
    
     第一种方法(测试成功):
         修改/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml 里面需要修改的,特别是镜像版本，有注释---重要---
