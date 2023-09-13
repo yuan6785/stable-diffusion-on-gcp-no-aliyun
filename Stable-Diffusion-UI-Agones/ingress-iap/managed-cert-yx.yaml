@@ -20,6 +20,6 @@ spec:
     - sd.agones.163py.com
     - minio-web.agones.163py.com
     - minio-api.agones.163py.com
-    # - sd.agones.playdayy.cn
-    # - minio-web.playdayy.cn
-    # - minio-api.playdayy.cn
+    - sd.agones.playdayy.cn
+    - minio-web.playdayy.cn
+    - minio-api.playdayy.cn
