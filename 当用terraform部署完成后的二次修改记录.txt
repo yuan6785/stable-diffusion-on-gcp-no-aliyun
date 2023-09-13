@@ -87,3 +87,5 @@
 7. (可选)后期调试和修改带lua的nignx转发用(重要的知识点),不用打包nginx镜像，直接apply yaml即可，非常方便
    /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/nginx/readme_yx.txt 的第二种方法即可
    
+8. 公司文档地址
+    https://confluence.playnexx.net/pages/viewpage.action?pageId=130711851
