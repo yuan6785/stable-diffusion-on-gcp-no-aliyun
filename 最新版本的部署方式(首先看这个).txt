@@ -454,7 +454,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     可以参考（分支是fork_ma_agones-beta） /0yxgithub/Stable-Diffusion-on-GCP/Stable-Diffusion-UI-Agones/cloud-function-gs-controller/main.py   里面有创建gs的部分
     获取服务账号, k8s的api是通过服务账号来访问的(创建好的gke默认就自带default的服务账号)
     kubectl get serviceaccount 或者 kubectl get serviceaccount -A 
-    #######在ubuntu的pod里面测试的，参考第8点如何进入ubuntu的pod, 然后根据代码的说明进入对应的python环境进行测试即可,这个是测试k8s的接口调用
+    #######在ubuntu的pod里面测试的，参考第8点如何进入ubuntu的pod, 然后根据代码的说明进入对应的python环境进行测试即可,这个是测试k8s的接口调用，有删除gs的部分
     /0yxgithub/stable-diffusion-on-gcp-no-aliyun/inner_call_k8s_api.py
     #######
 
