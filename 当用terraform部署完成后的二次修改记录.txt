@@ -22,7 +22,7 @@
    笔记搜索[awss3sync常用命令sdwebui云函数nas同步备份webui]
    同步路径: /yuanxiao_root_nfs/sdwebui_public
 
-2.1 新增一个L4的GPU类型的节点池，T4实在太少了（如果需要删除节点池，界面上也可以删除）----删除集群之前先手动删除这个节点池--
+2.1 (首次执行)新增一个L4的GPU类型的节点池，T4实在太少了（如果需要删除节点池，界面上也可以删除）----删除集群之前先手动删除这个节点池--
     ----------------
     PROJECT_ID=happyaigc
     GKE_CLUSTER_NAME=tf-gen-gke-c8c84f4c
@@ -31,6 +31,8 @@
     ----------------
     # 如果加--preemptible true 表示是抢占式的，会便宜很多，但是会被回收; 如果false就是正常的，不会被回收, 但是贵很多;
     # --spot 表示是抢占式的；与 --preemptible 不同，--spot 实例的生命周期不是临时性的，而是根据 Cloud Dataprep 任务的需要动态创建和销毁。
+    # 具体区别参考: https://cloud.google.com/kubernetes-engine/docs/concepts/node-auto-provisioning?hl=zh-cn#support_for_spot_vms
+    # gcp的工作人员回答是: spot是新版叫法 preemptible是旧版的叫法。 建议用spot
     gcloud container node-pools create nvidia-l4-nodepool \
     --cluster ${GKE_CLUSTER_NAME} \
     --region ${REGION} \
@@ -58,6 +60,8 @@
     目前不用为这个节点池安装GPU驱动，因为和T4节点池的驱动是一样的，所以不用安装(以前已经装过上面的文件了，兼容T4和L4, 遇到不兼容的再说)
     修改/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml 里面的nodeseletor加上L4节点池的标签即可, 即 affinity部分 参考【root/最新版本的部署方式(首先看这个).txt】第16点, 然后结合第5步进行运行修改即可
 
+2.2 (首次执行)修改原来T4节点池的类型为spot而不是preemptible
+   
 
 
 3. (sd版本变更，必选重要步骤)重新打包sdwebui并调试(后面有sd镜像升级，可以从这一步开始)
