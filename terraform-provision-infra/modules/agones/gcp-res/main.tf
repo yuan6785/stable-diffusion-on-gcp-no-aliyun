@@ -330,8 +330,8 @@ resource "google_container_node_pool" "gpu_nodepool" {
       Terraform   = "true"
       Environment = "dev"
     }
-
-    preemptible  = true
+    # 注意--preemptible和--spot的区别
+    preemptible  = true  
     # 这里只用GPU实例，用于game server
     machine_type = var.node_machine_type
     image_type   = "COS_CONTAINERD"
