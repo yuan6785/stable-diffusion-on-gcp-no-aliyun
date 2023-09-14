@@ -22,7 +22,7 @@
    笔记搜索[awss3sync常用命令sdwebui云函数nas同步备份webui]
    同步路径: /yuanxiao_root_nfs/sdwebui_public
 
-2.1 (首次执行)新增一个L4的GPU类型的节点池，T4实在太少了（如果需要删除节点池，界面上也可以删除）----删除集群之前先手动删除这个节点池--
+2.1 (首次执行-可选)新增一个L4的GPU类型的节点池，T4实在太少了（如果需要删除节点池，界面上也可以删除）----删除集群之前先手动删除这个节点池--
     ----------------
     PROJECT_ID=happyaigc
     GKE_CLUSTER_NAME=tf-gen-gke-c8c84f4c
@@ -63,7 +63,7 @@
     -------
     注意: 节点池第一次创建后， gameserver第一次创建可能会处于delete状态，需要等待一段时间拉取奖项，然后再次创建即可。
 
-2.2 (首次执行--暂时不用)删除原来nvidia-tesla-t4-nodepool的节点池，修改为spot类型
+2.2 (首次执行-可选)删除原来nvidia-tesla-t4-nodepool的节点池，修改为spot类型
     ----------------
     PROJECT_ID=happyaigc
     GKE_CLUSTER_NAME=tf-gen-gke-c8c84f4c
@@ -162,7 +162,8 @@
    0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/yx-clean-ingress
    自己定义带lua的nginx和重定向到自己的认证服务即可
 
-7. (可选)后期调试和修改带lua的nignx转发用(重要的知识点),不用打包nginx镜像，直接apply yaml即可，非常方便
+7. (必选)后期调试和修改带lua的nignx转发用(重要的知识点),不用打包nginx镜像，直接apply yaml即可，非常方便-----重要-----
+   修改转发逻辑在这里
    /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/nginx/readme_yx.txt 的第二种方法即可
    
 8. 公司文档地址

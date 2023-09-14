@@ -87,7 +87,7 @@ data:
             proxy_read_timeout                 150s;
         }
     }
-  # 修改sd_onefile_yx.lua,然后复制进来即可
+  # 修改sd_onefile_yx.lua,然后复制进来即可，顶格复制，然后全选代码块按tab两次即可
   test_lua: |
     --  Copyright 2023 Google LLC
     -- 
@@ -155,9 +155,38 @@ data:
         local resp_data = cjson.decode(res.body)
         local host = resp_data["address"]
         if host == nil then
-            ngx.header.content_type = "text/html"
+            
+            -- ngx.header.content_type = "text/html"
             -- ngx.say([[<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Too many users, Please try later! We are cooking for you!</h1><img src="images/coffee-clock.jpg" alt="Take a cup of coffea" />]])
-            ngx.say([[<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Too many users, Please try later! We are cooking for you!</h1>]])
+            -- ngx.say([[<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Too many users, Please try later! We are cooking for you!</h1>]])
+            ngx.header["Content-Type"] = "text/html; charset=utf-8" -- 防止中文乱码
+            -- ngx.say([[<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;申请sdwebui的用户较多, 请稍后再试! 我们正在为你准备服务器!</h1>]])
+            local current_time = ngx.localtime()
+            ngx.say([[
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>刷新页面示例</title>
+                </head>
+                <body>
+                    <h1>申请sdwebui的用户较多，请稍后再试！我们正在为你准备服务器!</h1><br/>
+                    <h3 style="color: green;">请不要离开页面,保持网络畅通,服务器准备好后,会自动在本页面打开</h3>
+                    <p id="refreshTime">刷新时间：]] .. current_time .. [[ </p>
+
+                    <script>
+                        // 定时刷新页面
+                        setInterval(function() {
+                            // 刷新页面
+                            location.reload();
+                        }, 10000); // 刷新间隔为10秒
+
+                    </script>
+                </body>
+                </html>
+
+            ]])
+
+
             return
         end
 
@@ -219,7 +248,7 @@ data:
         ngx.var.target = lookup_res
         -- add by yx 判断ngx.var.target是否是有效地址,是否该pod已经被删除，如果是从redis中删除这个key, 因为pod是抢占式的，可能会被删除
         -- 后期这一部分改到定时任务中去做,不然每次请求都要判断一次
-        if false then -- 暂时不开启判断
+        if false then -- 暂时不开启判断, 后面开始就设置为true, 不开启就设置为false
             local http = require "resty.http"
             local httpc = http.new()
             httpc:set_timeout(1000*5) --毫秒
@@ -234,7 +263,8 @@ data:
                 ngx.status = 500
                 ngx.header["Content-Type"] = "text/plain; charset=utf-8" -- 防止中文乱码
                 ngx.say("抢占式sd服务器已经被删除, 请刷新页面重试!")
-                --
+                -- 
+                  -- todo: 小优化可以改为不要del这个key, 将这个key重命名下即可,在key后面加一个随机数，这样的话判断gs是否未被使用，可以被删除 --
                 local ok, err = red:del(key) -- 删除redis中的key的全部信息,并删除相关gs，因为有可能并不是gs被删除了，而是sd内存占满导致死机--todo--
                 --
                 return ngx.exit(ngx.status)
@@ -261,8 +291,6 @@ data:
             return
         end
     end
-
-
 
 
 

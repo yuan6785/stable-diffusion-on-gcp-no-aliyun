@@ -64,9 +64,38 @@ if lookup_res == ngx.null then
     local resp_data = cjson.decode(res.body)
     local host = resp_data["address"]
     if host == nil then
-        ngx.header.content_type = "text/html"
+        
+        -- ngx.header.content_type = "text/html"
         -- ngx.say([[<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Too many users, Please try later! We are cooking for you!</h1><img src="images/coffee-clock.jpg" alt="Take a cup of coffea" />]])
-        ngx.say([[<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Too many users, Please try later! We are cooking for you!</h1>]])
+        -- ngx.say([[<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Too many users, Please try later! We are cooking for you!</h1>]])
+        ngx.header["Content-Type"] = "text/html; charset=utf-8" -- 防止中文乱码
+        -- ngx.say([[<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;申请sdwebui的用户较多, 请稍后再试! 我们正在为你准备服务器!</h1>]])
+        local current_time = ngx.localtime()
+        ngx.say([[
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>刷新页面示例</title>
+            </head>
+            <body>
+                <h1>申请sdwebui的用户较多，请稍后再试！我们正在为你准备服务器!</h1><br/>
+                <h3 style="color: green;">请不要离开页面,保持网络畅通,服务器准备好后,会自动在本页面打开</h3>
+                <p id="refreshTime">刷新时间：]] .. current_time .. [[ </p>
+
+                <script>
+                    // 定时刷新页面
+                    setInterval(function() {
+                        // 刷新页面
+                        location.reload();
+                    }, 10000); // 刷新间隔为10秒
+
+                </script>
+            </body>
+            </html>
+
+        ]])
+
+
         return
     end
 

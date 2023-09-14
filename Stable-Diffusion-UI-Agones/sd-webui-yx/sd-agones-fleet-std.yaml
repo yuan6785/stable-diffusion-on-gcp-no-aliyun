@@ -55,7 +55,7 @@ spec:
           affinity:
             nodeAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:
-                - weight: 100 # 值越大, 越容易被调度到；值越小, 越不容易被调度到，但并不是说值为0就一定不会被调度到
+                - weight: 200 # 值越大, 越容易被调度到；值越小, 越不容易被调度到，但并不是说值为0就一定不会被调度到
                   preference:
                     matchExpressions:
                       - key: cloud.google.com/gke-nodepool
@@ -92,4 +92,4 @@ spec:
   sync:
     type: FixedInterval
     fixedInterval:
-      seconds: 30
+      seconds: 10

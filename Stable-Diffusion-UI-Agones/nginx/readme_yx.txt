@@ -27,7 +27,7 @@
 
     例如进入ubuntu清空redis 可以强制重启sd
 
-方法二(一个yaml的方式，不用打包镜像)---后期用这种了(放心用测试通过了)---：
+方法二(一个yaml的方式，不用打包镜像)---后期用这种了(放心用测试通过了)---重要，目前用的-----：
     全部创建命令-----
     --------修改lua文件，其他configmap的文件类似
     如果要调试 /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/nginx/sd_onefile_yx.lua
@@ -38,7 +38,7 @@
     导致gs越来越多就不好了。
     --------
     cd /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/nginx
-    创建:
+    创建(创建前先删除):
         # 下面两种类型选一个即可，要么pod，要么deployment---这个yaml里面有configmap,记得删除的时候删除configmap
         kubectl apply -f deployment_yx_onefile.yaml
 
