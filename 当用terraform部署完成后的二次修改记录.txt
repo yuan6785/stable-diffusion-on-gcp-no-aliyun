@@ -51,9 +51,9 @@
     # 不需要安装gpu驱动，不会影响T4，和T4是一样的
     # kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded.yaml
 
-    如果需要装驱动，请参考 【root/最新版本的部署方式(首先看这个).txt】 的第13点
+    # 如果需要装驱动，请参考 【root/最新版本的部署方式(首先看这个).txt】 的第13点
 
-    目前不用为这个节点池安装GPU驱动，因为和T4节点池的驱动是一样的，所以不用安装
+    目前不用为这个节点池安装GPU驱动，因为和T4节点池的驱动是一样的，所以不用安装(以前已经装过上面的文件了，兼容T4和L4, 遇到不兼容的再说)
     修改/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml 里面的nodeseletor加上L4节点池的标签即可, 即 affinity部分 参考【root/最新版本的部署方式(首先看这个).txt】第16点, 然后结合第5步进行运行修改即可
 
 
