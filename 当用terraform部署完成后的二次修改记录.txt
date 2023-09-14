@@ -120,7 +120,7 @@
         -- 先删除
         kubectl delete fleet sd-agones-fleet
         kubectl delete FleetAutoscaler fleet-autoscaler-policy 
-        -- 再创建
+        -- 再创建 (等 kubectl get gs 没有了就开始创建)
         kubectl apply -f sd-agones-fleet-std.yaml 即可, 会重新创建gameserver， 如果需要修改自动弹缩,打开文件里面最后的注释即可
         # kubectl scale fleet sd-agones-fleet --replicas=5  # 这个命令可以修改自动弹缩的数量
 
@@ -158,7 +158,7 @@
         NAME                          STATE            ADDRESS   PORT   NODE   AGE
         sd-agones-fleet-6t6ps-bgr9d   Unhealthy                                0s
         sd-agones-fleet-6t6ps-rdsws   PortAllocation                           0s
-        需要修改一下sd-agones-fleet-std.yaml里面weight 为 100， 50， 然后delete fleet 和 FleetAutoscaler, 然后在apply sd-agones-fleet-std.yaml即可
+        需要修改一下sd-agones-fleet-std.yaml里面weight 为 100以内, 千万不要大于100，会报上面的错误
 
 5. (可选)进入gs进行调试，或者进入gs看日志
    # 这个gs的pod因为是多容器的，所以进入的时候要指定容器，这里指定的是stable-diffusion-webui即可
