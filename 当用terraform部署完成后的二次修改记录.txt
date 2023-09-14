@@ -32,7 +32,7 @@
     # 如果加--preemptible true 表示是抢占式的，会便宜很多，但是会被回收; 如果false就是正常的，不会被回收, 但是贵很多;
     # --spot 表示是抢占式的；与 --preemptible 不同，--spot 实例的生命周期不是临时性的，而是根据 Cloud Dataprep 任务的需要动态创建和销毁。
     # 具体区别参考: https://cloud.google.com/kubernetes-engine/docs/concepts/node-auto-provisioning?hl=zh-cn#support_for_spot_vms
-    # gcp的工作人员回答是: spot是新版叫法 preemptible是旧版的叫法。 建议用spot
+    # gcp的工作人员回答是: spot是新版叫法 preemptible是旧版的叫法。 建议用spot, 这两种类型中断频率不一样，但是都会被回收
     # 但是老版的节点池已经用preemptible创建了， 这个能改为spot吗？gcp回答: 不能改，只能删除重建
     gcloud container node-pools create nvidia-l4-nodepool \
     --cluster ${GKE_CLUSTER_NAME} \
