@@ -17,9 +17,10 @@ metadata:
   name: managed-cert
 spec:
   domains: # 手动的话，这里需要修改--yx
-    - sd.agones.163py.com
-    - minio-web.agones.163py.com
-    - minio-api.agones.163py.com
     - sd.agones.playdayy.cn
     - minio-web.agones.playdayy.cn
     - minio-api.agones.playdayy.cn
+    - sd.agones.163py.com
+    - minio-web.agones.163py.com
+    - minio-api.agones.163py.com
+    
