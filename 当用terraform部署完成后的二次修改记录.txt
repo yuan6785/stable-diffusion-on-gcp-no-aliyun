@@ -22,6 +22,39 @@
    笔记搜索[awss3sync常用命令sdwebui云函数nas同步备份webui]
    同步路径: /yuanxiao_root_nfs/sdwebui_public
 
+2.1 新增一个L4的GPU类型的节点池，T4实在太少了（如果需要删除节点池，界面上也可以删除）----删除集群之前先手动删除这个节点池--
+    ----------------
+    PROJECT_ID=happyaigc
+    GKE_CLUSTER_NAME=tf-gen-gke-c8c84f4c
+    REGION=us-central1
+    ZONE=us-central1-a  # 因为只有这个zone有l4的gpu
+    ----------------
+    gcloud container node-pools create nvidia-l4-nodepool \
+    --cluster ${GKE_CLUSTER_NAME} \
+    --region ${REGION} \
+    --node-locations ${ZONE} \
+    --spot \
+    --machine-type "g2-standard-12" \
+    --accelerator  "type=nvidia-l4,count=1,gpu-sharing-strategy=time-sharing,max-shared-clients-per-gpu=2" \
+    --image-type "COS_CONTAINERD" \
+    --disk-type "pd-balanced" \
+    --disk-size "100" \
+    --metadata disable-legacy-endpoints=true \
+    --scopes "https://www.googleapis.com/auth/cloud-platform" \
+    --enable-autoscaling \
+    --total-min-nodes "0" \
+    --total-max-nodes "20" \
+    --location-policy "ANY" \
+    --enable-autoupgrade \
+    --num-nodes "0"
+
+    # 不需要安装gpu驱动，不会影响T4，和T4是一样的
+    # kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded.yaml
+
+    目前不用为这个节点池安装GPU驱动，因为和T4节点池的驱动是一样的，所以不用安装
+    修改/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml 里面的nodeseletor加上L4节点池的标签即可,结合第5步进行运行修改即可
+
+
 
 3. (sd版本变更，必选重要步骤)重新打包sdwebui并调试(后面有sd镜像升级，可以从这一步开始)
    参考打包基础镜像: /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/readme.txt
