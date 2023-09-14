@@ -487,6 +487,9 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
 20. fleet的自动伸缩用web service的方式来创建，方便用户请求(不重要，只作为学习使用)
     https://agones.dev/site/docs/getting-started/create-webhook-fleetautoscaler/
 
+21. 给谷歌的工作人员授权了一个viewer的权限
+     gcp控制台搜索iam可以看到：  wajie@google.com
+
 
 其他----------------------------------------------------
 

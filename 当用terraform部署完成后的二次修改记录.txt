@@ -76,13 +76,12 @@
     --region ${REGION} \
     --quiet
     ----------------
-    # 重新创建节点池
+    # 重新创建节点池 （一个gpu一台用custom-4-49152-ext, 一个GPU两台用custom-12-49152-ext）
     gcloud container node-pools create nvidia-tesla-t4-nodepool \
     --cluster ${GKE_CLUSTER_NAME} \
     --region ${REGION} \
-    --node-locations ${ZONE} \
     --spot \
-    --machine-type "custom-4-49152-ext" \
+    --machine-type "custom-12-49152-ext" \
     --accelerator  "type=nvidia-tesla-t4,count=1,gpu-sharing-strategy=time-sharing,max-shared-clients-per-gpu=2" \
     --image-type "COS_CONTAINERD" \
     --disk-type "pd-balanced" \
@@ -118,7 +117,10 @@
     第一种方法(测试成功):
         修改/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml 里面需要修改的,特别是镜像版本，有注释---重要---
         cd /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx
+        -- 先删除
         kubectl delete fleet sd-agones-fleet
+        kubectl delete FleetAutoscaler fleet-autoscaler-policy 
+        -- 再创建
         kubectl apply -f sd-agones-fleet-std.yaml 即可, 会重新创建gameserver， 如果需要修改自动弹缩,打开文件里面最后的注释即可
         # kubectl scale fleet sd-agones-fleet --replicas=5  # 这个命令可以修改自动弹缩的数量
 
