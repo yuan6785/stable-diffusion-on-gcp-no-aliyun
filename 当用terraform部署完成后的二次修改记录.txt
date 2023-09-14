@@ -152,6 +152,13 @@
     注意： 重新部署fleet后，需要参考------重要------
           /0yxgithub/stable-diffusion-on-gcp-no-aliyun/最新版本的部署方式(首先看这个).txt
           第八点 调试以及重要理解  ----- 清理redis的数据，否则会出现用户502的问题
+        
+    注意:  如果报错
+        kubectl get gs
+        NAME                          STATE            ADDRESS   PORT   NODE   AGE
+        sd-agones-fleet-6t6ps-bgr9d   Unhealthy                                0s
+        sd-agones-fleet-6t6ps-rdsws   PortAllocation                           0s
+        需要修改一下sd-agones-fleet-std.yaml里面weight 为 100， 50， 然后delete fleet 和 FleetAutoscaler, 然后在apply sd-agones-fleet-std.yaml即可
 
 5. (可选)进入gs进行调试，或者进入gs看日志
    # 这个gs的pod因为是多容器的，所以进入的时候要指定容器，这里指定的是stable-diffusion-webui即可
