@@ -432,10 +432,32 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
 16. 部署多种GPU的节点池，T4, L4等
      还有个问题想请教下，我如果想再做一个L4机型的节点池，在T4没有的情况下，用L4节点池。 可以用nodeselect来实现不
      类似这样：
-     kind: fleet
-     nodeSelector:
-            cloud.google.com/gke-nodepool: nvidia-tesla-t4-nodepool
-            cloud.google.com/gke-nodepool: nvidia-L4-nodepool
+    -------
+    kind: fleet
+    # modify by yx----节点池的优先选择
+    # nodeSelector:
+    #   cloud.google.com/gke-nodepool: nvidia-tesla-t4-nodepool
+    #   cloud.google.com/gke-nodepool: nvidia-l4-nodepool
+    # 实现优先调度到nvidia-tesla-t4-nodepool, 如果没有, 再调度到nvidia-l4-nodepool
+    affinity:
+    nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+            preference:
+            matchExpressions:
+                - key: cloud.google.com/gke-nodepool
+                operator: In
+                values:
+                    - nvidia-tesla-t4-nodepool
+        - weight: 50
+            preference:
+            matchExpressions:
+                - key: cloud.google.com/gke-nodepool
+                operator: In
+                values:
+                    - nvidia-l4-nodepool
+    # end modify by yx----节点池的优先选择
+    ---------
      回答:
          配置两个节点池就行 提前把L4的显卡驱动装好
          node selector里面把两个GPU类型都写上 
