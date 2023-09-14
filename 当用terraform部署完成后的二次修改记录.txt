@@ -61,7 +61,7 @@
     目前不用为这个节点池安装GPU驱动，因为和T4节点池的驱动是一样的，所以不用安装(以前已经装过上面的文件了，兼容T4和L4, 遇到不兼容的再说)
     修改/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml 里面的nodeseletor加上L4节点池的标签即可, 即 affinity部分 参考【root/最新版本的部署方式(首先看这个).txt】第16点, 然后结合第5步进行运行修改即可
 
-2.2 (首次执行)删除原来nvidia-tesla-t4-nodepool的节点池，修改为spot类型
+2.2 (首次执行--暂时不用)删除原来nvidia-tesla-t4-nodepool的节点池，修改为spot类型
     ----------------
     PROJECT_ID=happyaigc
     GKE_CLUSTER_NAME=tf-gen-gke-c8c84f4c
@@ -75,8 +75,27 @@
     --quiet
     ----------------
     # 重新创建节点池
-    
+    gcloud container node-pools create nvidia-l4-nodepool \
+    --cluster ${GKE_CLUSTER_NAME} \
+    --region ${REGION} \
+    --node-locations ${ZONE} \
+    --spot \
+    --machine-type "g2-standard-12" \
+    --accelerator  "type=nvidia-l4,count=1,gpu-sharing-strategy=time-sharing,max-shared-clients-per-gpu=2" \
+    --image-type "COS_CONTAINERD" \
+    --disk-type "pd-balanced" \
+    --disk-size "100" \
+    --metadata disable-legacy-endpoints=true \
+    --scopes "https://www.googleapis.com/auth/cloud-platform" \
+    --enable-autoscaling \
+    --total-min-nodes "0" \
+    --total-max-nodes "20" \
+    --location-policy "ANY" \
+    --enable-autoupgrade \
+    --num-nodes "1"
     ----------------
+
+    # 不需要安装gpu驱动，和原来的t4节点池一样
     
 
 
