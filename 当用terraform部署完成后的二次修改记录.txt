@@ -61,8 +61,23 @@
     目前不用为这个节点池安装GPU驱动，因为和T4节点池的驱动是一样的，所以不用安装(以前已经装过上面的文件了，兼容T4和L4, 遇到不兼容的再说)
     修改/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/sd-agones-fleet-std.yaml 里面的nodeseletor加上L4节点池的标签即可, 即 affinity部分 参考【root/最新版本的部署方式(首先看这个).txt】第16点, 然后结合第5步进行运行修改即可
 
-2.2 (首次执行)修改原来T4节点池的类型为spot而不是preemptible
-   
+2.2 (首次执行)删除原来nvidia-tesla-t4-nodepool的节点池，修改为spot类型
+    ----------------
+    PROJECT_ID=happyaigc
+    GKE_CLUSTER_NAME=tf-gen-gke-c8c84f4c
+    REGION=us-central1
+    ZONE=us-central1-a  # 因为只有这个zone有l4的gpu
+    ----------------
+    # 删除节点池
+    gcloud container node-pools delete nvidia-tesla-t4-nodepool \
+    --cluster ${GKE_CLUSTER_NAME} \
+    --region ${REGION} \
+    --quiet
+    ----------------
+    # 重新创建节点池
+    
+    ----------------
+    
 
 
 3. (sd版本变更，必选重要步骤)重新打包sdwebui并调试(后面有sd镜像升级，可以从这一步开始)
