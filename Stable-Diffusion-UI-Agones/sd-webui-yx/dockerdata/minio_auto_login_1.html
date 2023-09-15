@@ -39,8 +39,8 @@
             if (usernameInput && passwordInput && loginButton) {
                 // 这里不要直接给usernameInput和passwordInput赋值，因为minio的登录页面有js监听，会触发登录，导致登录失败，需要输入用户名和密码，例如minioadmin和minioadmin,然后切换到loginButton模拟点击登录
                 // 参考 https://blog.csdn.net/a0405221/article/details/124374119
-                changInputValue(usernameInput, "minioadmin");
-                changInputValue(passwordInput, "minioadmin");
+                changInputValue(usernameInput, "ecsuser");
+                changInputValue(passwordInput, "ecsuserqwe");
                 loginButton.focus();
                 loginButton.click();
             }

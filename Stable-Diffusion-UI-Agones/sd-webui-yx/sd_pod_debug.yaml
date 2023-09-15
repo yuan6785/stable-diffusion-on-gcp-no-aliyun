@@ -14,7 +14,7 @@ spec:
         claimName: vol1
   containers:
     - name: sdwebui-debug
-      image: us-central1-docker.pkg.dev/happyaigc/sd-repository-c8c84f4c/sd-webui:stt10
+      image: us-central1-docker.pkg.dev/happyaigc/sd-repository-c8c84f4c/sd-webui:stt11
       # command: ["bash","-c","sleep 3600;"] # 测试用
       # command: ["bash","-c","./start_debug.sh"] # debug用
       # command: ["bash","-c","./start.sh"]  # 正式命令
