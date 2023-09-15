@@ -10,7 +10,8 @@
     PROJECT_ID=happyaigc
     BUILD_REGIST=sd-repository-c8c84f4c
 
-    # 修改cloudbuild.yaml的镜像标签----记得修改cloudbuild.yaml的docker地址和版本---
+    # 修改cloudbuild.yaml的镜像标签----记得修改cloudbuild.yaml的docker地址和版本---重要---
+    # 为了方便后续步骤，你也可以修改cloudbuild.yaml, sd_pod_debug.yaml, sd-agones-fleet-std.yaml这三个文件的镜像地址和版本号----重要----
     gcloud auth configure-docker ${REGION}-docker.pkg.dev
     gcloud builds submit --region=${REGION} . --config=cloudbuild.yaml
 
