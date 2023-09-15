@@ -261,7 +261,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
         函数计算的代码存储地址: gcs
 
 
-11. 重要知识记录:fleet,FleetAutoscaler和agones的关系
+11. 重要知识记录:fleet,FleetAutoscaler和agones的关系-----任何集群都能运行------
     agones是一个分布式游戏服务器管理, gameserverallocation 这个api是agones的原生api,这个api不是由fleet提供的
     参考: https://agones.dev/site/docs/advanced/allocator-service/#using-rest;
     agones里面的gameserver可以分为多种类型，可以通过label来区分；
