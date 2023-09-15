@@ -6,7 +6,7 @@
 </head>
 <body>
     <!--这里的src不要直接填minio的启动地址，需要用nginx反向代理一次，劫持X-Frame-Options改为运行iframe即可; 这里必须填和上面nginx配置的server_name一样的域名，访问浏览器的时候也必须是这个域名，保证不跨越-->
-    <iframe id="minioIframe" src="minio-web.agones.playdayy.cn" style="width: 100%; height:1000px; border: none;"></iframe>
+    <iframe id="minioIframe" src="https://minio-web.agones.playdayy.cn" style="width: 100%; height:1000px; border: none;"></iframe>
     
     <script>
         // Async function to interact with the iframe
