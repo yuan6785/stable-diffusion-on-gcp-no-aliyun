@@ -85,6 +85,14 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
    参考本目录截图[iap添加账号1.jpg, iap添加账号2.jpg]
    更换域名和iap证书是否生效参考: /Stable-Diffusion-UI-Agones/ingress-iap/readme_yx.txt
    ------------------------------------
+   -----------------------------------
+   一些看服务器状态的重要命令:
+   kubectl get gs  # 获取所有sd服务器状态信息(agones的gameserver信息), 等效kubectl get gameserver
+   kubectl get fleet  # 如果用了fleet的自动伸缩创建，可以看到fleet的状态信息
+   kubectl get gs -o wide # 获取所有sd服务器状态信息(agones的gameserver信息)和所属节点信息
+   kubectl get nodes    # 获取所有节点信息，可以看节点池弹了几个节点
+   kubectl get xxxx -o yaml  # 获取某个资源的yaml文件  
+   -----------------------------------
    -----------重要二次部署记录-----------
    ------------------------------------
    如果需要自定义sdwebui二次部署(一步步来即可): /0yxgithub/stable-diffusion-on-gcp-no-aliyun/当用terraform部署完成后的二次修改记录.txt 
