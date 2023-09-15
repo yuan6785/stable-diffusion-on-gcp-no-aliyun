@@ -100,7 +100,7 @@
     
 
 
-3. (sd版本变更，必选重要步骤)重新打包sdwebui并调试(后面有sd镜像升级，可以从这一步开始)
+3. 经常用--(sd版本变更，必选重要步骤)重新打包sdwebui并调试(后面有sd镜像升级，可以从这一步开始)
    参考打包基础镜像: /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui-yx/readme.txt
       
 4. (可选)新增或修改支持minio的域名(可选)
@@ -111,7 +111,7 @@
    ---
    参考 /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/ingress-iap/readme_yx.txt  如何新增域名
 
-5. (sd版本变更，必选重要步骤)修改fleet的sd的挂载路径(访问supervisor在域名后面加/psuperfaa/即可)
+5. 经常用--(sd版本变更，必选重要步骤)修改fleet的sd的挂载路径(访问supervisor在域名后面加/psuperfaa/即可)
     必须第3步完成后才做这一步
     
     第一种方法(测试成功):
