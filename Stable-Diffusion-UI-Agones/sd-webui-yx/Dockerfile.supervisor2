@@ -66,6 +66,9 @@ COPY dockerdata/extensions_tagcomplete/zh_cn.csv /opt/stable-diffusion-webui/ext
 #
 COPY dockerdata/supervisord2.conf /etc/supervisord.conf
 COPY dockerdata/nginx2.conf /etc/nginx/conf.d/default.conf
+#
+COPY dockerdata/minio_auto_login_1.html /etc/nginx/html/minio_auto_login_1.html
+COPY dockerdata/minio_auto_login_2.html /etc/nginx/html/minio_auto_login_2.html
 
 # 安装其他额外的包(一些特定需要定期检查的包和一些插件需要的特定包)----
 RUN set -ex \

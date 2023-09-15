@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自动登录</title>
+</head>
+<body>
+    <!--这里的src不要直接填minio的启动地址，需要用nginx反向代理一次，劫持X-Frame-Options改为运行iframe即可; 这里必须填和上面nginx配置的server_name一样的域名，访问浏览器的时候也必须是这个域名，保证不跨越-->
+    <iframe id="minioIframe" src="minio-web.agones.163py.com" style="width: 100%; height:1000px; border: none;"></iframe>
+    
+    <script>
+        // Async function to interact with the iframe
+        async function interactWithIframe() {
+            // Get the iframe's content document
+            let iframe = null ;
+            let iframeDocument = null ;
+            let usernameInput = null ;
+            let passwordInput = null ;
+            let loginButton = null ;
+            // 重试五次
+            for (let i = 0; i < 60; i++) {
+                // 获取iframe对象
+                iframe = document.getElementById('minioIframe');
+                // Get the iframe's content document
+                iframeDocument = document.getElementById('minioIframe').contentDocument || document.getElementById('minioIframe').contentWindow.document;
+                // Find and fill in the username and password fields
+                usernameInput = iframeDocument.getElementById('accessKey'); // Replace with the actual ID
+                passwordInput = iframeDocument.getElementById('secretKey'); // Replace with the actual ID
+                loginButton = iframeDocument.getElementById('do-login'); 
+                if (usernameInput && passwordInput && loginButton) {
+                    break;
+                }
+                // await sleet  1
+                await new Promise(resolve => {
+                    setTimeout(resolve, 1000);
+                });
+            }
+            // 重试五次后，如果还是获取不到，就不再重试
+            if (usernameInput && passwordInput && loginButton) {
+                // 这里不要直接给usernameInput和passwordInput赋值，因为minio的登录页面有js监听，会触发登录，导致登录失败，需要输入用户名和密码，例如minioadmin和minioadmin,然后切换到loginButton模拟点击登录
+                // 参考 https://blog.csdn.net/a0405221/article/details/124374119
+                changInputValue(usernameInput, "minioadmin");
+                changInputValue(passwordInput, "minioadmin");
+                loginButton.focus();
+                loginButton.click();
+            }
+        }
+
+        // Function to adjust the iframe's height
+        // function adjustIframeHeight(iframe) {
+        //     const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+        //     const iframeContentHeight = Math.max(iframeDocument.body.scrollHeight, iframeDocument.documentElement.scrollHeight);
+        //     console.log(11111, iframeContentHeight);
+        //     iframe.style.height = iframeContentHeight + 'px';
+        // }
+
+        // 参考 https://blog.csdn.net/a0405221/article/details/124374119
+        function changInputValue(inputDom,newText){
+            const lastValue = inputDom.value;
+            inputDom.value = newText;
+            const event = new Event('input', { bubbles: true });
+            event.simulated = true;
+            const tracker = inputDom._valueTracker;
+            if (tracker) {
+                tracker.setValue(lastValue);
+            }
+            inputDom.dispatchEvent(event);
+        }
+
+        // Call the async function when the window loads
+        window.onload = async function () {
+            await interactWithIframe();
+        };
+    </script>
+</body>
+</html>
