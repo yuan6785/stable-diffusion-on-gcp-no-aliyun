@@ -17,7 +17,7 @@
             let usernameInput = null ;
             let passwordInput = null ;
             let loginButton = null ;
-            // 重试五次
+            // 重试N次, 这里如果数字改的足够大，可以解决minio的登出后，不登录进去的问题； 
             for (let i = 0; i < 60; i++) {
                 // 获取iframe对象
                 iframe = document.getElementById('minioIframe');

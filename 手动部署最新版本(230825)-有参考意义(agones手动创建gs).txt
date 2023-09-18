@@ -1,3 +1,5 @@
+这个文档不是我们要用到的文档，但很有参考意义，有一些云函数的使用还有节点的部署还是很有参考价值的
+
 1. 参考文档（yuanxiao6785@gmail.com账号有权限）
   https://docs.google.com/document/d/1ClV7C67byNcoGWGgBtx1sllTm8rtwmeh0wXXuOm7mW4/edit
   我已经copy到我的drive
