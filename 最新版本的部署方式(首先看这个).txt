@@ -27,7 +27,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     source  ~/.zshrc_google_cloud 
     ecs的ssh可以进入控制台，复制gcloud的命令进行ssh即可(输入谷歌账号的密码即可)：
     gcloud compute ssh --zone "us-central1-c" "sd-terraform-manage" --project "happyaigc"
-    gcloud config set project happyaigc (输入谷歌账号的密码即可)
+    gcloud config set project happyaigc (输入谷歌账号的密码即可)--这个用了后k8s和docker都可以访问了--
 
 1.1 本地连接调试（不用esc的方式）----参考/Users/yuanxiao/workspace/0yxgithub/Stable-Diffusion-on-GCP/yx部署过程记录.txt 第四步
     
