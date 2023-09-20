@@ -174,6 +174,11 @@
 7. (必选)后期调试和修改带lua的nignx转发用(重要的知识点),不用打包nginx镜像，直接apply yaml即可，非常方便-----重要-----
    修改转发逻辑在这里
    /0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/nginx/readme_yx.txt 的第二种方法即可
+
+8. (维护)删除gs和node的方法
+   kubectl get gs # 获取gs的名字和状态
+   kubectl delete gs sd-agones-fleet-6t6ps-bgr9d  # 如果2个gs没有落到一个节点，想让落到一个节点，先删除一个ready状态的gs
+   kubectl delete node gke-tf-gen-gke-c8c84-nvidia-l4-nodepo-6302c466-lwf8  # 然后再删除节点即可
    
-8. 公司文档地址
+9. 公司文档地址
     https://confluence.playnexx.net/pages/viewpage.action?pageId=130711851
