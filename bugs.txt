@@ -1,3 +1,14 @@
 1.  发现redis中keys的数量少于Allocated的服务器数量, 本来应该是1:1的关系
     出现原因: 多次刷新主域名分配服务器导致的，可能是gs还没有被gameserverallocation接口返回还没有存入redis中，又刷新了一次主域名分配服务器
-    解决办法: 定期删除  kubectl delete gs 很久allocated状态的gs的名称
+    解决办法: 
+        方法一: 在lua脚本中 gameserverallocation前后加redis锁
+            local lock_acquired, lock_err = red:setnx(lock_key, 1)
+            red:expire(lock_key, 10)
+            if lock_acquired == 1 then
+                --
+                red:del(lock_key)
+            else
+                ngx.log(ngx.WARN, "Another instance is currently making the HTTP request. Skipping.")
+                -- 返回一个html页面, 每隔10秒刷新页面即可
+            end
+        方法二: 定期删除  kubectl delete gs 很久allocated状态的gs的名称
