@@ -367,6 +367,14 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
     获取gs的label的部分
     gs的label可以在sd.lua中的下面api动态设置，可以设置成用户名即可
     http://agones-allocator.agones-system.svc.cluster.local:443/gameserverallocation
+    测试:
+    ####
+    ----进入gs---
+    kubectl  exec -it   -n default sd-agones-fleet-pp6bn-qc2nc  -c stable-diffusion-webui  /bin/bash
+    ----方法一: python环境(参考user-watch.py)--------
+    ----方法二: apt update;apt install -y curl----
+    curl -X GET -N "http://localhost:$AGONES_SDK_HTTP_PORT/watch/gameserver"
+    #####
 
 
 13. 如何给不同显卡的节点池安装不同的驱动(好像用不到，因为t4和g2/l4的节点池是一样的)
