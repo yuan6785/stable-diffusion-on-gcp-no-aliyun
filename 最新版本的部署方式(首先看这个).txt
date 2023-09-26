@@ -362,7 +362,7 @@ agones版本有两个子版本 一个是带用户插件配置保留的 一个是
        kubectl get fleet
        kubectl get fleetautoscaler
     
-12. 如何在gs内部获取gs的label
+12. 如何在gs内部获取gs的label--------重要，后期自己开发认证系统要用--------
     参考 /Users/yuanxiao/workspace/0yxgithub/stable-diffusion-on-gcp-no-aliyun/Stable-Diffusion-UI-Agones/sd-webui/user-watch.py
     获取gs的label的部分
     gs的label可以在sd.lua中的下面api动态设置，可以设置成用户名即可
