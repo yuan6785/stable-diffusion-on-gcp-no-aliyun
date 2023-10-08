@@ -26,7 +26,7 @@
     ----------------
     如果需要自定义机型
     (并不是自定义一个机型模板, gcp有自己的自定义机型的格式: custom-cpu数量-内存数量, 这样就会自动创建自定义机型，而不是有custom-xx-xx这个模板): 
-    https://cloud.google.com/compute/docs/instances/creating-instance-with-custom-machine-type?hl=zh-cn  普通自定义机型说明
+    https://cloud.google.com/compute/docs/instances/creating-instance-with-custom-machine-type?hl=zh-cn  通用自定义机型说明-仔细看里面支持的机型，不支持G2类型，只支持通用类型
     https://cloud.google.com/compute/docs/gpus/create-gpu-vm-accelerator-optimized?hl=zh-cn  l4的gpu的支持
     https://cloud.google.com/compute/docs/gpus/create-gpu-vm-general-purpose?hl=zh-cn   t4的gpu支持
     ----------------l4的机器类型列表
