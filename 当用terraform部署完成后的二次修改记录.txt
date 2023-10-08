@@ -70,6 +70,7 @@
     https://cloud.google.com/compute/docs/instances/creating-instance-with-custom-machine-type?hl=zh-cn  普通自定义机型说明
     https://cloud.google.com/compute/docs/gpus/create-gpu-vm-accelerator-optimized?hl=zh-cn  gpu的支持
     大概格式: --custom-extensions代表-ext  --custom-cpu=2 --custom-memory=15  对应格式  custom-2-15-ext
+    注意: 如果您创建自定义 N1 虚拟机，则每个 vCPU 最多可以配备 6.5 GB 的内存。对于自定义 N2 虚拟机，此数量最多增加至每个 vCPU 8 GB 的内存
     ----------------
     查看所有的实例
     gcloud compute instances list
