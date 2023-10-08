@@ -65,6 +65,8 @@
 
 2.2 (首次执行-可选)删除原来nvidia-tesla-t4-nodepool的节点池，修改为spot类型
     ----------------
+    如果需要自定义机型: https://cloud.google.com/compute/docs/instances/creating-instance-with-custom-machine-type?hl=zh-cn#gcloud
+    ----------------
     PROJECT_ID=happyaigc
     GKE_CLUSTER_NAME=tf-gen-gke-c8c84f4c
     REGION=us-central1
