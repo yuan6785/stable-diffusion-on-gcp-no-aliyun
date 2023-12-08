@@ -24,12 +24,12 @@
                 "Condition": {
                     "StringLike": {
                         "s3:prefix": [
-                            "loras/cm/*",
-                            "vae/cm/*",
-                            "upscale_models/cm/*",
-                            "embeddings/cm/*",
-                            "clip/cm/*",
-                            "unet/cm/*"
+                            "loras/*",
+                            "vae/*",
+                            "upscale_models/*",
+                            "embeddings/*",
+                            "clip/*",
+                            "unet/*"
                         ]
                     }
                 }
@@ -37,7 +37,9 @@
             {
                 "Effect": "Allow",
                 "Action": [
-                    "s3:PutObject"
+                    "s3:PutObject",
+                    "s3:GetObject",
+                    "s3:DeleteObject"
                 ],
                 "Resource": [
                     "arn:aws:s3:::models/loras/cm/*",
@@ -47,36 +49,6 @@
                     "arn:aws:s3:::models/clip/cm/*",
                     "arn:aws:s3:::models/unet/cm/*"
                 ]
-            },
-            {
-                "Effect": "Allow",
-                "Action": [
-                    "s3:GetObject"
-                ],
-                "Resource": [
-                    "arn:aws:s3:::models/loras/cm/*",
-                    "arn:aws:s3:::models/vae/cm/*",
-                    "arn:aws:s3:::models/upscale_models/cm/*",
-                    "arn:aws:s3:::models/embeddings/cm/*",
-                    "arn:aws:s3:::models/clip/cm/*",
-                    "arn:aws:s3:::models/unet/cm/*"
-                ]
-            },
-            {
-                "Effect": "Allow",
-                "Action": [
-                    "s3:ListBucket"
-                ],
-                "Resource": [
-                    "arn:aws:s3:::models"
-                ],
-                "Condition": {
-                    "StringLike": {
-                        "s3:prefix": [
-                            "*"
-                        ]
-                    }
-                }
             }
         ]
     },
