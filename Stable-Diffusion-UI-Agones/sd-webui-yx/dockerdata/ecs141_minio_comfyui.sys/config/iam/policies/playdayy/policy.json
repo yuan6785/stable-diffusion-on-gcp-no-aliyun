@@ -1,1 +1,85 @@
-{"Version":1,"Policy":{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":["s3:GetBucketLocation","s3:ListAllMyBuckets"],"Resource":["arn:aws:s3:::embeddings","arn:aws:s3:::models","arn:aws:s3:::samples","arn:aws:s3:::scripts"]},{"Effect":"Allow","Action":["s3:ListBucket"],"Resource":["arn:aws:s3:::models"],"Condition":{"StringLike":{"s3:prefix":["VAE/*","lora/*","Lora/*"]}}},{"Effect":"Allow","Action":["s3:PutObject"],"Resource":["arn:aws:s3:::models/Lora/*","arn:aws:s3:::models/VAE/*","arn:aws:s3:::models/lora/*"]},{"Effect":"Allow","Action":["s3:GetObject"],"Resource":["arn:aws:s3:::models/Lora/*","arn:aws:s3:::models/lora/*"]},{"Effect":"Allow","Action":["s3:ListBucket"],"Resource":["arn:aws:s3:::embeddings","arn:aws:s3:::samples","arn:aws:s3:::scripts"],"Condition":{"StringLike":{"s3:prefix":["*"]}}},{"Effect":"Allow","Action":["s3:PutObject"],"Resource":["arn:aws:s3:::embeddings/*","arn:aws:s3:::scripts/*"]},{"Effect":"Allow","Action":["s3:DeleteObject","s3:GetObject","s3:PutObject"],"Resource":["arn:aws:s3:::samples/*"]}]},"CreateDate":"2023-05-12T09:54:35.593Z","UpdateDate":"2023-07-26T10:32:32.937Z"}
+{
+    "Version": 1,
+    "Policy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "s3:GetBucketLocation",
+                    "s3:ListAllMyBuckets"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::models"
+                ]
+            },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "s3:ListBucket"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::models"
+                ],
+                "Condition": {
+                    "StringLike": {
+                        "s3:prefix": [
+                            "loras/cm/*",
+                            "vae/cm/*",
+                            "upscale_models/cm/*",
+                            "embeddings/cm/*",
+                            "clip/cm/*",
+                            "unet/cm/*"
+                        ]
+                    }
+                }
+            },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "s3:PutObject"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::models/loras/cm/*",
+                    "arn:aws:s3:::models/vae/cm/*",
+                    "arn:aws:s3:::models/upscale_models/cm/*",
+                    "arn:aws:s3:::models/embeddings/cm/*",
+                    "arn:aws:s3:::models/clip/cm/*",
+                    "arn:aws:s3:::models/unet/cm/*"
+                ]
+            },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "s3:GetObject"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::models/loras/cm/*",
+                    "arn:aws:s3:::models/vae/cm/*",
+                    "arn:aws:s3:::models/upscale_models/cm/*",
+                    "arn:aws:s3:::models/embeddings/cm/*",
+                    "arn:aws:s3:::models/clip/cm/*",
+                    "arn:aws:s3:::models/unet/cm/*"
+                ]
+            },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "s3:ListBucket"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::models"
+                ],
+                "Condition": {
+                    "StringLike": {
+                        "s3:prefix": [
+                            "*"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "CreateDate": "2023-05-12T09:54:35.593Z",
+    "UpdateDate": "2023-07-26T10:32:32.937Z"
+}
